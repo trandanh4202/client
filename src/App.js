@@ -1,8 +1,16 @@
+import { CssBaseline } from '@mui/material';
 import React from 'react';
-import { Counter } from './features/counter/Counter';
+import { RouterProvider } from 'react-router-dom';
+import router from './router/routes';
+import '~/base.scss';
 
 const App = () => {
-  return <div>App</div>;
+  return (
+    <>
+      <CssBaseline />
+      <RouterProvider router={router} />
+    </>
+  );
 };
 
 export default App;
