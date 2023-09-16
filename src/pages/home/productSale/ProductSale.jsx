@@ -106,24 +106,6 @@ const ProductSale = () => {
             </SwiperSlide>
           ))}
         </Swiper>
-        {/* <
-        Grid container backgroundColor="#920101">
-          {news.map((item) => (
-            <Grid item xs={6} md={6} lg={2.4} padding="5px" margin="10px 0px ">
-              <ProductCardSale title={item.title} description={item.description} />
-            </Grid>
-          ))}
-          <Typography
-            variant="h4"
-            sx={{
-              textTransform: 'uppercase',
-              wordSpacing: '5px',
-              margin: '15px 0',
-            }}
-          >
-            Sản phẩm nổi bật
-          </Typography>
-        </Grid> */}
       </FlexBetween>
     </Container>
   );

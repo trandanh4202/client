@@ -29,7 +29,7 @@ const ProductCardSale = (props) => {
         position: 'relative',
       }}
       component={Link}
-      to="/product"
+      to="/singleproduct"
     >
       <CardMedia
         component="img"
