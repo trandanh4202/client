@@ -76,6 +76,7 @@ const Footer = () => {
       sx={{
         backgroundColor: '#5f5d5d1a',
         paddingBottom: { xs: '60px' },
+        display: { xs: 'none', md: 'block', lg: 'block' },
       }}
     >
       <Container>

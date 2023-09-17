@@ -28,7 +28,7 @@ const SingleProduct = () => {
       }}
     >
       <Grid container>
-        <Grid item xs={12} md={6} lg={6} padding="15px">
+        <Grid item xs={12} md={4} lg={4} padding="15px">
           <Paper
             sx={{
               padding: '10px',
@@ -102,7 +102,7 @@ const SingleProduct = () => {
             </Swiper>
           </Paper>
         </Grid>
-        <Grid item xs={12} md={6} lg={6} padding="15px">
+        <Grid item xs={12} md={8} lg={8} padding="15px">
           <Paper
             sx={{
               padding: '20px',

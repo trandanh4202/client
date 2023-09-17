@@ -318,7 +318,7 @@ const Header = () => {
                   </IconButton>
                 </Link>
 
-                <Link>
+                <Link to="cart">
                   <IconButton
                     sx={{
                       borderRadius: '10px',
