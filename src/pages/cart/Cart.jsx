@@ -373,7 +373,9 @@ const Cart = () => {
           left: '0px',
           right: '0px',
           padding: '10px',
+          display:{xs:'block',md:'none',lg:'none'}
         }}
+        
       >
         <Typography sx={{ fontWeight: '700', fontSize: '20px', color: 'rgb(18, 48, 176)' }}>18.990.000đ</Typography>
         <Button
