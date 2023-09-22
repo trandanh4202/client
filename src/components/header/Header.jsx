@@ -44,6 +44,7 @@ import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 import { ExpandLess, ExpandMore, StarBorder } from '@mui/icons-material';
+import AuthForm from '../auth/Auth';
 const categories = [
   {
     id: 'dienthoai',
@@ -150,7 +151,15 @@ const menu = [
 
 const Header = () => {
   const [isSticky, setIsSticky] = useState(true);
+  const [isAuthOpen, setAuthOpen] = useState(false);
 
+  const openAuthForm = () => {
+    setAuthOpen(true);
+  };
+
+  const closeAuthForm = () => {
+    setAuthOpen(false);
+  };
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 300) {
@@ -333,17 +342,11 @@ const Header = () => {
 
                 {!token ? (
                   <Link>
-                    <IconButton
-                      sx={{
-                        borderRadius: '10px',
-                      }}
-                    >
-                      <AccountCircleIcon sx={{ fontSize: '40px' }} />
-                      <Typography>
-                        Đăng <br />
-                        nhập
-                      </Typography>
-                    </IconButton>
+                    {/* <AccountCircleIcon sx={{ fontSize: '40px' }} /> */}
+                    <Button variant="outlined" onClick={openAuthForm}>
+                      Đăng nhập / Đăng ký
+                    </Button>
+                    <AuthForm isOpen={isAuthOpen} onClose={closeAuthForm} />
                   </Link>
                 ) : (
                   <Avatar alt="user" src="./logo.png" sx={{ width: 50, height: 50 }} />
@@ -511,6 +514,7 @@ const Header = () => {
           label="Tài khoản"
           value="account"
           icon={<AccountCircleIcon />}
+          onClick={openAuthForm}
         />
       </BottomNavigation>
     </>

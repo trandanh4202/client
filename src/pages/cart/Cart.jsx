@@ -17,6 +17,7 @@ import {
 } from '@mui/material';
 import FlexBetween from '~/components/flexbetween/FlexBetween';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import { Link } from 'react-router-dom';
 const Cart = () => {
   const initialCartItems = [
     { id: 1, name: 'Sản phẩm A', price: 10, quantity: 2 },
@@ -209,10 +210,10 @@ const Cart = () => {
             width: '100%',
           }}
         >
-          <Button variant="outlined" color="primary" sx={{ width: '40%' }}>
+          <Button variant="outlined" color="primary" sx={{ width: '40%' }} component={Link} to="/">
             Tiếp tục mua sắm
           </Button>
-          <Button variant="contained" color="primary" sx={{ width: '40%' }}>
+          <Button variant="contained" color="primary" sx={{ width: '40%' }} component={Link} to="/Checkout">
             Thanh toán
           </Button>
         </Box>
@@ -373,9 +374,8 @@ const Cart = () => {
           left: '0px',
           right: '0px',
           padding: '10px',
-          display:{xs:'block',md:'none',lg:'none'}
+          display: { xs: 'block', md: 'none', lg: 'none' },
         }}
-        
       >
         <Typography sx={{ fontWeight: '700', fontSize: '20px', color: 'rgb(18, 48, 176)' }}>18.990.000đ</Typography>
         <Button
@@ -384,6 +384,8 @@ const Cart = () => {
             width: '50%',
             backgroundColor: 'rgb(18, 48, 176)',
           }}
+          component={Link}
+          to="Checkout"
         >
           Tiếp tục
         </Button>
