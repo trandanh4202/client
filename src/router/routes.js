@@ -3,6 +3,7 @@ import MainLayout from '~/layout/MainLayout';
 import Cart from '~/pages/cart/Cart';
 import CheckOut from '~/pages/checkout/CheckOut';
 import Home from '~/pages/home/Home';
+import Store from '~/pages/store/Store';
 import SingleProduct from '../pages/home/singleProduct/SingleProduct';
 const router = createBrowserRouter([
   {
@@ -27,7 +28,8 @@ const router = createBrowserRouter([
         element: <CheckOut />,
       },
       {
-        path: 'create-product',
+        path: 'store',
+        element: <Store />,
       },
       {
         path: 'calendar',

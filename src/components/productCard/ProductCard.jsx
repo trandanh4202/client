@@ -12,33 +12,48 @@ import {
   Typography,
 } from '@mui/material';
 import FlexBetween from '../flexbetween/FlexBetween';
+import { Link } from 'react-router-dom';
 
-const ProductCard = (props) => {
-  const { title, description } = props;
+const ProductCard = ({ gridView }) => {
+  // const { gridView } = props;
   return (
     <Card
       sx={{
-        // maxWidth: 300,
-        boxShadow:
-          '-4px 7px 7px 0px rgba(0,0,0,0.2), 4px -3px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)',
+        boxShadow: '0 1px 2px 0 rgba(60,64,67,.1), 0 2px 6px 2px rgba(60,64,67,.15)',
         '&:hover img': {
           transform: 'translateY(-10%)',
         },
-        paddingTop: '10px',
       }}
     >
-      <CardActionArea>
+      <CardActionArea
+        sx={{
+          padding: '16px',
+
+          ...(gridView === 12
+            ? {
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'normal',
+              }
+            : {}),
+        }}
+        component={Link}
+        to=""
+      >
         <CardMedia
           component="img"
-          height="auto"
+          height="140px"
           image="./logo.png"
           alt="green iguana"
           sx={{
             transition: 'all 300ms ease-in-out',
+            objectFit: 'contain',
+            width: 'auto',
           }}
         />
-        <CardContent>
-          <Typography gutterBottom sx={{ color: '#333333', fontWeight: '600' }}>
+
+        <CardContent sx={{ padding: '8px' }}>
+          <Typography gutterBottom sx={{ color: '#333333', fontWeight: '600', fontSize: '15px' }}>
             Iphone 14 pro max
           </Typography>
           <Typography
@@ -46,6 +61,7 @@ const ProductCard = (props) => {
             color="grey"
             sx={{
               textDecorationLine: 'line-through',
+              fontSize: '13px',
             }}
           >
             4.000.000 đ
@@ -55,7 +71,7 @@ const ProductCard = (props) => {
               sx={{
                 color: '#E30019',
                 fontWeight: '600',
-                fontSize: '18px',
+                fontSize: '15px',
               }}
             >
               3.000.000đ
@@ -69,6 +85,7 @@ const ProductCard = (props) => {
                 backgroundColor: '#f5d3d3',
                 color: '#E30019',
                 fontWeight: '600',
+                fontSize: '15px',
               }}
             >
               -25%

@@ -194,3 +194,23 @@ a {
 .active-border {
   border: 1px solid rgb(20, 53, 195);
 }
+
+/* Ô vuông màu sắc */
+.color-option {
+  width: 50px;
+  height: 50px;
+  border: 2px solid #666; /* Viền mặc định */
+  margin: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s; /* Hiệu ứng màu sắc chuyển đổi */
+}
+
+/* Ô vuông màu sắc khi được chọn */
+.color-option.selected {
+  border-width: 4px; /* Viền đậm hơn khi được chọn */
+}
+
+/* Ô vuông màu sắc khi không được chọn */
+.color-option:not(.selected) {
+  opacity: 0.6; /* Làm nhạt màu khi không được chọn */
+}

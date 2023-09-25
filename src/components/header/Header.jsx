@@ -342,11 +342,18 @@ const Header = () => {
 
                 {!token ? (
                   <Link>
-                    {/* <AccountCircleIcon sx={{ fontSize: '40px' }} /> */}
-                    <Button variant="outlined" onClick={openAuthForm}>
-                      Đăng nhập / Đăng ký
-                    </Button>
-                    <AuthForm isOpen={isAuthOpen} onClose={closeAuthForm} />
+                    <IconButton
+                      sx={{
+                        borderRadius: '10px',
+                      }}
+                      onClick={openAuthForm}
+                    >
+                      <AccountCircleIcon sx={{ fontSize: '40px' }} />
+                      <Typography>
+                        Đăng <br /> nhập
+                      </Typography>
+                      <AuthForm isOpen={isAuthOpen} onClose={closeAuthForm} />
+                    </IconButton>
                   </Link>
                 ) : (
                   <Avatar alt="user" src="./logo.png" sx={{ width: 50, height: 50 }} />
@@ -363,14 +370,18 @@ const Header = () => {
       >
         <Container>
           <FlexBetween gap="70px">
-            <Button sx={{ color: '#333333' }}>
-              <HomeIcon sx={{ fontSize: '45px' }} />
-              <Typography>Trang chủ</Typography>
-            </Button>
-            <Button sx={{ color: '#333333' }}>
-              <StoreIcon sx={{ fontSize: '45px' }} />
-              <Typography>Cửa hàng</Typography>
-            </Button>
+            <Link sx={{ color: '#333333' }}>
+              <IconButton>
+                <HomeIcon sx={{ fontSize: '45px' }} />
+                <Typography>Trang chủ</Typography>
+              </IconButton>
+            </Link>
+            <Link sx={{ color: '#333333' }} to="store">
+              <IconButton>
+                <StoreIcon sx={{ fontSize: '45px' }} />
+                <Typography>Cửa hàng</Typography>
+              </IconButton>
+            </Link>
 
             <Button sx={{ color: '#333333' }}>
               <SupportAgentIcon sx={{ fontSize: '45px' }} />

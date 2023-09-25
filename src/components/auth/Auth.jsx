@@ -35,7 +35,6 @@ function AuthForm({ isOpen, onClose }) {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      console.log(values); // Thực hiện xử lý đăng nhập hoặc đăng ký ở đây
       onClose();
     },
   });
