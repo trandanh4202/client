@@ -22,6 +22,7 @@ const ProductCard = ({ gridView }) => {
         boxShadow: '0 1px 2px 0 rgba(60,64,67,.1), 0 2px 6px 2px rgba(60,64,67,.15)',
         '&:hover img': {
           transform: 'translateY(-10%)',
+          transition: 'all 0.5s ease-in-out',
         },
       }}
     >
@@ -38,7 +39,7 @@ const ProductCard = ({ gridView }) => {
             : {}),
         }}
         component={Link}
-        to=""
+        to="/singleproduct"
       >
         <CardMedia
           component="img"
@@ -46,15 +47,26 @@ const ProductCard = ({ gridView }) => {
           image="./logo.png"
           alt="green iguana"
           sx={{
-            transition: 'all 300ms ease-in-out',
             objectFit: 'contain',
             width: 'auto',
           }}
         />
 
-        <CardContent sx={{ padding: '8px' }}>
-          <Typography gutterBottom sx={{ color: '#333333', fontWeight: '600', fontSize: '15px' }}>
-            Iphone 14 pro max
+        <CardContent sx={{ padding: '8px', overflow: 'hidden' }}>
+          <Typography
+            gutterBottom
+            sx={{
+              color: '#333333',
+              fontWeight: '600',
+              fontSize: '15px',
+              display: '-webkit-box',
+              WebkitLineClamp: 2, // Giới hạn tối đa 2 dòng
+              WebkitBoxOrient: 'vertical',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+            }}
+          >
+            Iphone 14 pro maxaaaaaaaaaaaaaaaaaaaaaaaaaa Iphone 14 pro maxaaaaaaaaaaaaaaaaaaaaaaaaaa
           </Typography>
           <Typography
             gutterBottom
@@ -66,12 +78,13 @@ const ProductCard = ({ gridView }) => {
           >
             4.000.000 đ
           </Typography>
-          <FlexBetween gutterBottom>
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <Typography
               sx={{
                 color: '#E30019',
                 fontWeight: '600',
-                fontSize: '15px',
+                fontSize: { xs: '17px', lg: '18px' },
+                marginRight: '5px',
               }}
             >
               3.000.000đ
@@ -85,12 +98,12 @@ const ProductCard = ({ gridView }) => {
                 backgroundColor: '#f5d3d3',
                 color: '#E30019',
                 fontWeight: '600',
-                fontSize: '15px',
+                fontSize: { xs: '10px', lg: '13px' },
               }}
             >
               -25%
             </Typography>
-          </FlexBetween>
+          </Box>
           <Rating
             value="1"
             readOnly

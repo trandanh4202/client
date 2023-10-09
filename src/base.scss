@@ -100,8 +100,11 @@ a {
     color: #0d6efd;
   }
 }
-.text-hover:hover {
-  color: #0d6efd;
+.text-hover {
+  color: #82869e;
+  &:hover {
+    color: #0d6efd;
+  }
 }
 
 .mySwiper {
@@ -213,4 +216,27 @@ a {
 /* Ô vuông màu sắc khi không được chọn */
 .color-option:not(.selected) {
   opacity: 0.6; /* Làm nhạt màu khi không được chọn */
+}
+
+.flex-not-jtf {
+  display: flex;
+  align-items: center;
+}
+
+.background-hover {
+  &:hover {
+    background-color: rgb(245, 245, 245);
+  }
+}
+.profile-sidebar {
+  margin: 8px 0;
+  padding: 4px 0;
+  &:hover p {
+    font-weight: 700;
+  }
+}
+
+.active-tab {
+  color: #0d6efd;
+  border-bottom: 2px solid #0d6efd;
 }

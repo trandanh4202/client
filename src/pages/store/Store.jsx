@@ -40,13 +40,8 @@ const Store = () => {
   const [filter, setFilter] = useState('');
   const [gridView, setGridView] = useState('2.4');
   const [drawerOpen, setDrawerOpen] = useState(false);
-  console.log('brands', brands);
-  console.log('categories', categories);
-  console.log('selectedColors', selectedColors);
-  console.log('priceRange', priceRange);
   const toggleDrawer = () => {
     setDrawerOpen(!drawerOpen);
-    // deleteAllFilter();
   };
   const handleChange = (event) => {
     setFilter(event.target.value);
@@ -98,7 +93,6 @@ const Store = () => {
     setBrands([]);
     setSelectedColors([]);
     setPriceRange([0, 1000]);
-    // toggleDrawer();
   };
   const location = useLocation();
   const query = new URLSearchParams(location.search);
@@ -119,7 +113,7 @@ const Store = () => {
               >
                 <Typography
                   sx={{
-                    fontWeight: '600',
+                    fontWeight: '800',
                     fontSize: '16px',
                   }}
                 >
@@ -128,22 +122,61 @@ const Store = () => {
                 <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                   <Typography
                     sx={{
-                      fontWeight: '500',
+                      fontWeight: '700',
                       fontSize: '15px',
                     }}
                   >
                     Thương hiệu
                   </Typography>
                   <FormGroup>
-                    <FormControlLabel control={<Checkbox name="Asus" />} label="Asus" onChange={handleBrandChange} />
-                    <FormControlLabel control={<Checkbox name="Dell" />} label="Dell" onChange={handleBrandChange} />
-                    <FormControlLabel control={<Checkbox name="Apple" />} label="Apple" onChange={handleBrandChange} />
+                    <FormControlLabel
+                      control={<Checkbox name="Asus" />}
+                      label="Asus"
+                      onChange={handleBrandChange}
+                      sx={{
+                        '&:hover': {
+                          backgroundColor: '#f3f5fc',
+                          color: '#1435c3',
+                        },
+                        '& .MuiFormControlLabel-label ': {
+                          fontWeight: '500',
+                        },
+                      }}
+                    />
+                    <FormControlLabel
+                      sx={{
+                        '&:hover': {
+                          backgroundColor: '#f3f5fc',
+                          color: '#1435c3',
+                        },
+                        '& .MuiFormControlLabel-label ': {
+                          fontWeight: '500',
+                        },
+                      }}
+                      control={<Checkbox name="Dell" />}
+                      label="Dell"
+                      onChange={handleBrandChange}
+                    />
+                    <FormControlLabel
+                      sx={{
+                        '&:hover': {
+                          backgroundColor: '#f3f5fc',
+                          color: '#1435c3',
+                        },
+                        '& .MuiFormControlLabel-label ': {
+                          fontWeight: '500',
+                        },
+                      }}
+                      control={<Checkbox name="Apple" />}
+                      label="Apple"
+                      onChange={handleBrandChange}
+                    />
                   </FormGroup>
                 </Box>
                 <Box>
                   <Typography
                     sx={{
-                      fontWeight: '500',
+                      fontWeight: '700',
                       fontSize: '15px',
                     }}
                   >
@@ -151,16 +184,43 @@ const Store = () => {
                   </Typography>
                   <FormGroup>
                     <FormControlLabel
+                      sx={{
+                        '&:hover': {
+                          backgroundColor: '#f3f5fc',
+                          color: '#1435c3',
+                        },
+                        '& .MuiFormControlLabel-label ': {
+                          fontWeight: '500',
+                        },
+                      }}
                       control={<Checkbox name="SmartPhone" />}
                       label="Điện thoại"
                       onChange={handleCategoryChange}
                     />
                     <FormControlLabel
+                      sx={{
+                        '&:hover': {
+                          backgroundColor: '#f3f5fc',
+                          color: '#1435c3',
+                        },
+                        '& .MuiFormControlLabel-label ': {
+                          fontWeight: '500',
+                        },
+                      }}
                       control={<Checkbox name="Laptop" />}
                       label="Laptop"
                       onChange={handleCategoryChange}
                     />
                     <FormControlLabel
+                      sx={{
+                        '&:hover': {
+                          backgroundColor: '#f3f5fc',
+                          color: '#1435c3',
+                        },
+                        '& .MuiFormControlLabel-label ': {
+                          fontWeight: '500',
+                        },
+                      }}
                       control={<Checkbox name="Tablet" />}
                       label="Máy tính bảng"
                       onChange={handleCategoryChange}
@@ -171,7 +231,7 @@ const Store = () => {
                 <Box>
                   <Typography
                     sx={{
-                      fontWeight: '500',
+                      fontWeight: '700',
                       fontSize: '15px',
                     }}
                   >
@@ -202,7 +262,7 @@ const Store = () => {
                 <Box>
                   <Typography
                     sx={{
-                      fontWeight: '500',
+                      fontWeight: '700',
                       fontSize: '15px',
                     }}
                   >
@@ -390,6 +450,15 @@ const Store = () => {
               />
               <FormGroup>
                 <FormControlLabel
+                  sx={{
+                    '&:hover': {
+                      backgroundColor: '#f3f5fc',
+                      color: '#1435c3',
+                    },
+                    '& .MuiFormControlLabel-label ': {
+                      fontWeight: '500',
+                    },
+                  }}
                   control={<Checkbox name="Asus" checked={brands.includes('Asus')} />}
                   label="Asus"
                   onChange={handleBrandChange}

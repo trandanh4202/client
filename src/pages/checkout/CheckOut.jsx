@@ -84,7 +84,7 @@ const CheckOut = () => {
             }}
           >
             <LocationOnIcon />
-            <Typography>Thông tin nhận hàng</Typography>
+            <Typography sx={{ fontSize: '20px', fontWeight: '700' }}>Thông tin nhận hàng</Typography>
           </Box>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
             <Typography>

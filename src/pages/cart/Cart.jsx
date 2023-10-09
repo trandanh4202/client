@@ -78,11 +78,23 @@ const Cart = () => {
                     onChange={handleSelectAllChange}
                   />
                 </TableCell>
-                <TableCell sx={{ width: '40%' }}>Hình ảnh và Tên sản phẩm</TableCell>
-                <TableCell sx={{ width: '15%', textAlign: 'center' }}>Giá sản phẩm</TableCell>
-                <TableCell sx={{ width: '25%', textAlign: 'center' }}>Số lượng</TableCell>
-                <TableCell sx={{ width: '10%', textAlign: 'center' }}>Tổng</TableCell>
-                <TableCell sx={{ width: '10%', textAlign: 'center' }}>Thao tác</TableCell>
+                <TableCell sx={{ width: '40%', fontSize: '20px', fontWeight: '700' }}>
+                  Hình ảnh và Tên sản phẩm
+                </TableCell>
+                <TableCell sx={{ width: '15%', textAlign: 'center', fontSize: '20px', fontWeight: '700' }}>
+                  Giá sản phẩm
+                </TableCell>
+                <TableCell sx={{ width: '25%', textAlign: 'center', fontSize: '20px', fontWeight: '700' }}>
+                  Số lượng
+                </TableCell>
+                <TableCell sx={{ width: '10%', textAlign: 'center', fontSize: '20px', fontWeight: '700' }}>
+                  Tổng
+                </TableCell>
+                <TableCell
+                  sx={{ width: '10%', textAlign: 'center', fontSize: '20px', fontWeight: '700', padding: '0' }}
+                >
+                  Thao tác
+                </TableCell>
               </TableRow>
             </TableHead>
             {cartItems.length > 0 ? (
@@ -210,10 +222,22 @@ const Cart = () => {
             width: '100%',
           }}
         >
-          <Button variant="outlined" color="primary" sx={{ width: '40%' }} component={Link} to="/">
+          <Button
+            variant="outlined"
+            color="primary"
+            sx={{ width: '40%', fontSize: '20px', fontWeight: '600' }}
+            component={Link}
+            to="/"
+          >
             Tiếp tục mua sắm
           </Button>
-          <Button variant="contained" color="primary" sx={{ width: '40%' }} component={Link} to="/Checkout">
+          <Button
+            variant="contained"
+            color="primary"
+            sx={{ width: '40%', fontSize: '20px', fontWeight: '600' }}
+            component={Link}
+            to="/Checkout"
+          >
             Thanh toán
           </Button>
         </Box>

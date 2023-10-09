@@ -24,7 +24,7 @@ const validationSchema = Yup.object({
     .required('Vui lòng nhập mật khẩu xác nhận'),
 });
 
-function AuthForm({ isOpen, onClose }) {
+function AuthForm({ open, close }) {
   const formik = useFormik({
     initialValues: {
       name: '',
@@ -35,7 +35,7 @@ function AuthForm({ isOpen, onClose }) {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      onClose();
+      // onClose();
     },
   });
   const [showPassword, setShowPassword] = useState(false);
@@ -48,7 +48,7 @@ function AuthForm({ isOpen, onClose }) {
   };
 
   return (
-    <Modal open={isOpen} onClose={onClose}>
+    <Modal open={open} onClose={close}>
       <Box
         sx={{
           position: 'absolute',
@@ -62,7 +62,7 @@ function AuthForm({ isOpen, onClose }) {
           p: 4,
         }}
       >
-        <form onSubmit={formik.handleSubmit}>
+        <form>
           {authType ? (
             <TextField
               fullWidth

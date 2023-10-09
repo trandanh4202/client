@@ -20,8 +20,6 @@ const ProductCardSale = (props) => {
   return (
     <Card
       sx={{
-        // maxWidth: 300,
-
         '&:hover .MuiCardMedia-media': {
           transform: 'translateY(-10%)',
         },
@@ -41,7 +39,18 @@ const ProductCardSale = (props) => {
         }}
       />
       <CardContent sx={{ padding: '0px', marginBottom: '15px' }}>
-        <Typography gutterBottom sx={{ color: '#333333', fontWeight: '600' }}>
+        <Typography
+          gutterBottom
+          sx={{
+            color: '#333333',
+            fontWeight: '600',
+            display: '-webkit-box',
+            WebkitLineClamp: 2, // Giới hạn tối đa 2 dòng
+            WebkitBoxOrient: 'vertical',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+          }}
+        >
           Iphone 14 pro max
         </Typography>
         <Typography
@@ -72,6 +81,7 @@ const ProductCardSale = (props) => {
               backgroundColor: '#f5d3d3',
               color: '#E30019',
               fontWeight: '600',
+              fontSize: '10px',
             }}
           >
             -25%
