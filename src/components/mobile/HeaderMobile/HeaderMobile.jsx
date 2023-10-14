@@ -20,8 +20,7 @@ const HeaderMobile = () => {
         <FlexBetween
           overflow="hidden"
           backgroundColor="white"
-          f
-          borderRadius="50px"
+          borderRadius="10px  "
           // padding="5px 10px"
           width="350px"
           border="2px solid rgb(221, 221, 227)"

@@ -1,17 +1,19 @@
 import { Navigate, createBrowserRouter } from 'react-router-dom';
 import MainLayout from '~/layout/MainLayout/MainLayout';
-import Cart from '~/pages/cart/Cart';
-import CheckOut from '~/pages/checkout/CheckOut';
-import Home from '~/pages/home/Home';
-import Store from '~/pages/store/Store';
-import SingleProduct from '../pages/home/singleProduct/SingleProduct';
-import Contact from '~/pages/contact/Contact';
-import News from '~/pages/news/News';
-import Policy from '~/pages/policy/Policy';
 import ProfileLayout from '~/layout/ProfileLayout/ProfileLayout';
-import Setting from '~/pages/profile/Setting/Setting';
-import Address from '~/pages/profile/Address/Address';
-import OrderList from '~/pages/profile/OrderList/OrderList';
+import Cart from '~/pages/desktop/cart/Cart';
+import CheckOut from '~/pages/desktop/checkout/CheckOut';
+import Contact from '~/pages/desktop/contact/Contact';
+import Home from '~/pages/desktop/home/Home';
+import News from '~/pages/desktop/news/News';
+import Policy from '~/pages/desktop/policy/Policy';
+import Address from '~/pages/desktop/profile/Address/Address';
+import OrderList from '~/pages/desktop/profile/OrderList/OrderList';
+import Setting from '~/pages/desktop/profile/Setting/Setting';
+import SingleProduct from '~/pages/desktop/singleProduct/SingleProduct';
+import Store from '~/pages/desktop/store/Store';
+import HomeMobile from '~/pages/mobile/home/HomeMobile';
+
 const router = createBrowserRouter([
   {
     path: '/',
@@ -74,8 +76,8 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: 'login',
-    // element: <Login />,
+    path: 'test',
+    element: <HomeMobile />,
   },
 ]);
 const publicRoutes = [];

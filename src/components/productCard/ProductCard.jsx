@@ -41,16 +41,45 @@ const ProductCard = ({ gridView }) => {
         component={Link}
         to="/singleproduct"
       >
-        <CardMedia
-          component="img"
-          height="140px"
-          image="./logo.png"
-          alt="green iguana"
-          sx={{
-            objectFit: 'contain',
-            width: 'auto',
-          }}
-        />
+        <Box sx={{ position: 'relative', paddingBottom: '100%' }}>
+          <Box sx={{ position: 'absolute', height: '100%', width: '100%', objectFit: 'cover' }}>
+            <CardMedia
+              component="img"
+              image="./logo.png"
+              alt="green iguana"
+              sx={{
+                objectFit: 'contain',
+                width: '100%',
+                height: '100%',
+                padding: '15px',
+                position: 'absolute',
+                top: '0',
+                left: '0',
+              }}
+            />
+          </Box>
+          <Box sx={{ position: 'absolute', bottom: '0', left: '0' }}>
+            <Box
+              sx={{
+                background: 'url(./sale.svg) 0% 0% /cover no-repeat',
+                backgroundRepeat: 'no-repeat',
+                // backgroundSize: '0% 0%',
+                padding: '4px',
+                borderRadius: '5px',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                flexDirection: 'column',
+                height: '36px',
+              }}
+            >
+              <Typography sx={{ fontSize: '10px', fontWeight: '700', color: 'rgb(255, 213, 145)' }}>
+                Tiết kiệm
+              </Typography>
+              <Typography sx={{ fontSize: '13px', fontWeight: '700', color: 'white' }}>3.700.000đ</Typography>
+            </Box>
+          </Box>
+        </Box>
 
         <CardContent sx={{ padding: '8px', overflow: 'hidden' }}>
           <Typography

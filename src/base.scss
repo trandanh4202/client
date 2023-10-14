@@ -57,7 +57,7 @@ a {
 .is-sticky {
   position: sticky;
   top: 0;
-  z-index: 100;
+  z-index: 10;
   transition: all;
   animation: load 1s ease-out;
 }
@@ -76,7 +76,7 @@ a {
   top: 0;
   left: 0;
   width: 100%;
-  z-index: 999;
+  z-index: 10;
   box-shadow: 0 2px 24px 0 rgb(0 0 0 / 15%);
   background-color: #ffffff !important;
   animation: 500ms ease-in-out 0s normal none 1 running fadeInDown;
