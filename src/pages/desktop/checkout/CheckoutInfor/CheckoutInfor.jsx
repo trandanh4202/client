@@ -48,13 +48,13 @@ const CheckoutInfor = () => {
         }}
       >
         <LocationOnIcon />
-        <Typography sx={{ fontSize: '20px', fontWeight: '700' }}>Thông tin nhận hàng</Typography>
+        <Typography sx={{ fontSize: { xs: '15px', lg: '20px' }, fontWeight: '700' }}>Thông tin nhận hàng</Typography>
       </Box>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-        <Typography>
+        <Typography sx={{ fontSize: { xs: '13px', lg: '15px' } }}>
           Trần Trọng Danh ( 0913423421 ) - Khóm 2, Thị trấn Cái Đôi Vàm, huyện Phú Tân, tỉnh Cà Mau{' '}
         </Typography>
-        <Button variant="outlined" onClick={handleOpen}>
+        <Button variant="outlined" onClick={handleOpen} sx={{ padding: '6px 3px', fontSize: '11px' }}>
           Thay đổi
         </Button>
         <Modal open={open} onClose={handleClose}>
@@ -71,11 +71,15 @@ const CheckoutInfor = () => {
               transform: 'translate(-50%, -50%)',
             }}
           >
-            <Typography>Chọn địa chỉ</Typography>
+            <Typography sx={{ fontSize: '15px' }}>Chọn địa chỉ</Typography>
             <List>
               {addresses.map((address, index) => (
-                <ListItem key={index} button onClick={() => handleAddressClick(address)}>
-                  <FormControlLabel control={<Radio checked={selectedAddress === address} />} label={address} />
+                <ListItem key={index} onClick={() => handleAddressClick(address)}>
+                  <FormControlLabel
+                    sx={{ fontSize: '9px' }}
+                    control={<Radio checked={selectedAddress === address} />}
+                    label={address}
+                  />
                 </ListItem>
               ))}
             </List>

@@ -14,8 +14,8 @@ import {
 import FlexBetween from '../flexbetween/FlexBetween';
 import { Link } from 'react-router-dom';
 
-const ProductCard = ({ gridView }) => {
-  // const { gridView } = props;
+const ProductCard = (props) => {
+  const { imageUrl, name, basePrice, price, percentSale, averageRating, gridView } = props;
   return (
     <Card
       sx={{
@@ -26,122 +26,125 @@ const ProductCard = ({ gridView }) => {
         },
       }}
     >
-      <CardActionArea
-        sx={{
-          padding: '16px',
+      <CardContent>
+        <Box sx={{ textAlign: 'left' }} component={Link} to="/singleproduct">
+          <Box
+            sx={{
+              position: 'relative',
+              ...(gridView === 12
+                ? {
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'normal',
+                  }
+                : {}),
+            }}
+          >
+            <Box>
+              <CardMedia
+                component="img"
+                image={imageUrl}
+                alt={name}
+                sx={{
+                  objectFit: 'contain',
+                  width: '100%',
+                  height: '120px',
+                  ...(gridView === 12
+                    ? {
+                        padding: '6px',
+                        width: '120px',
+                      }
+                    : {}),
+                }}
+              />
+            </Box>
+            <Box sx={{ position: 'absolute', bottom: '0', left: '0' }}>
+              <Box
+                sx={{
+                  background: 'url(./sale.svg) 0% 0% /cover no-repeat',
+                  backgroundRepeat: 'no-repeat',
+                  padding: '4px',
+                  borderRadius: '5px',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  flexDirection: 'column',
+                  height: '100%',
+                }}
+              >
+                <Typography sx={{ fontSize: '10px', fontWeight: '700', color: 'rgb(255, 213, 145)' }}>
+                  Tiết kiệm
+                </Typography>
+                <Typography sx={{ fontSize: '13px', fontWeight: '700', color: 'white' }}>
+                  {basePrice - price}đ
+                </Typography>
+              </Box>
+            </Box>
+          </Box>
 
-          ...(gridView === 12
-            ? {
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'normal',
-              }
-            : {}),
-        }}
-        component={Link}
-        to="/singleproduct"
-      >
-        <Box sx={{ position: 'relative', paddingBottom: '100%' }}>
-          <Box sx={{ position: 'absolute', height: '100%', width: '100%', objectFit: 'cover' }}>
-            <CardMedia
-              component="img"
-              image="./logo.png"
-              alt="green iguana"
+          <Box sx={{}}>
+            <Typography
+              gutterBottom
               sx={{
-                objectFit: 'contain',
-                width: '100%',
-                height: '100%',
-                padding: '15px',
-                position: 'absolute',
-                top: '0',
-                left: '0',
+                color: '#333333',
+                fontWeight: '600',
+                fontSize: '15px',
+                display: '-webkit-box',
+                WebkitLineClamp: 2, // Giới hạn tối đa 2 dòng
+                WebkitBoxOrient: 'vertical',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                height: '50px',
+              }}
+            >
+              {name}
+            </Typography>
+            <Typography
+              gutterBottom
+              color="grey"
+              sx={{
+                textDecorationLine: 'line-through',
+                fontSize: '13px',
+              }}
+            >
+              {basePrice} đ
+            </Typography>
+            <FlexBetween sx={{ display: 'flex', alignItems: 'center' }}>
+              <Typography
+                sx={{
+                  color: '#E30019',
+                  fontWeight: '600',
+                  fontSize: { xs: '17px', lg: '18px' },
+                  marginRight: '5px',
+                }}
+              >
+                {price} đ
+              </Typography>
+              <Typography
+                variant="span"
+                color="error"
+                sx={{
+                  border: '1px solid red',
+                  padding: '2px',
+                  backgroundColor: '#f5d3d3',
+                  color: '#E30019',
+                  fontWeight: '600',
+                  fontSize: { xs: '10px', lg: '13px' },
+                }}
+              >
+                {percentSale?.toFixed(0)}%
+              </Typography>
+            </FlexBetween>
+            <Rating
+              value={averageRating}
+              readOnly
+              sx={{
+                marginBottom: '10px',
               }}
             />
           </Box>
-          <Box sx={{ position: 'absolute', bottom: '0', left: '0' }}>
-            <Box
-              sx={{
-                background: 'url(./sale.svg) 0% 0% /cover no-repeat',
-                backgroundRepeat: 'no-repeat',
-                // backgroundSize: '0% 0%',
-                padding: '4px',
-                borderRadius: '5px',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                flexDirection: 'column',
-                height: '36px',
-              }}
-            >
-              <Typography sx={{ fontSize: '10px', fontWeight: '700', color: 'rgb(255, 213, 145)' }}>
-                Tiết kiệm
-              </Typography>
-              <Typography sx={{ fontSize: '13px', fontWeight: '700', color: 'white' }}>3.700.000đ</Typography>
-            </Box>
-          </Box>
         </Box>
-
-        <CardContent sx={{ padding: '8px', overflow: 'hidden' }}>
-          <Typography
-            gutterBottom
-            sx={{
-              color: '#333333',
-              fontWeight: '600',
-              fontSize: '15px',
-              display: '-webkit-box',
-              WebkitLineClamp: 2, // Giới hạn tối đa 2 dòng
-              WebkitBoxOrient: 'vertical',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-            }}
-          >
-            Iphone 14 pro maxaaaaaaaaaaaaaaaaaaaaaaaaaa Iphone 14 pro maxaaaaaaaaaaaaaaaaaaaaaaaaaa
-          </Typography>
-          <Typography
-            gutterBottom
-            color="grey"
-            sx={{
-              textDecorationLine: 'line-through',
-              fontSize: '13px',
-            }}
-          >
-            4.000.000 đ
-          </Typography>
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Typography
-              sx={{
-                color: '#E30019',
-                fontWeight: '600',
-                fontSize: { xs: '17px', lg: '18px' },
-                marginRight: '5px',
-              }}
-            >
-              3.000.000đ
-            </Typography>
-            <Typography
-              variant="span"
-              color="error"
-              sx={{
-                border: '1px solid red',
-                padding: '2px',
-                backgroundColor: '#f5d3d3',
-                color: '#E30019',
-                fontWeight: '600',
-                fontSize: { xs: '10px', lg: '13px' },
-              }}
-            >
-              -25%
-            </Typography>
-          </Box>
-          <Rating
-            value="1"
-            readOnly
-            sx={{
-              marginBottom: '10px',
-            }}
-          />
-        </CardContent>
-      </CardActionArea>
+      </CardContent>
     </Card>
   );
 };

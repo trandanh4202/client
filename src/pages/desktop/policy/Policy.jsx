@@ -3,7 +3,7 @@ import React from 'react';
 
 const Policy = () => {
   return (
-    <Container sx={{ marginTop: '40px', marginBottom: '40px' }}>
+    <Container sx={{ marginTop: '40px', marginBottom: '40px', padding: '0 10px 56px 10px' }}>
       <Box>
         <p> 2. THÔNG TIN THANH TOÁN VÀ GIAO HÀNG * </p>
         <p>Khách hàng từ Đà Nẵng ra phía Bắc áp dụng giá bán của CellphoneS Miền Bắc. </p>

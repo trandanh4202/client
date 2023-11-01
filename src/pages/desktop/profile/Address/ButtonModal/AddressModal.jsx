@@ -47,7 +47,7 @@ function AddressModal({ open, close, action }) {
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
-          width: '520px',
+          width: '390px',
           bgcolor: 'background.paper',
           boxShadow: 24,
           p: 4,

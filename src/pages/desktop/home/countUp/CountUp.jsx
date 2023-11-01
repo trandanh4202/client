@@ -37,14 +37,14 @@ const CountUpHome = () => {
     <Container
       sx={{
         backgroundColor: 'white',
-        padding: '20px 10px',
+        padding: { xs: '0', lg: '20px 10px' },
         marginTop: '40px',
       }}
     >
-      <Grid container spacing={2}>
+      <Grid container spacing={2} sx={{ padding: '5px 10px' }}>
         {listItem.map((item) => {
           return (
-            <Grid item xs={6} md={2} lg={3}>
+            <Grid item xs={3} md={2} lg={3}>
               <CountUp start={item.start} end={item.end} delay={0} duration={10}>
                 {({ countUpRef }) => (
                   <FlexBetween
@@ -58,14 +58,16 @@ const CountUpHome = () => {
                       ref={countUpRef}
                       variant="h5"
                       sx={{
-                        fontWeight: 'bold',
+                        fontWeight: '500',
+                        fontSize: '20px',
                       }}
                     />
                     <Typography
                       variant="h5"
                       sx={{
-                        fontWeight: 'bold',
                         textAlign: 'center',
+                        display: { xs: 'none' },
+                        fontWeight: '700',
                       }}
                     >
                       {item.title}

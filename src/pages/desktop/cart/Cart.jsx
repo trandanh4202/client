@@ -242,6 +242,151 @@ const Cart = () => {
           </Button>
         </Box>
       </Container>
+      <Container sx={{ xs: 'block', lg: 'none', margin: '40px 0', padding: '0 4px 40px 4px' }}>
+        <Box>
+          <Paper sx={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
+            <Checkbox
+              checked={selectedItems.length > 0 && selectedItems.length === cartItems.length}
+              onChange={handleSelectAllChange}
+            />
+            <Typography>Chọn tất cả</Typography>
+          </Paper>
+          <Paper>
+            {cartItems.map((item) => (
+              <Box sx={{ marginBottom: '20px', display: 'flex' }}>
+                <Checkbox checked={selectedItems.includes(item.id)} onChange={() => handleCheckboxChange(item.id)} />
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                  <Box
+                    sx={{
+                      border: '1px solid #f3f3f3',
+                    }}
+                  >
+                    <img alt="1" src="./logo.png" style={{ width: '82px', height: '82px' }} />
+                  </Box>
+                </Box>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    // alignItems: 'center',
+                    marginLeft: '10px',
+                  }}
+                >
+                  <FlexBetween>
+                    <Typography
+                      sx={{
+                        fontWeight: '700',
+                      }}
+                    >
+                      Iphone 14 Promax
+                    </Typography>
+                    <IconButton onClick={() => deleteItem(item.id)}>
+                      <DeleteForeverIcon />
+                    </IconButton>
+                  </FlexBetween>
+                  <Typography
+                    sx={{
+                      fontWeight: '600',
+                    }}
+                  >
+                    8.990.000đ
+                  </Typography>
+                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    <Button
+                      variant="outlined"
+                      color="primary"
+                      sx={{
+                        outline: 'none',
+                        cursor: 'pointer',
+                        fontSize: '15px',
+                        fontWeight: '500',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        transition: 'background-color 0.1s cubic-bezier(0.4, 0, 0.6, 1)',
+                        border: '1px solid rgba(0, 0, 0, 0.09)',
+                        borderRadius: '2px',
+                        background: 'transparent',
+                        color: 'rgba(0, 0, 0, 0.8)',
+                        width: '15px',
+                        height: '15px',
+                        padding: '2px',
+                        minWidth: '0',
+                      }}
+                      onClick={() => handleQtyChange(item.id, item.quantity - 1)}
+                    >
+                      -
+                    </Button>
+                    <TextField
+                      //   type="number"
+                      value={item.quantity}
+                      onChange={(e) => handleQtyChange(item.id, parseInt(e.target.value, 10))}
+                      sx={{ margin: '0 10px', padding: '0', width: '20%', textAlign: 'center' }}
+                      inputProps={{ style: { padding: 0, textAlign: 'center' } }}
+                    />
+                    <Button
+                      variant="outlined"
+                      color="primary"
+                      sx={{
+                        outline: 'none',
+                        cursor: 'pointer',
+                        fontSize: '15px',
+                        fontWeight: '500',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        transition: 'background-color 0.1s cubic-bezier(0.4, 0, 0.6, 1)',
+                        border: '1px solid rgba(0, 0, 0, 0.09)',
+                        borderRadius: '2px',
+                        background: 'transparent',
+                        color: 'rgba(0, 0, 0, 0.8)',
+                        width: '15px',
+                        height: '15px',
+                        padding: '2px',
+                        minWidth: '0',
+                      }}
+                      onClick={() => handleQtyChange(item.id, item.quantity + 1)}
+                    >
+                      +
+                    </Button>
+                  </Box>
+                </Box>
+              </Box>
+            ))}
+          </Paper>
+        </Box>
+        <Box
+          sx={{
+            padding: '10px',
+            marginTop: '20px',
+            backgroundColor: 'transparent',
+            display: 'flex',
+            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+            width: '100%',
+            flexDirection: 'column',
+          }}
+        >
+          <Button
+            variant="outlined"
+            color="primary"
+            sx={{ width: '100%', fontSize: '18px', fontWeight: '600', marginBottom: '10px' }}
+            component={Link}
+            to="/store"
+          >
+            Tiếp tục mua sắm
+          </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            sx={{ width: '100%', fontSize: '18px', fontWeight: '600' }}
+            component={Link}
+            to="/Checkout"
+          >
+            Thanh toán
+          </Button>
+        </Box>
+      </Container>
     </>
   );
 };

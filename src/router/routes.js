@@ -40,6 +40,10 @@ const router = createBrowserRouter([
         element: <Store />,
       },
       {
+        path: 'c',
+        element: <Store />,
+      },
+      {
         path: 'contact',
         element: <Contact />,
       },

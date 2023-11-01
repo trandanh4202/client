@@ -7,6 +7,7 @@
 body {
   background-color: rgb(241, 245, 249) !important;
   font-family: 'Montserrat', sans-serif !important;
+  // height: 2000px;
 }
 a {
   text-transform: none;
@@ -55,11 +56,11 @@ a {
   min-height: 70px !important;
 }
 .is-sticky {
-  position: sticky;
+  position: fixed !important;
   top: 0;
   z-index: 10;
   transition: all;
-  animation: load 1s ease-out;
+  animation: load 0.5s ease-out;
 }
 
 @keyframes load {
@@ -69,19 +70,6 @@ a {
   100% {
     transform: translateY(0%);
   }
-}
-
-.is-sticky2 {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 10;
-  box-shadow: 0 2px 24px 0 rgb(0 0 0 / 15%);
-  background-color: #ffffff !important;
-  animation: 500ms ease-in-out 0s normal none 1 running fadeInDown;
-  padding-top: 0px;
-  padding-bottom: 0px;
 }
 
 .Hello {
@@ -107,10 +95,30 @@ a {
   }
 }
 
-.mySwiper {
+.mySwiper,
+.slider-laptop {
   width: 100%;
   height: 100%;
   margin: 10px 0;
+}
+
+.banner-swiper {
+  width: 100%;
+  height: 100%;
+  margin: 10px 0;
+  padding: 8px 16px 0px;
+  position: relative;
+  top: -70px;
+  // &:before {
+  //   content: '';
+  //   display: block;
+  //   background-color: #1435c3;
+  //   height: 70px;
+  //   border-bottom-left-radius: 50%;
+  //   border-bottom-right-radius: 50%;
+  //   overflow: hidden;
+  //   width: 100%;
+  // }
 }
 
 .swiper-slide {
@@ -130,6 +138,9 @@ a {
 .swiper-button-prev,
 .swiper-button-next {
   color: #fec723;
+}
+.swiper-pagination-bullets.swiper-pagination-horizontal {
+  bottom: -5px;
 }
 .swiper-pagination-bullet-active {
   background-color: #fec723;
@@ -234,9 +245,21 @@ a {
   &:hover p {
     font-weight: 700;
   }
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .active-tab {
   color: #0d6efd;
   border-bottom: 2px solid #0d6efd;
+}
+
+.slider-new {
+  border: 1px solid #f3f3f3;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.slider-sale-wrapper {
+  padding: 10px;
 }

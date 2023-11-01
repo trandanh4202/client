@@ -31,8 +31,8 @@ const OrderList = () => {
   console.log(tab);
   return (
     <>
-      <Paper sx={{ marginBottom: '35px', padding: '10px' }}>
-        <FlexBetween>
+      <Paper sx={{ marginBottom: '10px', padding: '10px' }}>
+        <Box>
           <Typography sx={{ fontSize: '20px', fontWeight: '600' }}>Quản lý đơn hàng</Typography>
           <Box
             sx={{
@@ -46,7 +46,7 @@ const OrderList = () => {
               to="?tab=1"
               className={tab === '1' ? 'active-tab' : ''}
               component={Link}
-              sx={{ fontSize: '15px', padding: '10px' }}
+              sx={{ fontSize: '9px', lineHeight: '30px' }}
             >
               {' '}
               Đang chờ xác nhận
@@ -56,7 +56,7 @@ const OrderList = () => {
               onClick={(e) => setTab(e.target.value)}
               className={tab === '2' ? 'active-tab' : ''}
               to="?tab=2"
-              sx={{ fontSize: '15px', padding: '10px' }}
+              sx={{ fontSize: '9px', lineHeight: '30px' }}
               component={Link}
             >
               Đang giao hàng
@@ -67,12 +67,12 @@ const OrderList = () => {
               className={tab === '3' ? 'active-tab' : ''}
               to="?tab=3"
               component={Link}
-              sx={{ fontSize: '15px', padding: '10px' }}
+              sx={{ fontSize: '9px', lineHeight: '30px' }}
             >
               Hoàn thành
             </Box>
           </Box>
-        </FlexBetween>
+        </Box>
       </Paper>
       <Paper sx={{ minHeight: '400px' }}>
         <OrderCard />

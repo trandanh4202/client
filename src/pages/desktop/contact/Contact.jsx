@@ -28,7 +28,7 @@ const Contact = () => {
     },
   });
   return (
-    <Container sx={{ marginTop: '40px' }}>
+    <Container sx={{ marginTop: '40px', padding: '0 4px 56px 4px' }}>
       <Grid container>
         <Grid item xs={12} lg={3}>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>

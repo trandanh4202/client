@@ -16,7 +16,7 @@ import WhatshotIcon from '@mui/icons-material/Whatshot';
 import { Link } from 'react-router-dom';
 
 const ProductCardSale = (props) => {
-  const { title, description } = props;
+  const { imageUrl, name, basePrice, price, percentSale, quantity, soldQuantity } = props;
   return (
     <Card
       sx={{
@@ -31,11 +31,13 @@ const ProductCardSale = (props) => {
     >
       <CardMedia
         component="img"
-        height="auto"
-        image="./logo.png"
-        alt="green iguana"
+        image={imageUrl}
+        alt={name}
         sx={{
           transition: 'all 300ms ease-in-out',
+          height: '120px',
+          width: '100%',
+          objectFit: 'contain',
         }}
       />
       <CardContent sx={{ padding: '0px', marginBottom: '15px' }}>
@@ -49,9 +51,10 @@ const ProductCardSale = (props) => {
             WebkitBoxOrient: 'vertical',
             overflow: 'hidden',
             textOverflow: 'ellipsis',
+            height: '50px',
           }}
         >
-          Iphone 14 pro max
+          {name}
         </Typography>
         <Typography
           gutterBottom
@@ -60,7 +63,7 @@ const ProductCardSale = (props) => {
             textDecorationLine: 'line-through',
           }}
         >
-          4.000.000 đ
+          {basePrice} đ
         </Typography>
         <FlexBetween sx={{ marginBottom: '10px' }}>
           <Typography
@@ -70,7 +73,7 @@ const ProductCardSale = (props) => {
               fontSize: '18px',
             }}
           >
-            3.000.000 đ
+            {price} đ
           </Typography>
           <Typography
             variant="span"
@@ -84,7 +87,7 @@ const ProductCardSale = (props) => {
               fontSize: '10px',
             }}
           >
-            -25%
+            {percentSale.toFixed(0)}%
           </Typography>
         </FlexBetween>
 
@@ -103,7 +106,7 @@ const ProductCardSale = (props) => {
               backgroundColor: '#E30019',
               position: 'relative',
               height: '100%',
-              width: '50%',
+              width: `${(soldQuantity / quantity) * 100}%`,
               borderRadius: '15px',
             }}
           >
@@ -132,7 +135,7 @@ const ProductCardSale = (props) => {
               alignItems: 'center',
             }}
           >
-            Đã bán: 20
+            Đã bán: {soldQuantity}
           </Typography>
         </Box>
       </CardContent>

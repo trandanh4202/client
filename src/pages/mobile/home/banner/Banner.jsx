@@ -4,6 +4,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import { Pagination, Autoplay } from 'swiper/modules';
+import { Box } from '@mui/material';
 const Banner = () => {
   return (
     <Swiper
@@ -34,25 +35,25 @@ const Banner = () => {
       }}
       //   navigation={true}
       modules={[Pagination, Autoplay]}
-      className="mySwiper"
+      className="banner-swiper"
     >
-      <SwiperSlide>
-        <img loading="lazy" alt="a" src="./images/Banner/Banner_1.webp" />
+      <SwiperSlide style={{ width: '358px', overflow: 'hidden', borderRadius: '10px' }}>
+        <img loading="lazy" alt="a" src="./images/Banner/Banner_1.webp" style={{ width: '100%', height: '100%' }} />
       </SwiperSlide>
-      <SwiperSlide>
-        <img loading="lazy" alt="a" src="./logo.png" />
+      <SwiperSlide style={{ width: '358px', overflow: 'hidden', borderRadius: '10px' }}>
+        <img loading="lazy" alt="a" src="./images/Banner/Banner_2.webp" style={{ width: '100%', height: '100%' }} />
       </SwiperSlide>
-      <SwiperSlide>
-        <img loading="lazy" alt="a" src="./logo.png" />
+      <SwiperSlide style={{ width: '358px', overflow: 'hidden', borderRadius: '10px' }}>
+        <img loading="lazy" alt="a" src="./images/Banner/Banner_3.webp" style={{ width: '100%', height: '100%' }} />
       </SwiperSlide>
-      <SwiperSlide>
-        <img loading="lazy" alt="a" src="./logo.png" />
+      <SwiperSlide style={{ width: '358px', overflow: 'hidden', borderRadius: '10px' }}>
+        <img loading="lazy" alt="a" src="./images/Banner/Banner_4.webp" style={{ width: '100%', height: '100%' }} />
       </SwiperSlide>
-      <SwiperSlide>
-        <img loading="lazy" alt="a" src="./logo.png" />
+      <SwiperSlide style={{ width: '358px', overflow: 'hidden', borderRadius: '10px' }}>
+        <img loading="lazy" alt="a" src="./images/Banner/Banner_5.webp" style={{ width: '100%', height: '100%' }} />
       </SwiperSlide>
-      <SwiperSlide>
-        <img loading="lazy" alt="a" src="./logo.png" />
+      <SwiperSlide style={{ width: '358px', overflow: 'hidden', borderRadius: '10px' }}>
+        <img loading="lazy" alt="a" src="./images/Banner/Banner_6.webp" style={{ width: '100%', height: '100%' }} />
       </SwiperSlide>
     </Swiper>
   );

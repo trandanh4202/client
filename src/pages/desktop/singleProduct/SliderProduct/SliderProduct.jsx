@@ -1,7 +1,7 @@
-import { Paper } from '@mui/material';
+import { Box, Paper } from '@mui/material';
 import React, { useState } from 'react';
-import Swiper from 'swiper';
-import { SwiperSlide } from 'swiper/react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+
 import 'swiper/css';
 import 'swiper/css/free-mode';
 import 'swiper/css/navigation';
@@ -12,6 +12,7 @@ import { FreeMode, Navigation, Thumbs } from 'swiper/modules';
 const SliderProduct = () => {
   const colors = ['xanh', 'do', 'tim', 'vang'];
   const [swiper1, setSwiper1] = useState(null);
+
   const [swiper2, setSwiper2] = useState(null);
   return (
     <Paper

@@ -23,22 +23,24 @@ const CheckoutPayment = () => {
         <Typography
           sx={{
             fontWeight: '600',
+            fontSize: '15px',
           }}
         >
           Tiền sản phẩm:
         </Typography>
-        <Typography>8.990.000đ</Typography>
+        <Typography sx={{ fontSize: '13px', fontWeight: '500' }}>8.990.000đ</Typography>
       </FlexBetween>
       <Divider sx={{ margin: '20px' }} />
       <FlexBetween>
         <Typography
           sx={{
             fontWeight: '600',
+            fontSize: '15px',
           }}
         >
           Tiền vận chuyển:
         </Typography>
-        <Typography>8.990.000đ</Typography>
+        <Typography sx={{ fontSize: '13px', fontWeight: '500' }}>8.990.000đ</Typography>
       </FlexBetween>
       <Divider sx={{ margin: '20px' }} />
       {active === 'COD' ? (
@@ -47,11 +49,12 @@ const CheckoutPayment = () => {
             <Typography
               sx={{
                 fontWeight: '600',
+                fontSize: '15px',
               }}
             >
               Tiền thu hộ ( COD):
             </Typography>
-            <Typography>8.990.000đ</Typography>
+            <Typography sx={{ fontSize: '13px', fontWeight: '500' }}>8.990.000đ</Typography>
           </FlexBetween>
           <Divider sx={{ margin: '20px' }} />
         </>
@@ -77,8 +80,8 @@ const CheckoutPayment = () => {
         </Typography>
       </FlexBetween>
       <Divider sx={{ margin: '20px' }} />
-      <Typography>- ĐỔI HÀNG MIỄN PHÍ - Tại tất cả cửa hàng trong 15 ngày</Typography>
-      <Typography>- Bạn cũng có thể nhập mã giảm giá ở trang thanh toán.</Typography>
+      <Typography sx={{ fontSize: '13px' }}>- ĐỔI HÀNG MIỄN PHÍ - Tại tất cả cửa hàng trong 15 ngày</Typography>
+      <Typography sx={{ fontSize: '13px' }}>- Bạn cũng có thể nhập mã giảm giá ở trang thanh toán.</Typography>
       <Grid container>
         <Grid
           item

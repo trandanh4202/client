@@ -9,12 +9,12 @@ const HeaderMobile = () => {
   return (
     <AppBar
       position="sticky"
-      sx={{ display: { xs: 'block', md: 'none', lg: 'none' }, backgroundColor: 'white', padding: '5px' }}
+      sx={{ display: { xs: 'block', md: 'none', lg: 'none' }, backgroundColor: 'white', padding: '5px 10px' }}
     >
-      <Toolbar>
+      <Toolbar sx={{ padding: '0' }}>
         {/* Icon Menu cho mobile */}
         <Link to="">
-          <img alt="LANDP" src="/logo.png" width="100px" />
+          <img alt="LANDP" src="/logo.png" style={{ width: '80px' }} />
         </Link>
         {/* Ô search */}
         <FlexBetween
@@ -40,12 +40,7 @@ const HeaderMobile = () => {
           </IconButton>
         </FlexBetween>
         <Link>
-          <Badge
-            badgeContent={4}
-            sx={{
-              color: 'inherit',
-            }}
-          >
+          <Badge badgeContent={4} color="primary" sx={{ color: 'inherit', overFlow: 'hidden' }}>
             <ShoppingCartIcon sx={{ fontSize: '40px' }} />
           </Badge>
         </Link>

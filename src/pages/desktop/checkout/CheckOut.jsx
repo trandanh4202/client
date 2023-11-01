@@ -13,6 +13,7 @@ const CheckOut = () => {
       <Container
         sx={{
           marginTop: '40px',
+          padding: '0 4px 40px 0px',
         }}
       >
         <CheckoutInfor />

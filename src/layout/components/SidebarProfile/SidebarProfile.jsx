@@ -14,7 +14,7 @@ const SidebarProfile = () => {
           flexDirection: 'column',
           justifyContent: 'center',
           //   alignItems: 'center',
-          padding: '5px 15px',
+          padding: { xs: '0px', lg: '5px 15px' },
         }}
       >
         <NavLink to="setting" exact className="text-hover flex-not-jtf background-hover profile-sidebar">
@@ -22,7 +22,7 @@ const SidebarProfile = () => {
           <Typography
             sx={{
               textOverflow: 'ellipsis',
-              display: '-webkit-box',
+              display: { xs: 'none', lg: '-webkit-box' },
               WebkitBoxOrient: 'vertical',
               WebkitLineClamp: '1',
               overflow: 'hidden',
@@ -36,7 +36,7 @@ const SidebarProfile = () => {
           <Typography
             sx={{
               textOverflow: 'ellipsis',
-              display: '-webkit-box',
+              display: { xs: 'none', lg: '-webkit-box' },
               WebkitBoxOrient: 'vertical',
               WebkitLineClamp: '1',
               overflow: 'hidden',
@@ -50,7 +50,7 @@ const SidebarProfile = () => {
           <Typography
             sx={{
               textOverflow: 'ellipsis',
-              display: '-webkit-box',
+              display: { xs: 'none', lg: '-webkit-box' },
               WebkitBoxOrient: 'vertical',
               WebkitLineClamp: '1',
               overflow: 'hidden',
@@ -64,7 +64,7 @@ const SidebarProfile = () => {
           <Typography
             sx={{
               textOverflow: 'ellipsis',
-              display: '-webkit-box',
+              display: { xs: 'none', lg: '-webkit-box' },
               WebkitBoxOrient: 'vertical',
               WebkitLineClamp: '1',
               overflow: 'hidden',

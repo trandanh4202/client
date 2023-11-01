@@ -7,6 +7,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 import MenuMobile from '../mobile/MenuMobile/MenuMobile';
 import AuthForm from '../auth/Auth';
+import { Link } from 'react-router-dom';
 
 const NavigationBottom = () => {
   const [selectedNavItem, setSelectedNavItem] = useState('home'); // Chọn mặc định là trang chủ
@@ -37,6 +38,8 @@ const NavigationBottom = () => {
           zIndex: '10',
           display: { xs: 'block', md: 'none', lg: 'none' },
         }}
+        component={Link}
+        to=""
       >
         <BottomNavigationAction
           sx={{ maxWidth: '20%', minWidth: '20%', padding: '5px 0' }}
@@ -69,6 +72,8 @@ const NavigationBottom = () => {
           value="account"
           icon={<AccountCircleIcon />}
           onClick={toggleAuthForm}
+          component={Link}
+          to="profile"
         />
       </BottomNavigation>
       <MenuMobile open={mobileDrawerOpen} onClose={toggleMobileDrawer} />

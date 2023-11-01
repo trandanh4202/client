@@ -10,12 +10,24 @@ const ProfileLayout = () => {
   }, []);
   return (
     <>
-      <Container sx={{ marginTop: '40px', marginBottom: '40px' }}>
+      <Container sx={{ marginTop: '40px', marginBottom: '40px', padding: '0 5px 56px 5px' }}>
         <Grid container>
-          <Grid item xs={3} sx={{ padding: '5px 15px' }}>
+          <Grid
+            item
+            xs={3}
+            sx={{
+              padding: { xs: '3px', lg: '5px 15px' },
+            }}
+          >
             <SidebarProfile />
           </Grid>
-          <Grid item xs={9} sx={{ padding: '5px 15px' }}>
+          <Grid
+            item
+            xs={9}
+            sx={{
+              padding: { xs: '3px', lg: '5px 15px' },
+            }}
+          >
             <Outlet />
           </Grid>
         </Grid>

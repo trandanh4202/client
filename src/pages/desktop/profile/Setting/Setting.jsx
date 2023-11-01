@@ -19,8 +19,10 @@ const Setting = () => {
   // Sử dụng useFormik để quản lý form
 
   return (
-    <Paper sx={{ padding: '20px' }}>
-      <Typography sx={{ fontSize: '20px', fontWeight: '600', marginBottom: '10px' }}>Thông tin tài khoản</Typography>
+    <Paper sx={{ padding: { xs: '5px', lg: '20px' } }}>
+      <Typography sx={{ fontSize: { xs: '15px', lg: '20px' }, fontWeight: '600', marginBottom: '10px' }}>
+        Thông tin tài khoản
+      </Typography>
       <Formik
         initialValues={{
           fullName: '',
@@ -38,7 +40,16 @@ const Setting = () => {
           <Form onSubmit={handleSubmit} sx={{ padding: '10px' }}>
             <FormControl variant="outlined" fullWidth sx={{ marginBottom: '20px' }}>
               <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                <Typography sx={{ maxWidth: '25%', flex: '0 0 25%', textAlign: 'right' }}>Họ và Tên</Typography>
+                <Typography
+                  sx={{
+                    maxWidth: '25%',
+                    flex: '0 0 25%',
+                    textAlign: { xs: 'left', lg: 'right' },
+                    fontSize: { xs: '13px', lg: '20px' },
+                  }}
+                >
+                  Họ và Tên
+                </Typography>
                 <OutlinedInput
                   id="fullName"
                   name="fullName"
@@ -47,7 +58,7 @@ const Setting = () => {
                   onChange={handleChange}
                   error={touched.fullName && Boolean(error.fullName)}
                   sx={{
-                    marginLeft: '20px',
+                    marginLeft: '10px',
                     '& input': {
                       padding: '5px 10px',
                     },
@@ -57,7 +68,16 @@ const Setting = () => {
             </FormControl>
             <FormControl variant="outlined" fullWidth sx={{ marginBottom: '20px' }}>
               <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                <Typography sx={{ flex: '0 0 25%', maxWidth: '25%', textAlign: 'right' }}>Số điện thoại</Typography>
+                <Typography
+                  sx={{
+                    flex: '0 0 25%',
+                    maxWidth: '25%',
+                    textAlign: { xs: 'left', lg: 'right' },
+                    fontSize: { xs: '13px', lg: '20px' },
+                  }}
+                >
+                  Số điện thoại
+                </Typography>
 
                 <OutlinedInput
                   id="phoneNumber"
@@ -82,7 +102,16 @@ const Setting = () => {
                   alignItems: 'center',
                 }}
               >
-                <Typography sx={{ maxWidth: '25%', textAlign: 'right', flex: '0 0 25%' }}>Email</Typography>
+                <Typography
+                  sx={{
+                    maxWidth: '25%',
+                    textAlign: { xs: 'left', lg: 'right' },
+                    flex: '0 0 25%',
+                    fontSize: { xs: '13px', lg: '20px' },
+                  }}
+                >
+                  Email
+                </Typography>
 
                 <OutlinedInput
                   id="email"

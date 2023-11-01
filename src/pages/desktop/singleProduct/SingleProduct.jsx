@@ -9,8 +9,9 @@ const SingleProduct = () => {
   return (
     <Container
       sx={{
-        marginTop: '40px',
+        marginTop: '20px',
         marginBottom: '40px',
+        padding: { xs: '0 0 40px 0' },
       }}
     >
       <Grid container>

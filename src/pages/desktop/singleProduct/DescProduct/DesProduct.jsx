@@ -15,15 +15,15 @@ const DesProduct = () => {
       elevation={8}
       square={false}
     >
-      <Typography variant="h4" gutterBottom>
+      <Typography variant="h4" gutterBottom sx={{ fontSize: '20px', fontWeight: '700' }}>
         Iphone 14 Pro max
       </Typography>
-      <Typography variant="subtitle" gutterBottom>
+      <Typography gutterBottom sx={{ fontSize: '13px', textAlign: 'justify' }}>
         iPhone 14 Pro Max sở hữu thiết kế màn hình Dynamic Island ấn tượng cùng màn hình OLED 6,7 inch hỗ trợ always-on
         display và hiệu năng vượt trội với chip A16 Bionic. Bên cạnh đó máy còn sở hữu nhiều nâng cấp về camera với cụm
         camera sau 48MP, camera trước 12MP dùng bộ nhớ RAM 6GB đa nhiệm vượt trội
       </Typography>
-      <Box sx={{ margin: '10px 0', display: 'flex', gap: '10px' }}>
+      <Box sx={{ margin: '10px 0', display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
         {colors.map((color, index) => (
           <Button
             key={index}
@@ -59,7 +59,7 @@ const DesProduct = () => {
           textDecorationLine: 'line-through',
           fontWeight: '600',
 
-          fontSize: '20px',
+          fontSize: { xs: '15px', lg: '20px' },
         }}
         gutterBottom
       >
@@ -79,6 +79,7 @@ const DesProduct = () => {
           sx={{
             fontWeight: '500',
             color: 'black',
+            fontSize: { xs: '15px', lg: '20px' },
           }}
         >
           Số lượng
@@ -97,7 +98,7 @@ const DesProduct = () => {
         variant="contained"
         size="large"
         sx={{
-          padding: '22px 40px',
+          padding: { lg: '22px 40px', xs: '10px' },
         }}
       >
         Thêm vào giỏ hàng

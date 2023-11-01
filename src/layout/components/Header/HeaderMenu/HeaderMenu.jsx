@@ -133,9 +133,9 @@ const grey = {
   900: '#24292f',
 };
 const StyledMenu = styled(Menu)`
-  transform: translate(110px, 150px) !important; // Điều chỉnh khoảng cách theo y tùy ý
-  position: fixed !important;
-  z-index: 10;
+  // transform: translate(110px, 150px) !important ; // Điều chỉnh khoảng cách theo y tùy ý
+  // position: fixed !important;
+  z-index: 1111;
 `;
 const StyledListbox = styled('ul')(
   ({ theme }) => `

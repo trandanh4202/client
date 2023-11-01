@@ -12,7 +12,7 @@ const News = () => {
   const page = parseInt(query.get('page') || '1', 10);
   return (
     <>
-      <Container sx={{ padding: '0px 0px 60px 0px !important' }}>
+      <Container sx={{ padding: '0px 0px 60px 0px ' }}>
         <Box sx={{ margin: '40px 0' }}>
           <Grid container>
             <Grid item md={3} lg={2} sx={{ display: { xs: 'none', md: 'block', lg: 'block' } }}>
@@ -50,6 +50,7 @@ const News = () => {
                     color="primary"
                     to={`/store${item.page === 1 ? '' : `?page=${item.page}`}`}
                     {...item}
+                    sx={{ margin: '0' }}
                   />
                 )}
               />

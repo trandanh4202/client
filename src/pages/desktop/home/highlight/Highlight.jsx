@@ -13,7 +13,7 @@ const Highlight = () => {
     <Container
       sx={{
         backgroundColor: 'white',
-        padding: '20px 10px',
+        padding: { xs: '0', lg: '20px 10px' },
         marginTop: '40px',
       }}
     >
@@ -28,45 +28,46 @@ const Highlight = () => {
             textTransform: 'uppercase',
             wordSpacing: '5px',
             margin: '15px 0',
+            fontSize: { xs: '26px' },
           }}
         >
           Sản phẩm nổi bật
         </Typography>
         <Grid container spacing={2}>
-          <Grid item xs={6} md={4} lg={2}>
+          <Grid item xs={2} md={4} lg={2}>
             <img src="./logo.png" alt="a" width="100%" />
           </Grid>
-          <Grid item xs={6} md={4} lg={2}>
+          <Grid item xs={2} md={4} lg={2}>
             <img src="./logo.png" alt="a" width="100%" />
           </Grid>
-          <Grid item xs={6} md={4} lg={2}>
+          <Grid item xs={2} md={4} lg={2}>
             <img src="./logo.png" alt="a" width="100%" />
           </Grid>
-          <Grid item xs={6} md={4} lg={2}>
+          <Grid item xs={2} md={4} lg={2}>
             <img src="./logo.png" alt="a" width="100%" />
           </Grid>
-          <Grid item xs={6} md={4} lg={2}>
+          <Grid item xs={2} md={4} lg={2}>
             <img src="./logo.png" alt="a" width="100%" />
           </Grid>
-          <Grid item xs={6} md={4} lg={2}>
+          <Grid item xs={2} md={4} lg={2}>
             <img src="./logo.png" alt="a" width="100%" />
           </Grid>
-          <Grid item xs={6} md={4} lg={2}>
+          <Grid item xs={2} md={4} lg={2}>
             <img src="./logo.png" alt="a" width="100%" />
           </Grid>
-          <Grid item xs={6} md={4} lg={2}>
+          <Grid item xs={2} md={4} lg={2}>
             <img src="./logo.png" alt="a" width="100%" />
           </Grid>
-          <Grid item xs={6} md={4} lg={2}>
+          <Grid item xs={2} md={4} lg={2}>
             <img src="./logo.png" alt="a" width="100%" />
           </Grid>
-          <Grid item xs={6} md={4} lg={2}>
+          <Grid item xs={2} md={4} lg={2}>
             <img src="./logo.png" alt="a" width="100%" />
           </Grid>
-          <Grid item xs={6} md={4} lg={2}>
+          <Grid item xs={2} md={4} lg={2}>
             <img src="./logo.png" alt="a" width="100%" />
           </Grid>
-          <Grid item xs={6} md={4} lg={2}>
+          <Grid item xs={2} md={4} lg={2}>
             <img src="./logo.png" alt="a" width="100%" />
           </Grid>
         </Grid>

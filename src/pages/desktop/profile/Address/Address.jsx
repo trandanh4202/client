@@ -44,82 +44,61 @@ const Address = () => {
       </Button>
       <AddressModal open={open} close={handleClose} action={action} />
       <Paper sx={{ padding: '5px 15px' }}>
-        <FlexBetween sx={{ margin: '20px 0' }}>
-          <Box>
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              <Typography sx={{ marginRight: '10px', fontSize: '18px', fontWeight: '700' }}>Trần Trọng Danh</Typography>
-              <Typography
-                variant="span"
+        <Box sx={{ margin: '20px 0' }}>
+          <FlexBetween sx={{ flexDirection: { xs: 'column', lg: 'row' } }}>
+            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', fontSize: '13px' }}>
+                <Typography sx={{ marginRight: '10px', fontSize: '18px', fontWeight: '700' }}>
+                  Trần Trọng Danh
+                </Typography>
+                <Typography
+                  variant="span"
+                  sx={{
+                    padding: '5px',
+                    borderRadius: '0.25rem',
+                    border: 'unset',
+                    backgroundColor: 'rgb(243, 245, 252)',
+                    color: 'rgb(18, 48, 176)',
+                    fontWeight: '500',
+                  }}
+                >
+                  {' '}
+                  Mặc định
+                </Typography>{' '}
+              </Box>
+              <Box>
+                <Typography sx={{ fontSize: '13px' }}>Địa chỉ: 142 Tô Ký, Thới Tam Thôn, Hóc Môn, TP.HCM</Typography>
+              </Box>
+              <Box>
+                <Typography sx={{ fontSize: '13px' }}>Điện thoại: 0913423421</Typography>
+              </Box>{' '}
+            </Box>
+
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                flexDirection: 'column',
+                gap: '10px',
+              }}
+            >
+              <Button variant="outlined" sx={{ padding: { xs: '5px 10px', lg: '5px 35px' } }} onClick={handleEditModal}>
+                Chỉnh sửa
+              </Button>
+              <Button
+                variant="outlined"
                 sx={{
-                  padding: '5px',
-                  borderRadius: '0.25rem',
-                  border: 'unset',
-                  backgroundColor: 'rgb(243, 245, 252)',
-                  color: 'rgb(18, 48, 176)',
-                  fontWeight: '500',
+                  padding: { xs: '5px 10px', lg: '5px 35px' },
+                  border: '1px solid rgb(218, 67, 67)',
+                  color: 'rgb(218, 67, 67)',
                 }}
               >
-                {' '}
-                Mặc định
-              </Typography>
+                Xoá
+              </Button>
             </Box>
-            <Box>
-              <Typography>Địa chỉ: 142 Tô Ký, Thới Tam Thôn, Hóc Môn, TP.HCM</Typography>
-            </Box>
-            <Box>
-              <Typography>Điện thoại: 0913423421</Typography>
-            </Box>
-          </Box>
-          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '10px' }}>
-            <Button variant="outlined" sx={{ padding: '5px 35px' }} onClick={handleEditModal}>
-              Chỉnh sửa
-            </Button>
-            <Button
-              variant="outlined"
-              sx={{ padding: '5px 35px', border: '1px solid rgb(218, 67, 67)', color: 'rgb(218, 67, 67)' }}
-            >
-              Xoá
-            </Button>
-          </Box>
-        </FlexBetween>
-        <FlexBetween sx={{ margin: '20px 0' }}>
-          <Box>
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              <Typography sx={{ marginRight: '10px', fontSize: '18px', fontWeight: '700' }}>Trần Trọng Danh</Typography>
-              <Typography
-                variant="span"
-                sx={{
-                  padding: '5px',
-                  borderRadius: '0.25rem',
-                  border: 'unset',
-                  backgroundColor: 'rgb(243, 245, 252)',
-                  color: 'rgb(18, 48, 176)',
-                  fontWeight: '500',
-                }}
-              >
-                {' '}
-                Mặc định
-              </Typography>
-            </Box>
-            <Box>
-              <Typography>Địa chỉ: 142 Tô Ký, Thới Tam Thôn, Hóc Môn, TP.HCM</Typography>
-            </Box>
-            <Box>
-              <Typography>Điện thoại: 0913423421</Typography>
-            </Box>
-          </Box>
-          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '10px' }}>
-            <Button variant="outlined" sx={{ padding: '5px 35px' }}>
-              Chỉnh sửa
-            </Button>
-            <Button
-              variant="outlined"
-              sx={{ padding: '5px 35px', border: '1px solid rgb(218, 67, 67)', color: 'rgb(218, 67, 67)' }}
-            >
-              Xoá
-            </Button>
-          </Box>
-        </FlexBetween>
+          </FlexBetween>
+        </Box>
       </Paper>
     </>
   );
