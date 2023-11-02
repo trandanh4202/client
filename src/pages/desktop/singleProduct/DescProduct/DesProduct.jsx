@@ -1,9 +1,10 @@
 import { Box, Button, FormControl, MenuItem, Paper, Rating, Select, Typography } from '@mui/material';
 import React, { useState } from 'react';
 
-const DesProduct = () => {
+const DesProduct = (props) => {
+  const { name, description, price, basePrice, percentSale, averageRating, quantity } = props;
   const list = ['1', '2', '3'];
-  const [quantity, setQuantity] = useState(1);
+  const [qtt, setQtt] = useState(1);
   const colors = ['xanh', 'do', 'tim', 'vang'];
   const [swiper1, setSwiper1] = useState(null);
   const [swiper2, setSwiper2] = useState(null);
@@ -16,12 +17,10 @@ const DesProduct = () => {
       square={false}
     >
       <Typography variant="h4" gutterBottom sx={{ fontSize: '20px', fontWeight: '700' }}>
-        Iphone 14 Pro max
+        {name}
       </Typography>
       <Typography gutterBottom sx={{ fontSize: '13px', textAlign: 'justify' }}>
-        iPhone 14 Pro Max sở hữu thiết kế màn hình Dynamic Island ấn tượng cùng màn hình OLED 6,7 inch hỗ trợ always-on
-        display và hiệu năng vượt trội với chip A16 Bionic. Bên cạnh đó máy còn sở hữu nhiều nâng cấp về camera với cụm
-        camera sau 48MP, camera trước 12MP dùng bộ nhớ RAM 6GB đa nhiệm vượt trội
+        {description}
       </Typography>
       <Box sx={{ margin: '10px 0', display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
         {colors.map((color, index) => (
@@ -51,7 +50,7 @@ const DesProduct = () => {
         }}
         gutterBottom
       >
-        10.000.000 đ
+        {price}
       </Typography>
       <Typography
         variant="h6"
@@ -63,9 +62,9 @@ const DesProduct = () => {
         }}
         gutterBottom
       >
-        20.000.000 đ
+        {basePrice}
       </Typography>
-      <Rating name="read-only" value={3} readOnly />
+      <Rating name="read-only" value={averageRating} readOnly />
       <Box
         sx={{
           display: 'flex',
@@ -85,10 +84,10 @@ const DesProduct = () => {
           Số lượng
         </Typography>
         <FormControl sx={{ m: 1, minWidth: 120 }}>
-          <Select value={quantity} onChange={(e) => setQuantity(e.target.value)}>
-            {list.map((value, index) => (
-              <MenuItem key={index} value={index}>
-                {value}
+          <Select value={qtt} onChange={(e) => setQtt(e.target.value)}>
+            {Array.from({ length: quantity }, (_, index) => (
+              <MenuItem key={index} value={index + 1}>
+                {index + 1}
               </MenuItem>
             ))}
           </Select>

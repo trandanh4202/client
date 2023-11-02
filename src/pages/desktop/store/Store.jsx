@@ -1,13 +1,25 @@
 import { Box, Container, Grid, Pagination, PaginationItem } from '@mui/material';
-import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import React, { useEffect, useMemo } from 'react';
+import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import FilterProduct from './FilterProduct/FilterProduct';
 import SortProduct from './SortProduct/SortProduct';
 import DrawerProduct from './DrawerProduct/DrawerProduct';
+import { useDispatch, useSelector } from 'react-redux';
+import { getProducts } from '~/features/products/productsSlice';
+
 const Store = () => {
-  const location = useLocation();
-  const query = new URLSearchParams(location.search);
-  const page = parseInt(query.get('page') || '1', 10);
+  let [searchParams, setSearchParams] = useSearchParams();
+  console.log(searchParams.get('page'));
+  const page = searchParams.get('page') || 1;
+  const q = searchParams.get('q') || '';
+
+  const dispatch = useDispatch();
+  const products = useSelector((state) => state.products.products.products);
+  const pagination = useSelector((state) => state.products.products.pagination);
+
+  useEffect(() => {
+    dispatch(getProducts({ q, page }));
+  }, [dispatch, q, page]);
   return (
     <>
       <Container sx={{ padding: '0px 0px 60px 0px !important' }}>
@@ -17,11 +29,11 @@ const Store = () => {
               <FilterProduct />
             </Grid>
             <Grid item xs={12} md={9} lg={10} sx={{ padding: { xs: '0px', lg: '0 10px' } }}>
-              <SortProduct />
+              <SortProduct products={products} />
 
               <Pagination
-                page={page}
-                count={10}
+                // page={page}
+                count={pagination?.totalPage}
                 sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px' }}
                 color="primary"
                 renderItem={(item) => (

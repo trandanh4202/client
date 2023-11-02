@@ -8,9 +8,10 @@ import { getProducts } from '~/features/products/productsSlice';
 
 const Products = () => {
   const dispatch = useDispatch();
-  const products = useSelector((state) => state.products.products);
+  const products = useSelector((state) => state.products.products.products);
+  console.log(products);
   useEffect(() => {
-    dispatch(getProducts());
+    dispatch(getProducts({}));
   }, [dispatch]);
 
   return (
@@ -38,7 +39,7 @@ const Products = () => {
           Sản phẩm nổi bật
         </Typography>
         <Grid container>
-          {products.map((item) => (
+          {products?.map((item) => (
             <Grid item xs={6} md={6} lg={2.4} padding="8px" margin="10px 0px ">
               <ProductCard
                 imageUrl={item.imageUrl}

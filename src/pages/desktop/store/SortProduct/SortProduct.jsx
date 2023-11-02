@@ -1,12 +1,16 @@
 import { Box, FormControl, Grid, InputLabel, MenuItem, Paper, Select, ToggleButton, Typography } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import FlexBetween from '~/components/flexbetween/FlexBetween';
 import ViewListIcon from '@mui/icons-material/ViewList';
 import ViewModuleIcon from '@mui/icons-material/ViewModule';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import ProductCard from '~/components/productCard/ProductCard';
+import { useLocation, useSearchParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { getProducts } from '~/features/products/productsSlice';
 
-const SortProduct = () => {
+const SortProduct = (props) => {
+  const { products } = props;
   const [gridView, setGridView] = useState('2.4');
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [filter, setFilter] = useState('');
@@ -14,6 +18,7 @@ const SortProduct = () => {
   const handleChange = (event) => {
     setFilter(event.target.value);
   };
+
   return (
     <>
       <Paper sx={{ display: { xs: 'block', lg: 'block' } }}>
@@ -82,21 +87,21 @@ const SortProduct = () => {
       </Paper>
       <Box sx={{ marginTop: '10px' }}>
         <Grid container>
-          <Grid item xs={gridView === 12 ? 12 : 6} md={4} lg={gridView} padding="5px" margin="10px 0px ">
-            <ProductCard gridView={gridView} />
-          </Grid>
-          <Grid item xs={gridView === 12 ? 12 : 6} md={4} lg={gridView} padding="5px" margin="10px 0px ">
-            <ProductCard gridView={gridView} />
-          </Grid>
-          <Grid item xs={gridView === 12 ? 12 : 6} md={4} lg={gridView} padding="5px" margin="10px 0px ">
-            <ProductCard gridView={gridView} />
-          </Grid>
-          <Grid item xs={gridView === 12 ? 12 : 6} md={4} lg={gridView} padding="5px" margin="10px 0px ">
-            <ProductCard gridView={gridView} />
-          </Grid>
-          <Grid item xs={gridView === 12 ? 12 : 6} md={4} lg={gridView} padding="5px" margin="10px 0px ">
-            <ProductCard gridView={gridView} />
-          </Grid>
+          {products?.map((product) => (
+            <Grid item xs={gridView === 12 ? 12 : 6} md={4} lg={gridView} padding="5px" margin="10px 0px ">
+              <ProductCard
+                id={product.id}
+                imageUrl={product.imageUrl}
+                name={product.name}
+                basePrice={product.basePrice}
+                price={product.price}
+                percentSale={product.percentSale}
+                quantity={product.quantity}
+                averageRating={product.averageRating}
+                gridView={gridView}
+              />
+            </Grid>
+          ))}
         </Grid>
       </Box>
     </>

@@ -13,7 +13,7 @@ import {
   Typography,
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import FlexBetween from '~/components/flexbetween/FlexBetween';
 import HeaderMenu from '../HeaderMenu/HeaderMenu';
 import AuthForm from '~/components/auth/Auth';
@@ -29,6 +29,7 @@ const HeaderUpper = () => {
   const [isSticky, setIsSticky] = useState(true);
   const [isAuthOpen, setAuthOpen] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const navigate = useNavigate();
 
   const [arrow, setArrow] = React.useState(false);
   const handleClick = (event) => {
@@ -61,8 +62,20 @@ const HeaderUpper = () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
+  const [searchValue, setSearchValue] = useState('');
 
+  const handleSearch = () => {
+    navigate(`/store?q=${searchValue}`);
+  };
+
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      handleSearch();
+    }
+  };
   const token = true;
+  console.log(searchValue);
   return (
     <AppBar
       sx={{ backgroundColor: 'white', display: { xs: 'none', md: 'block', lg: 'block' } }}
@@ -81,17 +94,25 @@ const HeaderUpper = () => {
               overflow="hidden"
               backgroundColor="white"
               borderRadius="50px"
-              // padding="5px 10px"
               width="350px"
               border="2px solid rgb(221, 221, 227)"
             >
-              <InputBase placeholder="Search..." fullWidth sx={{ paddingRight: '20px', paddingLeft: '10px' }} />
+              <InputBase
+                id="searchInput"
+                placeholder="Search..."
+                fullWidth
+                sx={{ paddingRight: '20px', paddingLeft: '10px' }}
+                value={searchValue}
+                onChange={(e) => setSearchValue(e.target.value)}
+                onKeyDown={handleKeyDown}
+              />
               <Divider orientation="vertical" flexItem />
               <IconButton
                 backgroundColor="grey"
                 sx={{
                   borderRadius: '0%',
                 }}
+                onClick={handleSearch}
               >
                 <SearchIcon />
               </IconButton>

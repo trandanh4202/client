@@ -9,7 +9,8 @@ import 'swiper/css/thumbs';
 
 import { FreeMode, Navigation, Thumbs } from 'swiper/modules';
 
-const SliderProduct = () => {
+const SliderProduct = (props) => {
+  const { imageUrl, name, imageSlder } = props;
   const colors = ['xanh', 'do', 'tim', 'vang'];
   const [swiper1, setSwiper1] = useState(null);
 
@@ -38,23 +39,17 @@ const SliderProduct = () => {
         modules={[FreeMode, Navigation, Thumbs]}
         className="swiperSingle"
       >
-        {colors.map((color, index) => (
-          <SwiperSlide key={index}>
-            <img src={`./ip_${color}.png`} alt={`Color ${index + 1}`} />
+        {imageSlder?.length > 0 ? (
+          imageSlder?.map((color, index) => (
+            <SwiperSlide key={index}>
+              <img src={imageUrl} alt={name} />
+            </SwiperSlide>
+          ))
+        ) : (
+          <SwiperSlide>
+            <img src={imageUrl} alt={name} />
           </SwiperSlide>
-        ))}
-        <SwiperSlide>
-          <img loading="lazy" src="https://swiperjs.com/demos/images/nature-5.jpg" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img loading="lazy" src="https://swiperjs.com/demos/images/nature-6.jpg" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img loading="lazy" src="https://swiperjs.com/demos/images/nature-5.jpg" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img loading="lazy" src="https://swiperjs.com/demos/images/nature-6.jpg" />
-        </SwiperSlide>
+        )}
       </Swiper>
       <Swiper
         onSwiper={(swiper) => {
@@ -68,23 +63,17 @@ const SliderProduct = () => {
         modules={[FreeMode, Navigation, Thumbs]}
         className="swiperSingleAlbum"
       >
-        {colors.map((color, index) => (
-          <SwiperSlide key={index}>
-            <img src={`./ip_${color}.png`} alt={`Color ${index + 1}`} />
+        {imageSlder?.length > 0 ? (
+          imageSlder?.map((color, index) => (
+            <SwiperSlide key={index}>
+              <img src={imageUrl} alt={name} />
+            </SwiperSlide>
+          ))
+        ) : (
+          <SwiperSlide>
+            <img src={imageUrl} alt={name} />
           </SwiperSlide>
-        ))}
-        <SwiperSlide>
-          <img loading="lazy" src="https://swiperjs.com/demos/images/nature-5.jpg" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img loading="lazy" src="https://swiperjs.com/demos/images/nature-6.jpg" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img loading="lazy" src="https://swiperjs.com/demos/images/nature-5.jpg" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img loading="lazy" src="https://swiperjs.com/demos/images/nature-6.jpg" />
-        </SwiperSlide>
+        )}
       </Swiper>
     </Paper>
   );

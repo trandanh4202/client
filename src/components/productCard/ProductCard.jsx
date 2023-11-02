@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Box,
   Button,
@@ -13,9 +13,12 @@ import {
 } from '@mui/material';
 import FlexBetween from '../flexbetween/FlexBetween';
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { getProductById } from '~/features/singleProduct/singleProductSlice';
 
 const ProductCard = (props) => {
-  const { imageUrl, name, basePrice, price, percentSale, averageRating, gridView } = props;
+  const { id, imageUrl, name, basePrice, price, percentSale, averageRating, gridView } = props;
+
   return (
     <Card
       sx={{
@@ -27,7 +30,7 @@ const ProductCard = (props) => {
       }}
     >
       <CardContent>
-        <Box sx={{ textAlign: 'left' }} component={Link} to="/singleproduct">
+        <Box sx={{ textAlign: 'left' }} component={Link} to={`/${id}`}>
           <Box
             sx={{
               position: 'relative',
@@ -109,7 +112,7 @@ const ProductCard = (props) => {
             >
               {basePrice} đ
             </Typography>
-            <FlexBetween sx={{ display: 'flex', alignItems: 'center' }}>
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
               <Typography
                 sx={{
                   color: '#E30019',
@@ -134,7 +137,7 @@ const ProductCard = (props) => {
               >
                 {percentSale?.toFixed(0)}%
               </Typography>
-            </FlexBetween>
+            </Box>
             <Rating
               value={averageRating}
               readOnly

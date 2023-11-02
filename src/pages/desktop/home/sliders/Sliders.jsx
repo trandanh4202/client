@@ -61,7 +61,7 @@ const Sliders = () => {
                     display: 'flex',
                   }}
                 >
-                  <Typography component={Link} to={`store/${slider.id}`}>
+                  <Typography component={Link} to={`store?q=${slider.title}`}>
                     Xem tất cả
                   </Typography>
                   <KeyboardArrowRight />

@@ -9,6 +9,7 @@ import reviewsReducer from './reviews/reviewsSlice';
 import addressesReducer from './address/addressSlice';
 import ghnReducer from './GHN/ghnSlice';
 import slidersReducer from './slider/SlidersSlice';
+import imagesReducer from './images/ImagesSlice';
 
 export const store = configureStore({
   reducer: {
@@ -21,5 +22,6 @@ export const store = configureStore({
     addresses: addressesReducer,
     ghn: ghnReducer,
     sliders: slidersReducer,
+    images: imagesReducer,
   },
 });

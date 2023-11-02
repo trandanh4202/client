@@ -22,8 +22,8 @@ export const createProduct = createAsyncThunk('products/createProduct', async (p
   return response.data;
 });
 
-export const getProducts = createAsyncThunk('products/getProducts', async () => {
-  let link = `https://localhost:7051/api/Products/search`;
+export const getProducts = createAsyncThunk('products/getProducts', async ({ q = '', page = '1', pageSize = '10' }) => {
+  const link = `https://localhost:7051/api/Products/search`;
   const response = await axios.post(link, {
     filter: {
       attributes: [],
@@ -31,10 +31,10 @@ export const getProducts = createAsyncThunk('products/getProducts', async () => 
       priceLte: -1,
     },
     pagination: {
-      itemsPerPage: 5,
-      pageNumber: 1,
+      itemsPerPage: pageSize,
+      pageNumber: page,
     },
-    query: '',
+    query: q,
     sorting: {
       sort: 'SORT_BY_DISCOUNT_PERCENT',
       order: 'ORDER_BY_DESCENDING',
@@ -67,7 +67,7 @@ const productsSlice = createSlice({
       })
       .addCase(getProducts.fulfilled, (state, action) => {
         state.loading = false;
-        state.products = action.payload.data.products;
+        state.products = action.payload.data;
       })
       .addCase(getProducts.rejected, (state, action) => {
         state.loading = false;

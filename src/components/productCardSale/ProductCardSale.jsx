@@ -16,7 +16,7 @@ import WhatshotIcon from '@mui/icons-material/Whatshot';
 import { Link } from 'react-router-dom';
 
 const ProductCardSale = (props) => {
-  const { imageUrl, name, basePrice, price, percentSale, quantity, soldQuantity } = props;
+  const { id, imageUrl, name, basePrice, price, percentSale, quantity, soldQuantity } = props;
   return (
     <Card
       sx={{
@@ -27,7 +27,7 @@ const ProductCardSale = (props) => {
         position: 'relative',
       }}
       component={Link}
-      to="/singleproduct"
+      to={id}
     >
       <CardMedia
         component="img"

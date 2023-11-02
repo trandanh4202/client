@@ -15,7 +15,7 @@ import { getSliders } from '~/features/slider/SlidersSlice';
 
 const ProductSale = () => {
   const dispatch = useDispatch();
-  const products = useSelector((state) => state.products.products);
+  const products = useSelector((state) => state.products.products.products);
   useEffect(() => {
     dispatch(getProducts());
   }, [dispatch]);
@@ -35,6 +35,7 @@ const ProductSale = () => {
             backgroundColor: '#920101',
           }}
         >
+          q
           <Typography component="div" sx={{ width: '100%' }}>
             <img alt="1" src="./khungsale.webp" style={{ width: '100%' }} />
           </Typography>
@@ -65,9 +66,10 @@ const ProductSale = () => {
               padding: '0 40px 20px 40px',
             }}
           >
-            {products.map((item) => (
+            {products?.map((item) => (
               <SwiperSlide>
                 <ProductCardSale
+                  id={item.id}
                   imageUrl={item.imageUrl}
                   name={item.name}
                   basePrice={item.basePrice}
