@@ -1,14 +1,17 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { Token, Visibility, VisibilityOff } from '@mui/icons-material';
 import { Divider, Grid, IconButton, InputAdornment, Typography } from '@mui/material';
 import FlexBetween from '../flexbetween/FlexBetween';
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { login, registerUser } from '~/features/auth/authSlice';
+import { useSelect } from '@mui/base';
 
 const validationSchema = Yup.object({
   name: Yup.string().required('Vui lòng nhập tên'),
@@ -34,9 +37,7 @@ function AuthForm({ open, close }) {
       confirmPassword: '',
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => {
-      // onClose();
-    },
+    onSubmit: (values) => handleSubmit(values, authType, dispatch),
   });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -46,7 +47,21 @@ function AuthForm({ open, close }) {
   const handleTogglePasswordVisibility = () => {
     setShowPassword((prevShowPassword) => !prevShowPassword);
   };
-
+  const dispatch = useDispatch();
+  async function handleSubmit(e) {
+    e.preventDefault(); // Sử dụng e.preventDefault() để ngăn chặn hành vi tự động reload trang web.
+    const { name, phone, email, password, confirmPassword } = formik.values;
+    try {
+      if (authType) {
+        await dispatch(registerUser({ name, phone, email, password, confirmPassword }));
+      } else {
+        await dispatch(login({ email, password }));
+      }
+      // window.location.reload();
+    } catch (error) {
+      // Xử lý lỗi ở đây
+    }
+  }
   return (
     <Modal open={open} onClose={close}>
       <Box
@@ -62,51 +77,30 @@ function AuthForm({ open, close }) {
           p: 4,
         }}
       >
-        <form>
-          {authType ? (
-            <TextField
-              fullWidth
-              margin="normal"
-              id="name"
-              name="name"
-              label="Tên"
-              variant="outlined"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.name}
-              error={formik.touched.name && Boolean(formik.errors.name)}
-              helperText={formik.touched.name && formik.errors.name}
-              sx={{
-                margin: '5px 0',
-                '& label': {
-                  top: '-5px',
-                },
-                '& input': {
-                  padding: '10px',
-                },
-              }}
-            />
-          ) : (
-            ' '
+        <form onSubmit={handleSubmit}>
+          {authType && (
+            <>
+              <TextField
+                fullWidth
+                margin="normal"
+                id="name"
+                name="name"
+                label="Tên"
+                variant="outlined"
+                {...formik.getFieldProps('name')}
+              />
+              <TextField
+                fullWidth
+                margin="normal"
+                id="phone"
+                name="phone"
+                label="Số điện thoại"
+                type="phone"
+                variant="outlined"
+                {...formik.getFieldProps('phone')}
+              />
+            </>
           )}
-          {/* <TextField
-            fullWidth
-            margin="normal"
-            id="phone"
-            name="phone"
-            label="Số điện thoại"
-            type="phone"
-            variant="outlined"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.phone}
-            error={formik.touched.phone && Boolean(formik.errors.phone)}
-            helperText={formik.touched.phone && formik.errors.phone}
-            sx={{
-              margin: '5px 0',
-            }}
-          /> */}
-
           <TextField
             fullWidth
             margin="normal"
@@ -114,11 +108,7 @@ function AuthForm({ open, close }) {
             name="email"
             label="Email"
             variant="outlined"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.email}
-            error={formik.touched.email && Boolean(formik.errors.email)}
-            helperText={formik.touched.email && formik.errors.email}
+            {...formik.getFieldProps('email')}
             sx={{
               margin: '5px 0',
               '& label': {
@@ -129,7 +119,6 @@ function AuthForm({ open, close }) {
               },
             }}
           />
-
           {forgotPassword ? (
             ''
           ) : (
@@ -142,11 +131,7 @@ function AuthForm({ open, close }) {
                 label="Mật khẩu"
                 type={showPassword ? 'text' : 'password'}
                 variant="outlined"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.password}
-                error={formik.touched.password && Boolean(formik.errors.password)}
-                helperText={formik.touched.password && formik.errors.password}
+                {...formik.getFieldProps('password')}
                 sx={{
                   margin: '5px 0',
                   '& label': {
@@ -168,48 +153,38 @@ function AuthForm({ open, close }) {
               />
             </Box>
           )}
-          {authType ? (
+          {authType && (
             <TextField
               fullWidth
               margin="normal"
               id="confirmPassword"
               name="confirmPassword"
               label="Xác nhận mật khẩu"
+              type={showConfirmPassword ? 'text' : 'password'}
               variant="outlined"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.confirmPassword}
-              error={formik.touched.confirmPassword && Boolean(formik.errors.confirmPassword)}
-              helperText={formik.touched.confirmPassword && formik.errors.confirmPassword}
-              sx={{
-                margin: '5px 0',
-                '& label': {
-                  top: '-5px',
-                },
-                '& input': {
-                  padding: '10px',
-                },
-              }}
+              {...formik.getFieldProps('confirmPassword')}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
-                    <IconButton onClick={() => setShowConfirmPassword(!showConfirmPassword)} edge="end">
-                      {showConfirmPassword ? <Visibility fontSize="small" /> : <VisibilityOff fontSize="small" />}
+                    <IconButton onClick={() => handleTogglePasswordVisibility('confirmPassword')}>
+                      {showConfirmPassword ? <Visibility /> : <VisibilityOff />}
                     </IconButton>
                   </InputAdornment>
                 ),
               }}
             />
-          ) : (
-            ''
           )}
           <Button color="primary" variant="contained" fullWidth type="submit">
-            {authType ? 'Đăng ký' : forgotPassword ? 'Gửi yêu cầu' : 'Đăng nhập'}{' '}
+            {authType ? (
+              <Typography>Đăng ký </Typography>
+            ) : forgotPassword ? (
+              <Typography>Gửi yêu cầu</Typography>
+            ) : (
+              <Typography>Đăng nhập</Typography>
+            )}
           </Button>
         </form>
-        {authType ? (
-          ''
-        ) : (
+        {authType && (
           <Typography
             sx={{ textAlign: 'end', color: 'blue', marginTop: '20px' }}
             onClick={() => setForgotPassword(true)}

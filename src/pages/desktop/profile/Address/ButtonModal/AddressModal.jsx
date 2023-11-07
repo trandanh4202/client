@@ -1,34 +1,22 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+
+import FlexBetween from '~/components/flexbetween/FlexBetween';
+import { useDispatch, useSelector } from 'react-redux';
+import { createAddresses, getAddresses, putAddresses } from '~/features/address/addressSlice';
+import { getDistrict, getProvince, getWard } from '~/features/GHN/ghnSlice';
 import {
-  Button,
-  Modal,
   Box,
+  Button,
+  Checkbox,
   FormControl,
   InputLabel,
   MenuItem,
-  Select,
-  Checkbox,
-  FormControlLabel,
-  TextField,
+  Modal,
   Paper,
+  Select,
+  TextField,
   Typography,
 } from '@mui/material';
-import { Formik, Form, Field } from 'formik';
-import * as Yup from 'yup';
-import AddIcon from '@mui/icons-material/Add';
-import FlexBetween from '~/components/flexbetween/FlexBetween';
-
-const validationSchema = Yup.object().shape({
-  province: Yup.string().required('Tỉnh là trường bắt buộc'),
-  district: Yup.string().required('Huyện là trường bắt buộc'),
-  ward: Yup.string().required('Phường là trường bắt buộc'),
-  detail: Yup.string().required('Chi tiết địa chỉ là trường bắt buộc'),
-  isDefault: Yup.boolean(),
-});
-
-const provinces = ['Tỉnh 1', 'Tỉnh 2', 'Tỉnh 3'];
-const districts = ['Huyện 1', 'Huyện 2', 'Huyện 3'];
-const wards = ['Phường 1', 'Phường 2', 'Phường 3'];
 
 function AddressModal({ open, close, action }) {
   const handleSubmit = () => {
@@ -38,6 +26,59 @@ function AddressModal({ open, close, action }) {
       console.log('edit');
     }
   };
+
+  const dispatch = useDispatch();
+  const { province, district, ward } = useSelector((state) => state.ghn);
+
+  const [selectedAddress, setSelectedAddress] = useState({
+    provinceName: '',
+    provinceId: 0,
+    districtName: '',
+    districtId: 0,
+    wardName: '',
+    wardCode: '',
+    detail: '',
+  });
+
+  const handleProvinceChange = (e) => {
+    const selectedProvinceID = e.target.dataset.value;
+    const selectedProvinceName = e.target.dataset.name;
+    setSelectedAddress({
+      provinceName: selectedProvinceName,
+      provinceId: selectedProvinceID,
+      districtName: '',
+      districtId: 0,
+      wardName: '',
+      wardCode: '',
+    });
+    if (selectedProvinceID) {
+      dispatch(getDistrict(selectedProvinceID));
+    }
+  };
+  const handleDistrictChange = (event) => {
+    const selectedDistrictID = event.target.dataset.value;
+    const SelectedDistrictName = event.target.dataset.name;
+    setSelectedAddress({
+      ...selectedAddress,
+      districtName: SelectedDistrictName,
+      districtId: selectedDistrictID,
+      wardName: '',
+      wardCode: '',
+    });
+    if (selectedDistrictID) {
+      dispatch(getWard(selectedDistrictID));
+    }
+  };
+  const handleWardChange = (event) => {
+    const selectedWardtID = event.target.dataset.value; // Lấy giá trị từ thuộc tính data-value
+    const SelectedWardtName = event.target.dataset.name; // Lấy giá trị từ thuộc tính data-name
+    setSelectedAddress({
+      ...selectedAddress,
+      wardtName: SelectedWardtName,
+      wardCode: selectedWardtID,
+    });
+  };
+
   return (
     <Modal open={open} onClose={close}>
       <Paper
@@ -47,7 +88,7 @@ function AddressModal({ open, close, action }) {
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
-          width: '390px',
+          width: '50a%',
           bgcolor: 'background.paper',
           boxShadow: 24,
           p: 4,
@@ -56,123 +97,75 @@ function AddressModal({ open, close, action }) {
         <Typography sx={{ fontSize: '20px', fontWeight: '600', marginBottom: '15px' }}>
           {action === 'add' ? 'Thêm đại chỉ' : 'Cập nhật địa chỉ'}
         </Typography>
-        <Formik
-          initialValues={{
-            province: '',
-            district: '',
-            ward: '',
-            detail: '',
-            isDefault: false,
-          }}
-          validationSchema={validationSchema}
-          // onSubmit={handleSubmit}
-        >
-          {({ errors, touched, values, handleChange, setFieldValue }) => (
-            <Form>
-              <FlexBetween sx={{ flex: '0 0 40%' }}>
-                <FormControl sx={{ flex: '0 0 49%', marginBottom: '16px' }}>
-                  <InputLabel htmlFor="province">Tỉnh</InputLabel>
-                  <Select
-                    id="province"
-                    name="province"
-                    variant="outlined"
-                    label="Tỉnh"
-                    value={values.province}
-                    onChange={(event) => {
-                      setFieldValue('province', event.target.value);
-                      setFieldValue('district', ''); // Reset district when province changes
-                      setFieldValue('ward', ''); // Reset ward when province changes
-                    }}
-                    error={touched.province && errors.province ? true : false}
+
+        <Box onSubmit={handleSubmit}>
+          <FlexBetween sx={{ flex: '0 0 40%' }}>
+            <FormControl sx={{ flex: '0 0 49%', marginBottom: '16px' }}>
+              <InputLabel htmlFor="province">Tỉnh</InputLabel>
+              <Select id="province" name="province" variant="outlined" label="Tỉnh">
+                <MenuItem value="" disabled>
+                  Chọn tỉnh
+                </MenuItem>
+                {province?.map((province) => (
+                  <MenuItem
+                    data-name={province.ProvinceName}
+                    value={province.ProvinceID}
+                    onClick={handleProvinceChange}
                   >
-                    <MenuItem value="" disabled>
-                      Chọn tỉnh
-                    </MenuItem>
-                    {provinces.map((province) => (
-                      <MenuItem key={province} value={province}>
-                        {province}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-                <FormControl sx={{ flex: '0 0 49%', marginBottom: '16px' }}>
-                  <InputLabel htmlFor="district">Huyện</InputLabel>
-                  <Select
-                    id="district"
-                    name="district"
-                    variant="outlined"
-                    label="Huyện"
-                    value={values.district}
-                    onChange={(event) => {
-                      setFieldValue('district', event.target.value);
-                      setFieldValue('ward', ''); // Reset ward when district changes
-                    }}
-                    error={touched.district && errors.district ? true : false}
+                    {province.ProvinceName}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            <FormControl sx={{ flex: '0 0 49%', marginBottom: '16px' }}>
+              <InputLabel htmlFor="district">Huyện</InputLabel>
+              <Select id="district" name="district" variant="outlined" label="Huyện">
+                <MenuItem value="" disabled>
+                  Chọn huyện
+                </MenuItem>
+                {district.map((district) => (
+                  <MenuItem
+                    key={district.DistrictID}
+                    value={district.DistrictID}
+                    data-name={district.DistrictName}
+                    onClick={handleDistrictChange}
                   >
-                    <MenuItem value="" disabled>
-                      Chọn huyện
-                    </MenuItem>
-                    {districts.map((district) => (
-                      <MenuItem key={district} value={district}>
-                        {district}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              </FlexBetween>
-              <FlexBetween>
-                <FormControl sx={{ flex: '0 0 49%', marginBottom: '16px' }}>
-                  <InputLabel htmlFor="ward">Phường</InputLabel>
-                  <Select
-                    id="ward"
-                    name="ward"
-                    variant="outlined"
-                    label="Phường"
-                    value={values.ward}
-                    onChange={(event) => {
-                      setFieldValue('ward', event.target.value);
-                    }}
-                    error={touched.ward && errors.ward ? true : false}
+                    {district.DistrictName}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </FlexBetween>
+          <FlexBetween>
+            <FormControl sx={{ flex: '0 0 49%', marginBottom: '16px' }}>
+              <InputLabel htmlFor="ward">Phường</InputLabel>
+              <Select id="ward" name="ward" variant="outlined" label="Phường">
+                <MenuItem value="" disabled>
+                  Chọn phường
+                </MenuItem>
+                {ward.map((ward) => (
+                  <MenuItem
+                    key={ward.WardCode}
+                    value={ward.WardCode}
+                    data-name={ward.WardName}
+                    onClick={handleWardChange}
                   >
-                    <MenuItem value="" disabled>
-                      Chọn phường
-                    </MenuItem>
-                    {wards.map((ward) => (
-                      <MenuItem key={ward} value={ward}>
-                        {ward}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-                <FormControl sx={{ flex: '0 0 49%', marginBottom: '16px' }}>
-                  <TextField
-                    variant="outlined"
-                    label="Chi tiết địa chỉ"
-                    name="detail"
-                    value={values.detail}
-                    onChange={handleChange}
-                    error={touched.detail && errors.detail ? true : false}
-                  />
-                </FormControl>
-              </FlexBetween>
-              <FlexBetween>
-                <FormControlLabel
-                  control={<Field as={Checkbox} type="checkbox" name="isDefault" />}
-                  label="Làm địa chỉ mặc định"
-                />
-                <Button
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                  sx={{ marginTop: '16px' }}
-                  onClick={handleSubmit}
-                >
-                  Lưu
-                </Button>
-              </FlexBetween>
-            </Form>
-          )}
-        </Formik>
+                    {ward.WardName}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            <FormControl sx={{ flex: '0 0 49%', marginBottom: '16px' }}>
+              <TextField variant="outlined" label="Chi tiết địa chỉ" name="detail" />
+            </FormControl>
+          </FlexBetween>
+          <FlexBetween>
+            <Box control={<TextField as={Checkbox} type="checkbox" name="isDefault" />} label="Làm địa chỉ mặc định" />
+            <Button type="submit" variant="contained" color="primary" sx={{ marginTop: '16px' }}>
+              Lưu
+            </Button>
+          </FlexBetween>
+        </Box>
       </Paper>
     </Modal>
   );

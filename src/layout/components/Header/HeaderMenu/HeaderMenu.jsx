@@ -1,12 +1,14 @@
 import { Dropdown } from '@mui/base';
 import { Box, Paper, Typography, menuItemClasses } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu } from '@mui/base/Menu';
 import { MenuItem } from '@mui/base/MenuItem';
 import { MenuButton } from '@mui/base';
 import MenuIcon from '@mui/icons-material/Menu';
 import styled from '@emotion/styled';
+import { useDispatch, useSelector } from 'react-redux';
+import { getMenus } from '~/features/menu/menuSlice';
 
 const categories = [
   {
@@ -67,6 +69,11 @@ const HeaderMenu = () => {
   const handleMouseLeave = () => {
     setActiveModal(null);
   };
+  const dispatch = useDispatch();
+  const menues = useSelector((state) => state.menus.menus);
+  useEffect(() => {
+    dispatch(getMenus());
+  }, [dispatch]);
   return (
     <Dropdown>
       <TriggerButton variant="outlined">
@@ -74,28 +81,28 @@ const HeaderMenu = () => {
         <Typography sx={{ fontSize: '16px', fontWeight: '700' }}>Danh mục</Typography>
       </TriggerButton>
       <StyledMenu slots={{ listbox: StyledListbox }}>
-        {categories.map((category) => (
+        {menues?.map((menu) => (
           <StyledMenuItem
-            onMouseEnter={() => handleMouseEnter(category.id)}
+            onMouseEnter={() => handleMouseEnter(menu.slugId)}
             onMouseLeave={handleMouseLeave} // Khi rời chuột khỏi thẻ Link, ẩn Paper
           >
             <Link to="" fullWidth className="Hello">
               <MenuIcon sx={{ marginRight: '10px' }} />
-              {category.label}
+              {menu.slugName}
             </Link>
-            {activeModal === category.id && (
+            {activeModal === menu.slugId && (
               <Paper className="modal-content" onMouseLeave={handleMouseLeave}>
-                {category.content.map((item) => (
+                {menu.childrenMenu?.map((item) => (
                   <Box
-                    key={item.title}
+                    key={item.slugId}
                     sx={{
                       margin: '10px',
                     }}
                   >
-                    <Typography className="title">{item.title}</Typography>
-                    {item.contentLink.map((link) => (
-                      <Link to="" className="link_paper">
-                        {link}
+                    <Typography className="title">{item.slugName}</Typography>
+                    {item.childrenMenu?.map((item) => (
+                      <Link to={item.slugName} className="link_paper">
+                        {item}
                       </Link>
                     ))}
                   </Box>

@@ -13,16 +13,16 @@ export const getAddresses = createAsyncThunk('addresses/getADdresses', async (_,
   const token = getState().auth.account.token;
   const config = {
     headers: {
-      Authorization: `Bearer ${token}
-        `,
+      Authorization: `Bearer ${token}`,
     },
   };
+  console.log(token);
   try {
-    const response = await axios.get('https://cuong.hahaho.me/api/Addresses', config);
-
+    const response = await axios.get('/api/Addresses', config);
     return response.data;
   } catch (error) {
     // Xử lý lỗi nếu cần thiết
+    console.log(error);
     throw error;
   }
 });

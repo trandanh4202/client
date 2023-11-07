@@ -10,6 +10,9 @@ import addressesReducer from './address/addressSlice';
 import ghnReducer from './GHN/ghnSlice';
 import slidersReducer from './slider/SlidersSlice';
 import imagesReducer from './images/ImagesSlice';
+import cartItemsReducer from './cartItems/cartItemsSlice';
+import menusReducer from './menu/menuSlice';
+import CaculateOrdersReducer from './CaculateOrders/CaculateOrdersSlice';
 
 export const store = configureStore({
   reducer: {
@@ -23,5 +26,8 @@ export const store = configureStore({
     ghn: ghnReducer,
     sliders: slidersReducer,
     images: imagesReducer,
+    cartItems: cartItemsReducer,
+    menus: menusReducer,
+    CaculateOrders: CaculateOrdersReducer,
   },
 });

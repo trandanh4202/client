@@ -56,7 +56,7 @@ const Products = () => {
         <Button
           component={Link}
           variant="contained"
-          to="/all"
+          to="/store"
           sx={{
             backgroundColor: '#0a0e11',
           }}

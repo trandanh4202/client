@@ -24,12 +24,13 @@ export const getProvince = createAsyncThunk('ghn/getProvince', async () => {
   }
 });
 
-export const getDistrict = createAsyncThunk('ghn/getDistrict', async ({ selectedProvinceID }) => {
+export const getDistrict = createAsyncThunk('ghn/getDistrict', async (selectedProvinceID) => {
   const config = {
     headers: {
       token: `${process.env.REACT_APP_TOKEN_GHN}`,
     },
   };
+
   try {
     const response = await axios.get(
       `${process.env.REACT_APP_API_GHN}/district?province_id=${selectedProvinceID}`,
@@ -42,17 +43,14 @@ export const getDistrict = createAsyncThunk('ghn/getDistrict', async ({ selected
   }
 });
 
-export const getWard = createAsyncThunk('ghn/getWard', async ({ selectedDistrictID }) => {
+export const getWard = createAsyncThunk('ghn/getWard', async (selectedDistrictID) => {
   const config = {
     headers: {
       token: `${process.env.REACT_APP_TOKEN_GHN}`,
     },
   };
   try {
-    const response = await axios.get(
-      `https://online-gateway.ghn.vn/shiip/public-api/master-data/ward?district_id=${selectedDistrictID}`,
-      config,
-    );
+    const response = await axios.get(`${process.env.REACT_APP_API_GHN}/ward?district_id=${selectedDistrictID}`, config);
     return response.data;
   } catch (error) {
     // Xử lý lỗi nếu cần thiết
@@ -73,6 +71,8 @@ const ghnSlice = createSlice({
       .addCase(getProvince.fulfilled, (state, action) => {
         state.loading = false;
         state.province = action.payload.data;
+        state.district = [];
+        state.ward = [];
       })
       .addCase(getProvince.rejected, (state, action) => {
         state.loading = false;
@@ -85,6 +85,7 @@ const ghnSlice = createSlice({
       .addCase(getDistrict.fulfilled, (state, action) => {
         state.loading = false;
         state.district = action.payload.data;
+        state.ward = [];
       })
       .addCase(getDistrict.rejected, (state, action) => {
         state.loading = false;
@@ -100,6 +101,7 @@ const ghnSlice = createSlice({
       })
       .addCase(getWard.rejected, (state, action) => {
         state.loading = false;
+        state.ward = [];
         state.error = action.error.message;
       });
   },

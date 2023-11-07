@@ -25,6 +25,8 @@ import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import PermContactCalendarIcon from '@mui/icons-material/PermContactCalendar';
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 import PinDropIcon from '@mui/icons-material/PinDrop';
+import { useDispatch, useSelector } from 'react-redux';
+import { getMenus } from '~/features/menu/menuSlice';
 const HeaderUpper = () => {
   const [isSticky, setIsSticky] = useState(true);
   const [isAuthOpen, setAuthOpen] = useState(false);
@@ -45,6 +47,8 @@ const HeaderUpper = () => {
   const closeAuthForm = () => {
     setAuthOpen(false);
   };
+  const token = useSelector((state) => state.auth.account.token);
+
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 300) {
@@ -57,11 +61,13 @@ const HeaderUpper = () => {
     };
 
     window.addEventListener('scroll', handleScroll);
-
+    if (token) {
+      setAuthOpen(false);
+    }
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, []);
+  }, [token]);
   const [searchValue, setSearchValue] = useState('');
 
   const handleSearch = () => {
@@ -74,8 +80,7 @@ const HeaderUpper = () => {
       handleSearch();
     }
   };
-  const token = true;
-  console.log(searchValue);
+
   return (
     <AppBar
       sx={{ backgroundColor: 'white', display: { xs: 'none', md: 'block', lg: 'block' } }}
@@ -203,7 +208,7 @@ const HeaderUpper = () => {
                         gap: '10px',
                       }}
                     >
-                      <Link className="text-hover">
+                      <Link to="/profile/settings" className="text-hover">
                         <Box
                           sx={{
                             display: 'flex',
@@ -211,10 +216,10 @@ const HeaderUpper = () => {
                           }}
                         >
                           <PermContactCalendarIcon sx={{ marginRight: '10px' }} />
-                          Thông tin tài khoản
+                          <Typography>Thông tin tài khoản</Typography>
                         </Box>
                       </Link>
-                      <Link className="text-hover">
+                      <Link to="/profile/address" className="text-hover">
                         <Box
                           sx={{
                             display: 'flex',
@@ -222,10 +227,10 @@ const HeaderUpper = () => {
                           }}
                         >
                           <ReceiptLongIcon sx={{ marginRight: '10px' }} />
-                          Lịch sử đơn hàng
+                          <Typography>Lịch sử đơn hàng</Typography>
                         </Box>
                       </Link>
-                      <Link className="text-hover">
+                      <Link to="/profile/orderlist" className="text-hover">
                         <Box
                           sx={{
                             display: 'flex',
@@ -233,7 +238,7 @@ const HeaderUpper = () => {
                           }}
                         >
                           <PinDropIcon sx={{ marginRight: '10px' }} />
-                          Danh sách địa chỉ
+                          <Typography> Danh sách địa chỉ</Typography>
                         </Box>
                       </Link>
                       <Button

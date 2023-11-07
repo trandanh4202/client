@@ -1,14 +1,15 @@
 import { Box, Button, FormControlLabel, List, ListItem, Modal, Paper, Radio, Typography } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import DoneIcon from '@mui/icons-material/Done';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAddresses } from '~/features/address/addressSlice';
 
 const CheckoutInfor = () => {
   const [open, setOpen] = useState(false);
   const [defaultAddress, setDefaultAddress] = useState('Địa chỉ 3'); // Địa chỉ mặc định
   const [selectedAddress, setSelectedAddress] = useState(null);
-
-  const addresses = ['Địa chỉ 1', 'Địa chỉ 2', 'Địa chỉ 3']; // Thay thế bằng danh sách địa chỉ của bạn
+  const addresses = useSelector((state) => state.addresses.addresses);
   const handleOpen = () => {
     setOpen(true);
     setSelectedAddress(defaultAddress);
@@ -18,11 +19,11 @@ const CheckoutInfor = () => {
     setOpen(false);
   };
   console.log(selectedAddress, defaultAddress);
-  const handleAddressClick = (address) => {
+  const handleAddressClick = (id) => {
     if (defaultAddress) {
       setSelectedAddress(defaultAddress);
       if (selectedAddress) {
-        setSelectedAddress(address);
+        setSelectedAddress(id);
       }
     }
   };
@@ -33,6 +34,10 @@ const CheckoutInfor = () => {
     }
     setOpen(false);
   };
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getAddresses());
+  }, [dispatch]);
   return (
     <Paper
       sx={{
@@ -61,7 +66,7 @@ const CheckoutInfor = () => {
           <Box
             sx={{
               position: 'absolute',
-              width: 300,
+              width: '800px',
               bgcolor: 'background.paper',
               border: '2px solid #000',
               boxShadow: 24,
@@ -74,11 +79,11 @@ const CheckoutInfor = () => {
             <Typography sx={{ fontSize: '15px' }}>Chọn địa chỉ</Typography>
             <List>
               {addresses.map((address, index) => (
-                <ListItem key={index} onClick={() => handleAddressClick(address)}>
+                <ListItem key={index} onClick={() => handleAddressClick(address.id)}>
                   <FormControlLabel
                     sx={{ fontSize: '9px' }}
-                    control={<Radio checked={selectedAddress === address} />}
-                    label={address}
+                    control={<Radio checked={selectedAddress === address.id} />}
+                    label={`${address.detail}, ${address.wardName}, ${address.districtName}, ${address.provinceName}`}
                   />
                 </ListItem>
               ))}

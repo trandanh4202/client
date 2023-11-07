@@ -37,6 +37,7 @@ const SingleProduct = () => {
         </Grid>
         <Grid item xs={12} md={8} lg={8} padding="15px">
           <DesProduct
+            id={id}
             name={product?.name}
             description={product?.description}
             price={product?.price}

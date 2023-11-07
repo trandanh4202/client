@@ -66,7 +66,7 @@ const CountUpHome = () => {
                       variant="h5"
                       sx={{
                         textAlign: 'center',
-                        display: { xs: 'none' },
+                        display: { xs: 'none', lg: 'block' },
                         fontWeight: '700',
                       }}
                     >
