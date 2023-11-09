@@ -27,6 +27,10 @@ import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 import PinDropIcon from '@mui/icons-material/PinDrop';
 import { useDispatch, useSelector } from 'react-redux';
 import { getMenus } from '~/features/menu/menuSlice';
+import { LogoutOutlined } from '@mui/icons-material';
+import 'tippy.js/dist/tippy.css'; // optional
+import Tippy from '@tippyjs/react';
+
 const HeaderUpper = () => {
   const [isSticky, setIsSticky] = useState(true);
   const [isAuthOpen, setAuthOpen] = useState(false);
@@ -80,7 +84,10 @@ const HeaderUpper = () => {
       handleSearch();
     }
   };
-
+  const handleLogout = () => {
+    localStorage.setItem('account', []);
+    window.location.reload();
+  };
   return (
     <AppBar
       sx={{ backgroundColor: 'white', display: { xs: 'none', md: 'block', lg: 'block' } }}
@@ -184,75 +191,80 @@ const HeaderUpper = () => {
                 </Box>
               ) : (
                 <>
-                  <Avatar
-                    alt="user"
-                    src="./logo.png"
-                    sx={{ width: 50, height: 50 }}
-                    aria-describedby={id}
-                    onClick={handleClick}
-                  />
-                  <Popper
-                    id={id}
-                    open={open}
-                    anchorEl={anchorEl}
-                    placement="bottom-end"
-                    sx={{ zIndex: '1200', padding: '20px' }}
-                  >
-                    <Paper
-                      elevation={3}
-                      sx={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        justifyContent: 'center',
-                        padding: '10px',
-                        gap: '10px',
-                      }}
-                    >
-                      <Link to="/profile/settings" className="text-hover">
-                        <Box
-                          sx={{
-                            display: 'flex',
-                            alignItems: 'center',
-                          }}
-                        >
-                          <PermContactCalendarIcon sx={{ marginRight: '10px' }} />
-                          <Typography>Thông tin tài khoản</Typography>
-                        </Box>
-                      </Link>
-                      <Link to="/profile/address" className="text-hover">
-                        <Box
-                          sx={{
-                            display: 'flex',
-                            alignItems: 'center',
-                          }}
-                        >
-                          <ReceiptLongIcon sx={{ marginRight: '10px' }} />
-                          <Typography>Lịch sử đơn hàng</Typography>
-                        </Box>
-                      </Link>
-                      <Link to="/profile/orderlist" className="text-hover">
-                        <Box
-                          sx={{
-                            display: 'flex',
-                            alignItems: 'center',
-                          }}
-                        >
-                          <PinDropIcon sx={{ marginRight: '10px' }} />
-                          <Typography> Danh sách địa chỉ</Typography>
-                        </Box>
-                      </Link>
-                      <Button
-                        // className="text-hover"
-                        variant="contained"
-                        disableElevation
+                  <Tippy
+                    content={
+                      <Paper
+                        elevation={3}
                         sx={{
-                          backgroundColor: '#1435c3',
+                          display: 'flex',
+                          flexDirection: 'column',
+                          justifyContent: 'center',
+                          padding: '10px',
+                          gap: '10px',
                         }}
                       >
-                        Đăng xuất
-                      </Button>
-                    </Paper>
-                  </Popper>
+                        <Link to="/profile/settings" className="text-hover">
+                          <Box
+                            sx={{
+                              display: 'flex',
+                              alignItems: 'center',
+                            }}
+                          >
+                            <PermContactCalendarIcon sx={{ marginRight: '10px' }} />
+                            <Typography>Thông tin tài khoản</Typography>
+                          </Box>
+                        </Link>
+                        <Link to="/profile/address" className="text-hover">
+                          <Box
+                            sx={{
+                              display: 'flex',
+                              alignItems: 'center',
+                            }}
+                          >
+                            <ReceiptLongIcon sx={{ marginRight: '10px' }} />
+                            <Typography>Lịch sử đơn hàng</Typography>
+                          </Box>
+                        </Link>
+                        <Link to="/profile/orderlist" className="text-hover">
+                          <Box
+                            sx={{
+                              display: 'flex',
+                              alignItems: 'center',
+                            }}
+                          >
+                            <PinDropIcon sx={{ marginRight: '10px' }} />
+                            <Typography> Danh sách địa chỉ</Typography>
+                          </Box>
+                        </Link>
+                        <Link
+                          to=""
+                          className="text-hover"
+                          variant="contained"
+                          disableElevation
+                          sx={{
+                            backgroundColor: '#1435c3',
+                          }}
+                          onClick={handleLogout}
+                        >
+                          <Box
+                            sx={{
+                              display: 'flex',
+                              alignItems: 'center',
+                            }}
+                          >
+                            <LogoutOutlined sx={{ marginRight: '10px' }} />
+                            <Typography> Đăng xuất</Typography>
+                          </Box>
+                        </Link>
+                      </Paper>
+                    }
+                    delay={[0, 700]}
+                    interactive
+                    placement="bottom-end"
+                    trigger=" mouseenter click focusin" // Sử dụng 'manual' để kiểm soát hiển thị tooltip thủ công
+                  >
+                    <Avatar alt="user" src="./logo.png" sx={{ width: 50, height: 50 }} />
+                  </Tippy>
                 </>
               )}
             </FlexBetween>

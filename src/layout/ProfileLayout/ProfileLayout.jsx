@@ -4,10 +4,10 @@ import { Outlet, useNavigate } from 'react-router-dom';
 import { Container, Grid } from '@mui/material';
 
 const ProfileLayout = () => {
-  const navigate = useNavigate();
-  useEffect(() => {
-    navigate('setting');
-  }, []);
+  // const navigate = useNavigate();
+  // useEffect(() => {
+  //   navigate('setting');
+  // }, []);
   return (
     <>
       <Container sx={{ marginTop: '40px', marginBottom: '40px', padding: '0 5px 56px 5px' }}>

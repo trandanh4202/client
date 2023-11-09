@@ -35,6 +35,7 @@ export const createAddresses = createAsyncThunk('addresses/createAddresses', asy
       Authorization: `Bearer ${token}`,
     },
   };
+  console.log(addressData);
   const data = await axios.post('/api/Addresses', addressData, config);
   const response = await axios.get('/api/Addresses', config);
   console.log(addressData);
@@ -57,7 +58,7 @@ export const deleteAddresses = createAsyncThunk('addresses/deleteAddresses', asy
   return response.data;
 });
 
-export const putAddresses = createAsyncThunk('addresses/putAddresses', async (addressData, thunkAPI) => {
+export const putAddresses = createAsyncThunk('addresses/putAddresses', async (putData, thunkAPI) => {
   const { getState } = thunkAPI;
   const token = getState().auth.account.token;
   const config = {
@@ -65,9 +66,8 @@ export const putAddresses = createAsyncThunk('addresses/putAddresses', async (ad
       Authorization: `Bearer ${token}`,
     },
   };
-  console.log(addressData);
 
-  const messsage = await axios.put(`/api/Addresses/${addressData.id}`, addressData, config);
+  const messsage = await axios.put(`/api/Addresses/${putData.id}`, putData, config);
   const response = await axios.get('/api/Addresses', config);
 
   return response.data;

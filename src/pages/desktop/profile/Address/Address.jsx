@@ -5,11 +5,12 @@ import AddIcon from '@mui/icons-material/Add';
 import AddressModal from './ButtonModal/AddressModal';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAddresses } from '~/features/address/addressSlice';
+import { deleteAddresses, getAddresses } from '~/features/address/addressSlice';
 import { getProvince } from '~/features/GHN/ghnSlice';
 const Address = () => {
   const [open, setOpen] = useState(false);
   const [action, setAction] = useState('add');
+  const [id, setId] = useState(null);
   const [selectedAddress, setSelectedAddress] = useState({
     provinceName: '',
     provinceId: 0,
@@ -23,17 +24,20 @@ const Address = () => {
     setAction('add');
     dispatch(getProvince());
     setOpen(true);
-    selectedAddress.provinceId = 0;
   };
 
   const handleClose = () => {
     setOpen(false);
   };
 
-  const handleEditModal = () => {
+  const handleEditModal = (id) => {
+    dispatch(getProvince());
+
     setAction('edit');
+    setId(id);
     setOpen(true);
   };
+
   const addresses = useSelector((state) => state.addresses.addresses);
   const dispatch = useDispatch();
   useEffect(() => {
@@ -58,72 +62,75 @@ const Address = () => {
       >
         Thêm địa chỉ
       </Button>
-      <AddressModal open={open} close={handleClose} action={action} />
+      <AddressModal open={open} close={handleClose} action={action} id={id} />
       <Paper sx={{ padding: '5px 15px' }}>
         <Box sx={{ margin: '20px 0' }}>
-          <FlexBetween sx={{ flexDirection: { xs: 'column', lg: 'row' } }}>
+          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
             {addresses.map((address) => (
               <>
-                <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                  <Box sx={{ display: 'flex', alignItems: 'center', fontSize: '13px' }}>
-                    <Typography sx={{ marginRight: '10px', fontSize: '18px', fontWeight: '700' }}>
-                      Trần Trọng Danh
-                    </Typography>
-                    <Typography
-                      variant="span"
-                      sx={{
-                        padding: '5px',
-                        borderRadius: '0.25rem',
-                        border: 'unset',
-                        backgroundColor: 'rgb(243, 245, 252)',
-                        color: 'rgb(18, 48, 176)',
-                        fontWeight: '500',
-                      }}
-                    >
-                      {' '}
-                      Mặc định
-                    </Typography>{' '}
+                <FlexBetween sx={{ gap: '20px', margin: '20px 0' }}>
+                  <Box sx={{ display: 'flex', flexDirection: 'column', width: '70%' }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', fontSize: '13px' }}>
+                      <Typography sx={{ marginRight: '10px', fontSize: '18px', fontWeight: '700' }}>
+                        Trần Trọng Danh
+                      </Typography>
+                      <Typography
+                        variant="span"
+                        sx={{
+                          padding: '5px',
+                          borderRadius: '0.25rem',
+                          border: 'unset',
+                          backgroundColor: 'rgb(243, 245, 252)',
+                          color: 'rgb(18, 48, 176)',
+                          fontWeight: '500',
+                        }}
+                      >
+                        {' '}
+                        Mặc định
+                      </Typography>{' '}
+                    </Box>
+                    <Box>
+                      <Typography sx={{ fontSize: '13px' }}>
+                        Địa chỉ: {address.detail} , {address.wardName} , {address.districtName} , {address.provinceName}
+                      </Typography>
+                    </Box>
+                    <Box>
+                      <Typography sx={{ fontSize: '13px' }}>Điện thoại: 0913423421</Typography>
+                    </Box>{' '}
                   </Box>
-                  <Box>
-                    <Typography sx={{ fontSize: '13px' }}>
-                      Địa chỉ: {address.detail} , {address.wardName} , {address.districtName} , {address.provinceName}
-                    </Typography>
-                  </Box>
-                  <Box>
-                    <Typography sx={{ fontSize: '13px' }}>Điện thoại: 0913423421</Typography>
-                  </Box>{' '}
-                </Box>
 
-                <Box
-                  sx={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    flexDirection: 'column',
-                    gap: '10px',
-                  }}
-                >
-                  <Button
-                    variant="outlined"
-                    sx={{ padding: { xs: '5px 10px', lg: '5px 35px' } }}
-                    onClick={handleEditModal}
-                  >
-                    Chỉnh sửa
-                  </Button>
-                  <Button
-                    variant="outlined"
+                  <Box
                     sx={{
-                      padding: { xs: '5px 10px', lg: '5px 35px' },
-                      border: '1px solid rgb(218, 67, 67)',
-                      color: 'rgb(218, 67, 67)',
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      flexDirection: 'column',
+                      gap: '10px',
                     }}
                   >
-                    Xoá
-                  </Button>
-                </Box>
+                    <Button
+                      variant="outlined"
+                      sx={{ padding: { xs: '5px 10px', lg: '5px 35px' } }}
+                      onClick={() => handleEditModal(address.id)}
+                    >
+                      Chỉnh sửa
+                    </Button>
+                    <Button
+                      variant="outlined"
+                      sx={{
+                        padding: { xs: '5px 10px', lg: '5px 35px' },
+                        border: '1px solid rgb(218, 67, 67)',
+                        color: 'rgb(218, 67, 67)',
+                      }}
+                      onClick={() => dispatch(deleteAddresses(address.id))}
+                    >
+                      Xoá
+                    </Button>
+                  </Box>
+                </FlexBetween>
               </>
             ))}
-          </FlexBetween>
+          </Box>
         </Box>
       </Paper>
     </>

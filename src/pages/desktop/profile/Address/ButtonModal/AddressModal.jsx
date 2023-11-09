@@ -18,15 +18,8 @@ import {
   Typography,
 } from '@mui/material';
 
-function AddressModal({ open, close, action }) {
-  const handleSubmit = () => {
-    if (action === 'add') {
-      console.log('add');
-    } else {
-      console.log('edit');
-    }
-  };
-
+function AddressModal(props) {
+  const { open, close, action, id } = props;
   const dispatch = useDispatch();
   const { province, district, ward } = useSelector((state) => state.ghn);
 
@@ -39,7 +32,23 @@ function AddressModal({ open, close, action }) {
     wardCode: '',
     detail: '',
   });
-
+  const handleSubmit = () => {
+    if (action === 'add') {
+      dispatch(createAddresses(selectedAddress));
+    } else {
+      const putData = {
+        id: id, // Thêm trường ID
+        provinceName: selectedAddress.provinceName,
+        provinceId: selectedAddress.provinceId,
+        districtName: selectedAddress.districtName,
+        districtId: selectedAddress.districtId,
+        wardName: selectedAddress.wardName,
+        wardCode: selectedAddress.wardCode,
+        detail: selectedAddress.detail,
+      };
+      dispatch(putAddresses(putData));
+    }
+  };
   const handleProvinceChange = (e) => {
     const selectedProvinceID = e.target.dataset.value;
     const selectedProvinceName = e.target.dataset.name;
@@ -74,8 +83,15 @@ function AddressModal({ open, close, action }) {
     const SelectedWardtName = event.target.dataset.name; // Lấy giá trị từ thuộc tính data-name
     setSelectedAddress({
       ...selectedAddress,
-      wardtName: SelectedWardtName,
+      wardName: SelectedWardtName,
       wardCode: selectedWardtID,
+    });
+  };
+  const handleDetailChange = (event) => {
+    const detail = event.target.value; // Lấy giá trị từ thuộc tính data-value
+    setSelectedAddress({
+      ...selectedAddress,
+      detail: detail,
     });
   };
 
@@ -98,7 +114,7 @@ function AddressModal({ open, close, action }) {
           {action === 'add' ? 'Thêm đại chỉ' : 'Cập nhật địa chỉ'}
         </Typography>
 
-        <Box onSubmit={handleSubmit}>
+        <Box>
           <FlexBetween sx={{ flex: '0 0 40%' }}>
             <FormControl sx={{ flex: '0 0 49%', marginBottom: '16px' }}>
               <InputLabel htmlFor="province">Tỉnh</InputLabel>
@@ -156,12 +172,12 @@ function AddressModal({ open, close, action }) {
               </Select>
             </FormControl>
             <FormControl sx={{ flex: '0 0 49%', marginBottom: '16px' }}>
-              <TextField variant="outlined" label="Chi tiết địa chỉ" name="detail" />
+              <TextField variant="outlined" label="Chi tiết địa chỉ" name="detail" onChange={handleDetailChange} />
             </FormControl>
           </FlexBetween>
           <FlexBetween>
-            <Box control={<TextField as={Checkbox} type="checkbox" name="isDefault" />} label="Làm địa chỉ mặc định" />
-            <Button type="submit" variant="contained" color="primary" sx={{ marginTop: '16px' }}>
+            {/* <Box control={<TextField type="checkbox" name="isDefault" />} label="Làm địa chỉ mặc định" /> */}
+            <Button variant="contained" color="primary" sx={{ marginTop: '16px' }} onClick={handleSubmit}>
               Lưu
             </Button>
           </FlexBetween>

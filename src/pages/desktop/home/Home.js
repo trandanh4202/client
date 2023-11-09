@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import SliderSection from './banner/SliderSection';
 import Highlight from './highlight/Highlight';
 import CountUpHome from './countUp/CountUp';

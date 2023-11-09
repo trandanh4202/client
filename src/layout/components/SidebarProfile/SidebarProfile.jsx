@@ -1,11 +1,16 @@
 import { Box, Button, Paper, Typography } from '@mui/material';
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import HomeIcon from '@mui/icons-material/Home';
 import WorkHistoryIcon from '@mui/icons-material/WorkHistory';
 import LogoutIcon from '@mui/icons-material/Logout';
 import AddLocationAltIcon from '@mui/icons-material/AddLocationAlt';
 const SidebarProfile = () => {
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    localStorage.setItem('account', []);
+    window.location.reload();
+  };
   return (
     <Paper>
       <Box
@@ -59,7 +64,7 @@ const SidebarProfile = () => {
             Lịch sử mua hàng
           </Typography>
         </NavLink>
-        <NavLink to="" className="text-hover flex-not-jtf background-hover profile-sidebar">
+        <Link to="/" className="text-hover flex-not-jtf background-hover profile-sidebar" onClick={handleLogout}>
           <LogoutIcon sx={{ marginRight: '10px' }} />
           <Typography
             sx={{
@@ -72,7 +77,7 @@ const SidebarProfile = () => {
           >
             Đăng xuất
           </Typography>
-        </NavLink>
+        </Link>
       </Box>
     </Paper>
   );
