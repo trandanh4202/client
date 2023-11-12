@@ -13,6 +13,8 @@ import imagesReducer from './images/ImagesSlice';
 import cartItemsReducer from './cartItems/cartItemsSlice';
 import menusReducer from './menu/menuSlice';
 import CaculateOrdersReducer from './CaculateOrders/CaculateOrdersSlice';
+import orderReducer from './order/orderSlice';
+import OrderDetailReducer from './orderDetail/OrderDetailSlice';
 
 export const store = configureStore({
   reducer: {
@@ -29,5 +31,7 @@ export const store = configureStore({
     cartItems: cartItemsReducer,
     menus: menusReducer,
     CaculateOrders: CaculateOrdersReducer,
+    orders: orderReducer,
+    orderDetail: OrderDetailReducer,
   },
 });

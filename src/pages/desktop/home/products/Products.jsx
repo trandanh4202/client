@@ -42,6 +42,7 @@ const Products = () => {
           {products?.map((item) => (
             <Grid item xs={6} md={6} lg={2.4} padding="8px" margin="10px 0px ">
               <ProductCard
+                id={item.id}
                 imageUrl={item.imageUrl}
                 name={item.name}
                 basePrice={item.basePrice}

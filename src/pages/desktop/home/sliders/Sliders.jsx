@@ -99,6 +99,7 @@ const Sliders = () => {
               {slider.products.map((item) => (
                 <SwiperSlide>
                   <ProductCard
+                    id={item.id}
                     imageUrl={item.imageUrl}
                     name={item.name}
                     basePrice={item.basePrice}

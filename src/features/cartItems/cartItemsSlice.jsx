@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 const initialState = {
   cartItems: [],
+  listItem: [],
   loading: false,
   error: null,
 };
@@ -40,6 +41,10 @@ export const addCartItems = createAsyncThunk('cartItems/addCartItems', async (da
   const handle = await axios.post(`api/CartItems/`, data, config);
   const response = await axios.get('api/CartItems', config);
   return response.data;
+});
+
+export const addListItem = createAsyncThunk('cartItems/addListItem', async (data) => {
+  return data;
 });
 
 export const updateCartItems = createAsyncThunk('cartItems/updatecartItems', async (data, thunkAPI) => {
@@ -105,6 +110,18 @@ const cartItemsSlice = createSlice({
         state.cartItems = action.payload.data;
       })
       .addCase(updateCartItems.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      .addCase(addListItem.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(addListItem.fulfilled, (state, action) => {
+        state.loading = false;
+        state.listItem = action.payload;
+      })
+      .addCase(addListItem.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       });

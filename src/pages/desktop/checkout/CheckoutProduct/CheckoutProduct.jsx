@@ -4,25 +4,28 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getCartItems } from '~/features/cartItems/cartItemsSlice';
 
 const CheckoutProduct = () => {
-  const cartItems = useSelector((state) => state.cartItems.cartItems);
+  const listItem = useSelector((state) => state.cartItems.listItem);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getCartItems());
   }, [dispatch]);
   return (
     <Paper sx={{ padding: '20px', border: '2px solid #ebebeb' }}>
-      {cartItems.map((item) => (
+      {listItem.map((item) => (
         <Box sx={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px', flexDirection: 'column' }}>
           <Box sx={{ display: 'flex' }}>
             <Badge badgeContent={1} color="primary">
               <Box
                 sx={{
-                  width: '82px',
                   height: '82px',
                   border: '1px solid #f3f3f3',
                 }}
               >
-                <img alt={item.product.name} src={item.product.imageUrl} style={{ width: '100%', height: 'auto' }} />
+                <img
+                  alt={item.product.name}
+                  src={item.product.imageUrl}
+                  style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                />
               </Box>
             </Badge>
             <Box

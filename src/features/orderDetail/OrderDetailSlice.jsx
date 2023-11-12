@@ -1,12 +1,12 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 const initialState = {
-  fee: [],
+  detail: [],
   loading: false,
   error: null,
 };
 
-export const CaculateOrders = createAsyncThunk('CaculateOrders/fee', async (data, thunkAPI) => {
+export const getOrderDetail = createAsyncThunk('orderDetail/getOrderDetail', async (id, thunkAPI) => {
   const { getState } = thunkAPI;
   const token = getState().auth.account.token;
   const config = {
@@ -14,30 +14,29 @@ export const CaculateOrders = createAsyncThunk('CaculateOrders/fee', async (data
       Authorization: `Bearer ${token}`,
     },
   };
-  console.log(data);
-  const response = await axios.post(`api/CaculateOrders`, data, config);
+  const response = await axios.get(`/api/OrderDetails?orderId=${id}`, config);
   return response.data;
 });
 
-const CaculateOrdersSlice = createSlice({
-  name: 'images',
+const OrderDetailSlice = createSlice({
+  name: 'orderDetail',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(CaculateOrders.pending, (state) => {
+      .addCase(getOrderDetail.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(CaculateOrders.fulfilled, (state, action) => {
+      .addCase(getOrderDetail.fulfilled, (state, action) => {
         state.loading = false;
-        state.fee = action.payload.data;
+        state.detail = action.payload.data;
       })
-      .addCase(CaculateOrders.rejected, (state, action) => {
+      .addCase(getOrderDetail.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       });
   },
 });
 
-export default CaculateOrdersSlice.reducer;
+export default OrderDetailSlice.reducer;

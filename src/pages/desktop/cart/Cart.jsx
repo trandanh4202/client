@@ -19,26 +19,27 @@ import FlexBetween from '~/components/flexbetween/FlexBetween';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteCartItems, getCartItems, updateCartItems } from '~/features/cartItems/cartItemsSlice';
+import { addListItem, deleteCartItems, getCartItems, updateCartItems } from '~/features/cartItems/cartItemsSlice';
 const Cart = () => {
   const cartItems = useSelector((state) => state.cartItems.cartItems);
-  const [selectedItems, setSelectedItems] = useState([]);
+  const selectedItems = useSelector((state) => state.cartItems.listItem);
   const totalValue = cartItems.reduce((total, item) => total + item.product.price * item.quantity, 0);
+  console.log(selectedItems);
 
-  const handleCheckboxChange = (itemId) => {
-    if (selectedItems.includes(itemId)) {
-      setSelectedItems(selectedItems.filter((id) => id !== itemId));
+  const handleCheckboxChange = (item) => {
+    if (selectedItems.includes(item)) {
+      dispatch(addListItem(selectedItems.filter((id) => id !== item)));
     } else {
-      setSelectedItems([...selectedItems, itemId]);
+      dispatch(addListItem([...selectedItems, item]));
     }
   };
 
   const handleSelectAllChange = (event) => {
     if (event.target.checked && selectedItems) {
-      const allProductIds = cartItems.map((item) => item.id);
-      setSelectedItems(allProductIds);
+      const allProductIds = cartItems.map((item) => item);
+      dispatch(addListItem(allProductIds));
     } else {
-      setSelectedItems([]);
+      dispatch(addListItem([]));
     }
   };
 
@@ -52,6 +53,7 @@ const Cart = () => {
   useEffect(() => {
     dispatch(getCartItems());
   }, [dispatch]);
+
   return (
     <>
       <Container sx={{ marginTop: '40px', marginBottom: '40px', display: { xs: 'none', md: 'block', lg: 'block' } }}>
@@ -101,10 +103,7 @@ const Cart = () => {
                 {cartItems?.map((item) => (
                   <TableRow key={item.productId}>
                     <TableCell sx={{ padding: '0' }}>
-                      <Checkbox
-                        checked={selectedItems?.includes(item.productId)}
-                        onChange={() => handleCheckboxChange(item.productId)}
-                      />
+                      <Checkbox checked={selectedItems?.includes(item)} onChange={() => handleCheckboxChange(item)} />
                     </TableCell>
                     <TableCell sx={{ width: '40%', padding: '0' }}>
                       <Box

@@ -2,7 +2,11 @@ import { Box, Button, FormControl, MenuItem, Paper, Rating, Select, Typography }
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { addCartItems } from '~/features/cartItems/cartItemsSlice';
-
+export const formatStringToMoney = (str) => {
+  const stringFormat = typeof str === 'string' ? parseInt(str, 10) : str;
+  const result = stringFormat?.toLocaleString('it-IT', { style: 'currency', currency: 'VND' }).slice(0, -3);
+  return (isNaN(parseFloat(result)) ? '0 ' : result) + 'đ';
+};
 const DesProduct = (props) => {
   const { id, name, description, price, basePrice, percentSale, averageRating, quantity } = props;
   const list = ['1', '2', '3'];
@@ -69,7 +73,7 @@ const DesProduct = (props) => {
         }}
         gutterBottom
       >
-        {price}
+        {formatStringToMoney(price)}
       </Typography>
       <Typography
         variant="h6"
@@ -81,7 +85,7 @@ const DesProduct = (props) => {
         }}
         gutterBottom
       >
-        {basePrice}
+        {formatStringToMoney(basePrice)}
       </Typography>
       <Rating name="read-only" value={averageRating} readOnly />
       <Box

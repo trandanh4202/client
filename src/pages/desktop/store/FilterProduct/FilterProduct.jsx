@@ -11,11 +11,14 @@ import {
   Typography,
 } from '@mui/material';
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import FlexBetween from '~/components/flexbetween/FlexBetween';
 
 const FilterProduct = () => {
   const colorss = ['black', 'white', 'yellow', 'blue', 'grey'];
+  const listProducts = useSelector((state) => state.products.products);
 
+  const { products, maxprice, filterable } = listProducts;
   const [brands, setBrands] = useState([]);
   const [categories, setCategories] = useState([]);
   const [selectedColors, setSelectedColors] = useState([]);
@@ -79,6 +82,54 @@ const FilterProduct = () => {
       >
         Danh mục sản phẩm
       </Typography>
+      <Box>
+        <Typography
+          sx={{
+            fontWeight: '700',
+            fontSize: '15px',
+          }}
+        >
+          Giá cả
+        </Typography>
+        <FlexBetween sx={{ marginTop: '10px' }}>
+          <TextField
+            label="Từ"
+            value={priceRange[0]}
+            onChange={handleFromPriceChange}
+            sx={{
+              width: '45%',
+              '& input': {
+                padding: '5px 10px',
+                fontSize: '15px',
+              },
+            }}
+          />
+          <TextField
+            label="Đến"
+            value={priceRange[1]}
+            onChange={handleToPriceChange}
+            sx={{
+              width: '45%',
+              '& input': {
+                padding: '5px 10px',
+                fontSize: '15px',
+              },
+            }}
+          />
+        </FlexBetween>
+        <Slider
+          value={priceRange}
+          onChange={handlePriceChange}
+          min={0}
+          max={1000}
+          step={10}
+          size="medium"
+          valueLabelDisplay="auto"
+          sx={{
+            color: '#1435c3',
+          }}
+        />
+      </Box>
       <Box sx={{ display: 'flex', flexDirection: 'column' }}>
         <Typography
           sx={{
@@ -218,54 +269,6 @@ const FilterProduct = () => {
             />
           ))}
         </ToggleButtonGroup>
-      </Box>
-      <Box>
-        <Typography
-          sx={{
-            fontWeight: '700',
-            fontSize: '15px',
-          }}
-        >
-          Giá cả
-        </Typography>
-        <FlexBetween sx={{ marginTop: '10px' }}>
-          <TextField
-            label="Từ"
-            value={priceRange[0]}
-            onChange={handleFromPriceChange}
-            sx={{
-              width: '45%',
-              '& input': {
-                padding: '5px 10px',
-                fontSize: '15px',
-              },
-            }}
-          />
-          <TextField
-            label="Đến"
-            value={priceRange[1]}
-            onChange={handleToPriceChange}
-            sx={{
-              width: '45%',
-              '& input': {
-                padding: '5px 10px',
-                fontSize: '15px',
-              },
-            }}
-          />
-        </FlexBetween>
-        <Slider
-          value={priceRange}
-          onChange={handlePriceChange}
-          min={0}
-          max={1000}
-          step={10}
-          size="medium"
-          valueLabelDisplay="auto"
-          sx={{
-            color: '#1435c3',
-          }}
-        />
       </Box>
     </Paper>
   );

@@ -15,7 +15,11 @@ import FlexBetween from '../flexbetween/FlexBetween';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProductById } from '~/features/singleProduct/singleProductSlice';
-
+export const formatStringToMoney = (str) => {
+  const stringFormat = typeof str === 'string' ? parseInt(str, 10) : str;
+  const result = stringFormat?.toLocaleString('it-IT', { style: 'currency', currency: 'VND' }).slice(0, -3);
+  return (isNaN(parseFloat(result)) ? '0 ' : result) + 'đ';
+};
 const ProductCard = (props) => {
   const { id, imageUrl, name, basePrice, price, percentSale, averageRating, gridView } = props;
 
@@ -110,7 +114,7 @@ const ProductCard = (props) => {
                 fontSize: '13px',
               }}
             >
-              {basePrice} đ
+              {formatStringToMoney(basePrice)}
             </Typography>
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
               <Typography
@@ -121,7 +125,7 @@ const ProductCard = (props) => {
                   marginRight: '5px',
                 }}
               >
-                {price} đ
+                {formatStringToMoney(price)}
               </Typography>
               <Typography
                 variant="span"

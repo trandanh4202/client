@@ -27,7 +27,7 @@ import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 import PinDropIcon from '@mui/icons-material/PinDrop';
 import { useDispatch, useSelector } from 'react-redux';
 import { getMenus } from '~/features/menu/menuSlice';
-import { LogoutOutlined } from '@mui/icons-material';
+import { AddLocationAlt, Home, LogoutOutlined, WorkHistory } from '@mui/icons-material';
 import 'tippy.js/dist/tippy.css'; // optional
 import Tippy from '@tippyjs/react';
 
@@ -36,14 +36,6 @@ const HeaderUpper = () => {
   const [isAuthOpen, setAuthOpen] = useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const navigate = useNavigate();
-
-  const [arrow, setArrow] = React.useState(false);
-  const handleClick = (event) => {
-    setAnchorEl(anchorEl ? null : event.currentTarget);
-  };
-
-  const open = Boolean(anchorEl);
-  const id = open ? 'simple-popper' : undefined;
 
   const openAuthForm = () => {
     setAuthOpen(true);
@@ -85,9 +77,10 @@ const HeaderUpper = () => {
     }
   };
   const handleLogout = () => {
-    localStorage.setItem('account', []);
+    localStorage.clear();
     window.location.reload();
   };
+
   return (
     <AppBar
       sx={{ backgroundColor: 'white', display: { xs: 'none', md: 'block', lg: 'block' } }}
@@ -210,19 +203,8 @@ const HeaderUpper = () => {
                               alignItems: 'center',
                             }}
                           >
-                            <PermContactCalendarIcon sx={{ marginRight: '10px' }} />
+                            <Home sx={{ marginRight: '10px' }} />
                             <Typography>Thông tin tài khoản</Typography>
-                          </Box>
-                        </Link>
-                        <Link to="/profile/address" className="text-hover">
-                          <Box
-                            sx={{
-                              display: 'flex',
-                              alignItems: 'center',
-                            }}
-                          >
-                            <ReceiptLongIcon sx={{ marginRight: '10px' }} />
-                            <Typography>Lịch sử đơn hàng</Typography>
                           </Box>
                         </Link>
                         <Link to="/profile/orderlist" className="text-hover">
@@ -232,7 +214,19 @@ const HeaderUpper = () => {
                               alignItems: 'center',
                             }}
                           >
-                            <PinDropIcon sx={{ marginRight: '10px' }} />
+                            <WorkHistory sx={{ marginRight: '10px' }} />
+
+                            <Typography>Lịch sử đơn hàng</Typography>
+                          </Box>
+                        </Link>
+                        <Link to="/profile/address" className="text-hover">
+                          <Box
+                            sx={{
+                              display: 'flex',
+                              alignItems: 'center',
+                            }}
+                          >
+                            <AddLocationAlt sx={{ marginRight: '10px' }} />
                             <Typography> Danh sách địa chỉ</Typography>
                           </Box>
                         </Link>

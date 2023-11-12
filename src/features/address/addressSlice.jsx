@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const initialState = {
   addresses: [],
-  address: [],
+  address: null,
   loading: false,
   error: null,
 };
@@ -16,7 +16,6 @@ export const getAddresses = createAsyncThunk('addresses/getADdresses', async (_,
       Authorization: `Bearer ${token}`,
     },
   };
-  console.log(token);
   try {
     const response = await axios.get('/api/Addresses', config);
     return response.data;
@@ -81,8 +80,8 @@ export const getAddressById = createAsyncThunk('addresses/getAddressById', async
       Authorization: `Bearer ${token}`,
     },
   };
-  const messsage = await axios.get('api/Addresses', id, config);
-  const response = await axios.get('api/Address', config);
+  console.log(token, id);
+  const response = await axios.get(`/api/Addresses/${id}`, config);
 
   return response.data;
 });
@@ -138,6 +137,18 @@ const addressesSlice = createSlice({
         state.addresses = action.payload.data;
       })
       .addCase(putAddresses.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      .addCase(getAddressById.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getAddressById.fulfilled, (state, action) => {
+        state.loading = false;
+        state.address = action.payload.data;
+      })
+      .addCase(getAddressById.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       });

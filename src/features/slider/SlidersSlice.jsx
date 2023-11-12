@@ -7,7 +7,7 @@ const initialState = {
 };
 
 export const getSliders = createAsyncThunk('slider/getSliders', async () => {
-  const response = await axios.get(`api/slugs`);
+  const response = await axios.get(`api/slugs/slider`);
   return response;
 });
 

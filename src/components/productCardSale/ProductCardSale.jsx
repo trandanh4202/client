@@ -14,7 +14,11 @@ import {
 import FlexBetween from '../flexbetween/FlexBetween';
 import WhatshotIcon from '@mui/icons-material/Whatshot';
 import { Link } from 'react-router-dom';
-
+export const formatStringToMoney = (str) => {
+  const stringFormat = typeof str === 'string' ? parseInt(str, 10) : str;
+  const result = stringFormat?.toLocaleString('it-IT', { style: 'currency', currency: 'VND' }).slice(0, -3);
+  return (isNaN(parseFloat(result)) ? '0 ' : result) + 'đ';
+};
 const ProductCardSale = (props) => {
   const { id, imageUrl, name, basePrice, price, percentSale, quantity, soldQuantity } = props;
   return (
@@ -63,7 +67,7 @@ const ProductCardSale = (props) => {
             textDecorationLine: 'line-through',
           }}
         >
-          {basePrice} đ
+          {formatStringToMoney(basePrice)}
         </Typography>
         <FlexBetween sx={{ marginBottom: '10px' }}>
           <Typography
@@ -73,7 +77,7 @@ const ProductCardSale = (props) => {
               fontSize: '18px',
             }}
           >
-            {price} đ
+            {formatStringToMoney(price)}
           </Typography>
           <Typography
             variant="span"

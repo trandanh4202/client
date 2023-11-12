@@ -7,12 +7,12 @@ const initialState = {
 };
 // Thực hiện API tạo sản phẩm
 export const getMenus = createAsyncThunk('menus/getMenus', async () => {
-  const response = await axios.get('api/Menus');
+  const response = await axios.get('/api/Menus');
   return response.data;
 });
 
 export const addMenus = createAsyncThunk('menus/addMenus', async (data) => {
-  const response = await axios.post('api/Menus', data);
+  const response = await axios.post('/api/Menus', data);
   return response.data;
 });
 

@@ -14,7 +14,7 @@ const SingleProduct = () => {
   let { id } = useParams();
   const dispatch = useDispatch();
   const images = useSelector((state) => state.images);
-  const product = useSelector((state) => state.singleProduct.product);
+  const product = useSelector((state) => state.singleProduct?.product);
   const reviewsList = useSelector((state) => state.reviews.reviews);
 
   useEffect(() => {
@@ -33,7 +33,7 @@ const SingleProduct = () => {
     >
       <Grid container>
         <Grid item xs={12} md={4} lg={4} padding="15px">
-          <SliderProduct imageUrl={product?.imageUrl} name={product.name} imageSlider={images?.images} />
+          <SliderProduct imageUrl={product?.imageUrl} name={product?.name} imageSlider={images?.images} />
         </Grid>
         <Grid item xs={12} md={8} lg={8} padding="15px">
           <DesProduct

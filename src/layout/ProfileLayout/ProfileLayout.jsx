@@ -8,6 +8,7 @@ const ProfileLayout = () => {
   // useEffect(() => {
   //   navigate('setting');
   // }, []);
+
   return (
     <>
       <Container sx={{ marginTop: '40px', marginBottom: '40px', padding: '0 5px 56px 5px' }}>

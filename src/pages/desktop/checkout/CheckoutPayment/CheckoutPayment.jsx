@@ -1,12 +1,25 @@
 import { Box, Button, Divider, Grid, Paper, Typography } from '@mui/material';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import FlexBetween from '~/components/flexbetween/FlexBetween';
 
 import DoneIcon from '@mui/icons-material/Done';
-
+import { useSelect } from '@mui/base';
+import { useDispatch, useSelector } from 'react-redux';
+import { CaculateOrders } from '~/features/CaculateOrders/CaculateOrdersSlice';
+export const formatStringToMoney = (str) => {
+  const stringFormat = typeof str === 'string' ? parseInt(str, 10) : str;
+  const result = stringFormat?.toLocaleString('it-IT', { style: 'currency', currency: 'VND' }).slice(0, -3);
+  return (isNaN(parseFloat(result)) ? '0 ' : result) + 'đ';
+};
 const CheckoutPayment = () => {
   const [active, setActive] = useState('VNPAY'); // Địa chỉ mặc định
+  const listItem = useSelector((state) => state.cartItems.listItem);
+  const addresses = useSelector((state) => state.addresses.addresses);
+
+  const defaultAddress = addresses.find((address) => address?.isDefault);
+  const selectedAddress = useSelector((state) => state.addresses?.address);
+  const feeOrder = useSelector((state) => state.CaculateOrders?.fee);
 
   const handlePayment = () => {
     if (active === 'Paypal') {
@@ -17,6 +30,12 @@ const CheckoutPayment = () => {
       console.log('COD');
     }
   };
+  const dispatch = useDispatch();
+  useEffect(() => {
+    const addressId = selectedAddress ? selectedAddress?.id : defaultAddress?.id;
+    const productIds = listItem.map((item) => item.productId);
+    dispatch(CaculateOrders({ addressId, productIds }));
+  }, [dispatch]);
   return (
     <Paper sx={{ padding: '10px' }}>
       <FlexBetween>
@@ -28,7 +47,7 @@ const CheckoutPayment = () => {
         >
           Tiền sản phẩm:
         </Typography>
-        <Typography sx={{ fontSize: '13px', fontWeight: '500' }}>8.990.000đ</Typography>
+        <Typography sx={{ fontSize: '13px', fontWeight: '500' }}>{formatStringToMoney(feeOrder?.total)}</Typography>
       </FlexBetween>
       <Divider sx={{ margin: '20px' }} />
       <FlexBetween>
@@ -40,27 +59,10 @@ const CheckoutPayment = () => {
         >
           Tiền vận chuyển:
         </Typography>
-        <Typography sx={{ fontSize: '13px', fontWeight: '500' }}>8.990.000đ</Typography>
+        <Typography sx={{ fontSize: '13px', fontWeight: '500' }}>{formatStringToMoney(feeOrder?.ship)}</Typography>
       </FlexBetween>
       <Divider sx={{ margin: '20px' }} />
-      {active === 'COD' ? (
-        <>
-          <FlexBetween>
-            <Typography
-              sx={{
-                fontWeight: '600',
-                fontSize: '15px',
-              }}
-            >
-              Tiền thu hộ ( COD):
-            </Typography>
-            <Typography sx={{ fontSize: '13px', fontWeight: '500' }}>8.990.000đ</Typography>
-          </FlexBetween>
-          <Divider sx={{ margin: '20px' }} />
-        </>
-      ) : (
-        ''
-      )}
+
       <FlexBetween>
         <Typography
           sx={{
@@ -76,7 +78,7 @@ const CheckoutPayment = () => {
             color: '#f61900',
           }}
         >
-          8.990.000đ
+          {formatStringToMoney(feeOrder?.total)}
         </Typography>
       </FlexBetween>
       <Divider sx={{ margin: '20px' }} />

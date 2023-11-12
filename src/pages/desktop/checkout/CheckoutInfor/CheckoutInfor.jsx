@@ -1,103 +1,132 @@
-import { Box, Button, FormControlLabel, List, ListItem, Modal, Paper, Radio, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  CircularProgress,
+  FormControlLabel,
+  List,
+  ListItem,
+  Modal,
+  Paper,
+  Radio,
+  Typography,
+} from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import DoneIcon from '@mui/icons-material/Done';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAddresses } from '~/features/address/addressSlice';
+import { getAddressById, getAddresses } from '~/features/address/addressSlice';
 
 const CheckoutInfor = () => {
   const [open, setOpen] = useState(false);
-  const [defaultAddress, setDefaultAddress] = useState('Địa chỉ 3'); // Địa chỉ mặc định
-  const [selectedAddress, setSelectedAddress] = useState(null);
-  const addresses = useSelector((state) => state.addresses.addresses);
+  const addresses = useSelector((state) => state?.addresses?.addresses);
+  const loading = useSelector((state) => state.addresses.loading);
+
+  const defaultAddress = addresses?.find((address) => address?.isDefault);
+  const defaultAddressId = defaultAddress?.id;
+
+  const selectedAddress = useSelector((state) => state.addresses.address);
+  // const selectedAddressId = selectedAddress?.id;
+
   const handleOpen = () => {
     setOpen(true);
-    setSelectedAddress(defaultAddress);
   };
+  const [selectedAddressId, setSelectedAddressId] = useState(defaultAddressId);
 
   const handleClose = () => {
     setOpen(false);
+    setSelectedAddressId(selectedAddress?.id || defaultAddressId);
   };
-  console.log(selectedAddress, defaultAddress);
   const handleAddressClick = (id) => {
-    if (defaultAddress) {
-      setSelectedAddress(defaultAddress);
-      if (selectedAddress) {
-        setSelectedAddress(id);
-      }
-    }
+    setSelectedAddressId(id);
   };
 
+  const dispatch = useDispatch();
+
   const handleConfirm = () => {
-    if (selectedAddress) {
-      setDefaultAddress(selectedAddress); // Đặt địa chỉ đã chọn làm mặc định
+    if (selectedAddressId) {
+      dispatch(getAddressById(selectedAddressId));
     }
     setOpen(false);
   };
-  const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getAddresses());
   }, [dispatch]);
+  useEffect(() => {
+    setSelectedAddressId(defaultAddressId);
+  }, [defaultAddressId]);
   return (
-    <Paper
-      sx={{
-        padding: '10px',
-      }}
-    >
-      <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          //   justifyContent: 'center',
-          color: '#f61900',
-        }}
-      >
-        <LocationOnIcon />
-        <Typography sx={{ fontSize: { xs: '15px', lg: '20px' }, fontWeight: '700' }}>Thông tin nhận hàng</Typography>
-      </Box>
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-        <Typography sx={{ fontSize: { xs: '13px', lg: '15px' } }}>
-          Trần Trọng Danh ( 0913423421 ) - Khóm 2, Thị trấn Cái Đôi Vàm, huyện Phú Tân, tỉnh Cà Mau{' '}
-        </Typography>
-        <Button variant="outlined" onClick={handleOpen} sx={{ padding: '6px 3px', fontSize: '11px' }}>
-          Thay đổi
-        </Button>
-        <Modal open={open} onClose={handleClose}>
+    <>
+      {loading === true ? (
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+          <CircularProgress size={50} color="success" />
+        </Box>
+      ) : (
+        <Paper
+          sx={{
+            padding: '10px',
+          }}
+        >
           <Box
             sx={{
-              position: 'absolute',
-              width: '800px',
-              bgcolor: 'background.paper',
-              border: '2px solid #000',
-              boxShadow: 24,
-              p: 2,
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
+              display: 'flex',
+              alignItems: 'center',
+              //   justifyContent: 'center',
+              color: '#f61900',
             }}
           >
-            <Typography sx={{ fontSize: '15px' }}>Chọn địa chỉ</Typography>
-            <List>
-              {addresses.map((address, index) => (
-                <ListItem key={index} onClick={() => handleAddressClick(address.id)}>
-                  <FormControlLabel
-                    sx={{ fontSize: '9px' }}
-                    control={<Radio checked={selectedAddress === address.id} />}
-                    label={`${address.detail}, ${address.wardName}, ${address.districtName}, ${address.provinceName}`}
-                  />
-                </ListItem>
-              ))}
-            </List>
-            <Button color="primary" onClick={handleClose}>
-              Hủy
-            </Button>
-            <Button color="primary" onClick={handleConfirm}>
-              Xác nhận
-            </Button>
+            <LocationOnIcon />
+            <Typography sx={{ fontSize: { xs: '15px', lg: '20px' }, fontWeight: '700' }}>
+              Thông tin nhận hàng
+            </Typography>
           </Box>
-        </Modal>
-      </Box>
-    </Paper>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+            <Typography sx={{ fontSize: { xs: '13px', lg: '15px' } }}>
+              {selectedAddress
+                ? `${selectedAddress.detail}, ${selectedAddress.wardName}, ${selectedAddress.districtName}, ${selectedAddress.provinceName}`
+                : defaultAddress
+                ? `${defaultAddress.detail}, ${defaultAddress.wardName}, ${defaultAddress.districtName}, ${defaultAddress.provinceName}`
+                : 'Không có địa chỉ mặc định'}
+            </Typography>
+            <Button variant="outlined" onClick={handleOpen} sx={{ padding: '6px 3px', fontSize: '11px' }}>
+              Thay đổi
+            </Button>
+            <Modal open={open} onClose={handleClose}>
+              <Box
+                sx={{
+                  position: 'absolute',
+                  width: '800px',
+                  bgcolor: 'background.paper',
+                  border: '2px solid #000',
+                  boxShadow: 24,
+                  p: 2,
+                  top: '50%',
+                  left: '50%',
+                  transform: 'translate(-50%, -50%)',
+                }}
+              >
+                <Typography sx={{ fontSize: '15px' }}>Chọn địa chỉ</Typography>
+                <List>
+                  {addresses.map((address, index) => (
+                    <ListItem key={index} onClick={() => handleAddressClick(address.id)}>
+                      <Radio checked={selectedAddressId === address.id} value={address.id} name="seletecd-address" />
+                      <Typography>
+                        {address.detail}, {address.wardName}, {address.districtName}, {address.provinceName}
+                      </Typography>
+                    </ListItem>
+                  ))}
+                </List>
+                <Button color="primary" onClick={handleClose}>
+                  Hủy
+                </Button>
+                <Button color="primary" onClick={handleConfirm}>
+                  Xác nhận
+                </Button>
+              </Box>
+            </Modal>
+          </Box>
+        </Paper>
+      )}
+    </>
   );
 };
 

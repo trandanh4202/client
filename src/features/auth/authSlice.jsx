@@ -6,11 +6,12 @@ const initialState = {
   register: false,
   loading: false,
   error: null,
-  profile: null,
+  profile: {},
+  message: '',
 };
 // Thực hiện API login
 export const login = createAsyncThunk('auth/login', async (loginData) => {
-  const response = await axios.post('api/Auth/Login', loginData);
+  const response = await axios.post('/api/Auth/Login', loginData);
   const { token, expire, role } = response.data.data;
   console.log(loginData);
   const account = {
@@ -36,15 +37,9 @@ export const getProfile = createAsyncThunk('auth/getProfile', async (_, thunkAPI
     },
   };
   console.log(token);
-  try {
-    const response = await axios.get('/api/Auth/Profile', config);
+  const response = await axios.get('/api/Auth/Profile', config);
 
-    console.log(response);
-    return response.data;
-  } catch (error) {
-    // Xử lý lỗi nếu cần thiết
-    throw error;
-  }
+  return response.data;
 });
 
 export const putProfile = createAsyncThunk('auth/putProfile', async (profileData, thunkAPI) => {
@@ -55,17 +50,10 @@ export const putProfile = createAsyncThunk('auth/putProfile', async (profileData
       Authorization: `Bearer ${token}`,
     },
   };
-  console.log(profileData);
 
-  try {
-    const response = await axios.put('/api/Auth/Profile', profileData, config);
-    // const response = await axios.get('/api/Auth/Profile', config);
+  const response = await axios.put('/api/Auth/Profile', profileData, config);
 
-    return response.data;
-  } catch (error) {
-    // Xử lý lỗi nếu cần thiết
-    throw error;
-  }
+  return response.data;
 });
 
 const authSlice = createSlice({
@@ -116,7 +104,7 @@ const authSlice = createSlice({
       })
       .addCase(putProfile.fulfilled, (state, action) => {
         state.loading = false;
-        state.profile = action.payload;
+        state.message = action.payload.message;
       })
       .addCase(putProfile.rejected, (state, action) => {
         state.loading = false;

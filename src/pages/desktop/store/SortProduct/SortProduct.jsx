@@ -10,7 +10,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getProducts } from '~/features/products/productsSlice';
 
 const SortProduct = (props) => {
-  const { products } = props;
+  const products = useSelector((state) => state.products.products.products);
+
   const [gridView, setGridView] = useState('2.4');
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [filter, setFilter] = useState('');

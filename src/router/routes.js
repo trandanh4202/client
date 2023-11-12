@@ -6,6 +6,7 @@ import CheckOut from '~/pages/desktop/checkout/CheckOut';
 import Contact from '~/pages/desktop/contact/Contact';
 import Home from '~/pages/desktop/home/Home';
 import News from '~/pages/desktop/news/News';
+import OrderDetail from '~/pages/desktop/orderDetail/OrderDetail';
 import Policy from '~/pages/desktop/policy/Policy';
 import Address from '~/pages/desktop/profile/Address/Address';
 import OrderList from '~/pages/desktop/profile/OrderList/OrderList';
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
       {
         path: 'Checkout',
         element: <CheckOut />,
+      },
+      {
+        path: 'orders/:id',
+        element: <OrderDetail />,
       },
       {
         path: 'store',
@@ -78,10 +83,6 @@ const router = createBrowserRouter([
         ],
       },
     ],
-  },
-  {
-    path: 'test',
-    element: <HomeMobile />,
   },
 ]);
 const publicRoutes = [];
