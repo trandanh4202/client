@@ -6,6 +6,7 @@ const initialState = {
   order: {},
   loading: false,
   error: null,
+  checkout: '',
 };
 // Thực hiện API login
 export const getOrders = createAsyncThunk('orders/getOrders', async (_, thunkAPI) => {
@@ -38,7 +39,7 @@ export const createOrder = createAsyncThunk('orders/createOrder', async (orderDa
   return response.data;
 });
 
-export const updateOrder = createAsyncThunk('addresses/updateOrder', async (orderData, thunkAPI) => {
+export const updateOrder = createAsyncThunk('orders/updateOrder', async (orderData, thunkAPI) => {
   const { getState } = thunkAPI;
   const token = getState().auth.account.token;
   const config = {
@@ -74,9 +75,7 @@ export const checkoutOrder = createAsyncThunk('orders/checkoutOrder', async (ord
       Authorization: `Bearer ${token}`,
     },
   };
-
-  const response = await axios.get(`/api/orders/Checkout/${orderId}`, config);
-
+  const response = await axios.get(`/api/Orders/Checkout/${orderId}?opt=PayPal`, config);
   return response.data;
 });
 const orderSlice = createSlice({
@@ -103,7 +102,7 @@ const orderSlice = createSlice({
       })
       .addCase(createOrder.fulfilled, (state, action) => {
         state.loading = false;
-        state.addresses = action.payload.data;
+        state.order = action.payload.data;
       })
       .addCase(createOrder.rejected, (state, action) => {
         state.loading = false;
@@ -116,7 +115,7 @@ const orderSlice = createSlice({
       })
       .addCase(updateOrder.fulfilled, (state, action) => {
         state.loading = false;
-        state.addresses = action.payload.data;
+        state.orders = action.payload.data;
       })
       .addCase(updateOrder.rejected, (state, action) => {
         state.loading = false;
@@ -131,6 +130,18 @@ const orderSlice = createSlice({
         state.order = action.payload.data;
       })
       .addCase(getOrderById.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      .addCase(checkoutOrder.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(checkoutOrder.fulfilled, (state, action) => {
+        state.loading = false;
+        state.checkout = action.payload.data;
+      })
+      .addCase(checkoutOrder.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       });

@@ -25,7 +25,7 @@ const HeaderBottom = () => {
             <Typography sx={{ fontSize: '16px', fontWeight: '700' }}>Cửa hàng</Typography>
           </Button>
 
-          <Button sx={{ color: '#333333' }} component={Link} to="contact">
+          <Button sx={{ color: '#333333' }} component={Link} to="/contact">
             <SupportAgentIcon sx={{ fontSize: '45px', marginRight: '10px' }} />
             <Typography sx={{ fontSize: '16px', fontWeight: '700' }}>Liên lạc</Typography>
           </Button>

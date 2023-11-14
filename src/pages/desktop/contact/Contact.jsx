@@ -14,6 +14,8 @@ const validationSchema = Yup.object({
   email: Yup.string().email('Email không hợp lệ').required('Vui lòng nhập email'),
 });
 const Contact = () => {
+  window.scrollTo(0, 0);
+
   const formik = useFormik({
     initialValues: {
       name: '',

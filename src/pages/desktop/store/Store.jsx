@@ -11,6 +11,7 @@ const Store = () => {
   let [searchParams, setSearchParams] = useSearchParams();
   const page = searchParams.get('page') || 1;
   const q = searchParams.get('q') || '';
+  window.scrollTo(0, 0);
 
   const dispatch = useDispatch();
   const pagination = useSelector((state) => state.products.products.pagination);
@@ -47,7 +48,6 @@ const Store = () => {
           </Grid>
         </Box>
       </Container>
-      <DrawerProduct />
     </>
   );
 };

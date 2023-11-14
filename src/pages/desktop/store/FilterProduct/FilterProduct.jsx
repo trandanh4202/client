@@ -10,61 +10,65 @@ import {
   ToggleButtonGroup,
   Typography,
 } from '@mui/material';
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import FlexBetween from '~/components/flexbetween/FlexBetween';
+import { getProducts } from '~/features/products/productsSlice';
 
 const FilterProduct = () => {
-  const colorss = ['black', 'white', 'yellow', 'blue', 'grey'];
   const listProducts = useSelector((state) => state.products.products);
 
   const { products, maxprice, filterable } = listProducts;
-  const [brands, setBrands] = useState([]);
-  const [categories, setCategories] = useState([]);
-  const [selectedColors, setSelectedColors] = useState([]);
-  const [priceRange, setPriceRange] = useState([0, 1000]);
-  const handleBrandChange = (event) => {
-    const brandName = event.target.name;
-    if (brands.includes(brandName)) {
-      setBrands(brands.filter((brand) => brand !== brandName));
-    } else {
-      setBrands([...brands, brandName]);
-    }
-  };
+  const [priceRange, setPriceRange] = useState([0, 10000000]);
 
-  const handleCategoryChange = (event) => {
-    const categoryName = event.target.name;
-    if (categories.includes(categoryName)) {
-      setCategories(categories.filter((category) => category !== categoryName));
-    } else {
-      setCategories([...categories, categoryName]);
+  useEffect(() => {
+    if (maxprice) {
+      setPriceRange([0, maxprice]);
     }
-  };
+  }, [maxprice]);
+
+  const dispatch = useDispatch();
+
   const handleFromPriceChange = (event) => {
     let newFromPrice = parseInt(event.target.value);
     if (isNaN(newFromPrice) || newFromPrice < 0) {
       newFromPrice = 0;
-    } else if (newFromPrice > priceRange[1]) {
-      newFromPrice = priceRange[1];
+    } else if (newFromPrice > maxprice) {
+      newFromPrice = maxprice;
     }
-    setPriceRange([newFromPrice, priceRange[1]]);
+    setPriceRange([newFromPrice, maxprice]);
   };
   const handleToPriceChange = (event) => {
     let newToPrice = parseInt(event.target.value);
-    if (isNaN(newToPrice) || newToPrice > 1000) {
-      newToPrice = 1000;
+    if (isNaN(newToPrice) || newToPrice > maxprice) {
+      newToPrice = maxprice;
     } else if (newToPrice < priceRange[0]) {
       newToPrice = priceRange[0];
     }
     setPriceRange([priceRange[0], newToPrice]);
   };
   const handlePriceChange = (event, newValue) => {
+    console.log(newValue);
     setPriceRange(newValue);
   };
+  const [selectedFilters, setSelectedFilters] = useState([]); // Thêm state để lưu các filter được chọn
 
-  const handleColorChange = (event, newColors) => {
-    setSelectedColors(newColors);
+  // Handler khi checkbox thay đổi
+  const handleCheckboxChange = (event, filterCode, optionId) => {
+    if (event.target.checked) {
+      // Nếu được chọn, thêm filter vào mảng selectedFilters
+      setSelectedFilters((prevFilters) => [...prevFilters, { code: filterCode, optionsId: [optionId] }]);
+    } else {
+      // Nếu bỏ chọn, loại bỏ filter khỏi mảng selectedFilters
+      setSelectedFilters((prevFilters) =>
+        prevFilters.filter((filter) => filter.code !== filterCode || filter.optionsId[0] !== optionId),
+      );
+    }
   };
+  useEffect(() => {
+    dispatch(getProducts({ selectedFilters }));
+  }, [dispatch, selectedFilters]);
+  console.log(selectedFilters);
   return (
     <Paper
       sx={{
@@ -121,8 +125,8 @@ const FilterProduct = () => {
           value={priceRange}
           onChange={handlePriceChange}
           min={0}
-          max={1000}
-          step={10}
+          max={maxprice}
+          step={1000}
           size="medium"
           valueLabelDisplay="auto"
           sx={{
@@ -130,146 +134,41 @@ const FilterProduct = () => {
           }}
         />
       </Box>
-      <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-        <Typography
-          sx={{
-            fontWeight: '700',
-            fontSize: '15px',
-          }}
-        >
-          Thương hiệu
-        </Typography>
-        <FormGroup>
-          <FormControlLabel
-            control={<Checkbox name="Asus" />}
-            label="Asus"
-            onChange={handleBrandChange}
+      {filterable?.map((filter) => (
+        <Box key={filter.code} sx={{ display: 'flex', flexDirection: 'column' }}>
+          <Typography
             sx={{
-              '&:hover': {
-                backgroundColor: '#f3f5fc',
-                color: '#1435c3',
-              },
-              '& .MuiFormControlLabel-label ': {
-                fontWeight: '500',
-              },
+              fontWeight: '700',
+              fontSize: '15px',
             }}
-          />
-          <FormControlLabel
-            sx={{
-              '&:hover': {
-                backgroundColor: '#f3f5fc',
-                color: '#1435c3',
-              },
-              '& .MuiFormControlLabel-label ': {
-                fontWeight: '500',
-              },
-            }}
-            control={<Checkbox name="Dell" />}
-            label="Dell"
-            onChange={handleBrandChange}
-          />
-          <FormControlLabel
-            sx={{
-              '&:hover': {
-                backgroundColor: '#f3f5fc',
-                color: '#1435c3',
-              },
-              '& .MuiFormControlLabel-label ': {
-                fontWeight: '500',
-              },
-            }}
-            control={<Checkbox name="Apple" />}
-            label="Apple"
-            onChange={handleBrandChange}
-          />
-        </FormGroup>
-      </Box>
-      <Box>
-        <Typography
-          sx={{
-            fontWeight: '700',
-            fontSize: '15px',
-          }}
-        >
-          Loại sản phẩm
-        </Typography>
-        <FormGroup>
-          <FormControlLabel
-            sx={{
-              '&:hover': {
-                backgroundColor: '#f3f5fc',
-                color: '#1435c3',
-              },
-              '& .MuiFormControlLabel-label ': {
-                fontWeight: '500',
-              },
-            }}
-            control={<Checkbox name="SmartPhone" />}
-            label="Điện thoại"
-            onChange={handleCategoryChange}
-          />
-          <FormControlLabel
-            sx={{
-              '&:hover': {
-                backgroundColor: '#f3f5fc',
-                color: '#1435c3',
-              },
-              '& .MuiFormControlLabel-label ': {
-                fontWeight: '500',
-              },
-            }}
-            control={<Checkbox name="Laptop" />}
-            label="Laptop"
-            onChange={handleCategoryChange}
-          />
-          <FormControlLabel
-            sx={{
-              '&:hover': {
-                backgroundColor: '#f3f5fc',
-                color: '#1435c3',
-              },
-              '& .MuiFormControlLabel-label ': {
-                fontWeight: '500',
-              },
-            }}
-            control={<Checkbox name="Tablet" />}
-            label="Máy tính bảng"
-            onChange={handleCategoryChange}
-          />
-        </FormGroup>
-      </Box>
-
-      <Box>
-        <Typography
-          sx={{
-            fontWeight: '700',
-            fontSize: '15px',
-          }}
-        >
-          Màu sắc
-        </Typography>
-        <ToggleButtonGroup
-          value={selectedColors}
-          onChange={handleColorChange}
-          aria-label="Màu sắc"
-          sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}
-        >
-          {colorss.map((color) => (
-            <ToggleButton
-              key={color}
-              value={color}
-              style={{
-                backgroundColor: color,
-                border: selectedColors.includes(color) ? `3px solid red` : '3px solid black',
-                borderRadius: '50%',
-                width: '30px',
-                height: '30px',
-                margin: '5px',
-              }}
-            />
-          ))}
-        </ToggleButtonGroup>
-      </Box>
+          >
+            {filter.codeName}
+          </Typography>
+          <FormGroup>
+            {filter.options.map((option) => (
+              <FormControlLabel
+                key={option.optionId}
+                control={
+                  <Checkbox
+                    name={option.optionName}
+                    onChange={(event) => handleCheckboxChange(event, filter.code, option.optionId)}
+                  />
+                }
+                label={option.optionName}
+                sx={{
+                  '&:hover': {
+                    backgroundColor: '#f3f5fc',
+                    color: '#1435c3',
+                  },
+                  '& .MuiFormControlLabel-label ': {
+                    fontWeight: '500',
+                  },
+                }}
+              />
+            ))}
+          </FormGroup>
+        </Box>
+      ))}
     </Paper>
   );
 };

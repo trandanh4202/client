@@ -8,6 +8,7 @@ const ProfileLayout = () => {
   // useEffect(() => {
   //   navigate('setting');
   // }, []);
+  window.scrollTo(0, 0);
 
   return (
     <>

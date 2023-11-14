@@ -9,6 +9,8 @@ import BannerMid from './banner/BannerMid';
 import Sliders from './sliders/Sliders';
 
 const Home = () => {
+  window.scrollTo(0, 0);
+
   return (
     <>
       <SliderSection />

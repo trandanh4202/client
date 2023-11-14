@@ -11,6 +11,7 @@ import { getImages } from '~/features/images/ImagesSlice';
 import { getReviews } from '~/features/reviews/reviewsSlice';
 
 const SingleProduct = () => {
+  window.scrollTo(0, 0);
   let { id } = useParams();
   const dispatch = useDispatch();
   const images = useSelector((state) => state.images);

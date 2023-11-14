@@ -10,28 +10,8 @@ import ProductCard from '~/components/productCard/ProductCard';
 import { getOrders } from '~/features/order/orderSlice';
 
 const OrderList = () => {
-  const [value, setValue] = useState('1');
-  const location = useLocation();
-
-  // useEffect(() => {
-  //   // Lấy giá trị 'tab' từ URL nếu có
-  //   const searchParams = new URLSearchParams(location.search);
-  //   const tabParam = searchParams.get('tab');
-
-  //   // Cập nhật giá trị 'tab' từ URL
-  //   if (tabParam) {
-  //     setTab(tabParam);
-  //   }
-  // }, [location]);
-  // const handleChange = (event, newValue) => {
-  //   setValue(newValue);
-  // };
-  // const [tab, setTab] = useState('1');
-  // const handleChangeTab = () => {
-  //   setTab();
-  // };
   const dispatch = useDispatch();
-  const orders = useSelector((state) => state.orders.orders);
+  const orders = useSelector((state) => state.orders?.orders);
   useEffect(() => {
     dispatch(getOrders());
   }, [dispatch]);
@@ -84,9 +64,16 @@ const OrderList = () => {
         <Box sx={{ padding: '20px 0', textAlign: 'center' }}>
           <Typography sx={{ fontSize: '20px', fontWeight: '600' }}>Quản lý đơn hàng</Typography>
         </Box>
-        {orders.map((order) => (
-          <OrderCard id={order.id} status={order.status} date={order.date} paidAt={order.paidAt} total={order.total} />
-        ))}
+        {orders &&
+          orders?.map((order) => (
+            <OrderCard
+              id={order.id}
+              status={order.status}
+              date={order.date}
+              paidAt={order.paidAt}
+              total={order.total}
+            />
+          ))}
       </Paper>
     </>
   );

@@ -68,10 +68,25 @@ const Address = () => {
           <Box sx={{ display: 'flex', flexDirection: 'column' }}>
             {addresses.map((address) => (
               <>
-                <FlexBetween sx={{ gap: '20px', margin: '20px 0' }}>
-                  <Box sx={{ display: 'flex', flexDirection: 'column', width: '70%' }}>
-                    <Box sx={{ display: 'flex', alignItems: 'center', fontSize: '13px' }}>
-                      <Typography sx={{ marginRight: '10px', fontSize: '18px', fontWeight: '700' }}>
+                <Box
+                  sx={{
+                    gap: { xs: '0px', lg: '20px' },
+                    margin: '20px 0',
+                    display: { xs: 'block', lg: 'flex' },
+                    alignItems: 'center',
+                    width: '100%',
+                  }}
+                >
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      width: { xs: '100%', lg: '70%' },
+                      marginBottom: { xs: '20px', lg: '0xp' },
+                    }}
+                  >
+                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                      <Typography sx={{ fontSize: { xs: '15px', lg: '18px' }, fontWeight: '700' }}>
                         Trần Trọng Danh
                       </Typography>
                       <Typography
@@ -83,6 +98,7 @@ const Address = () => {
                           backgroundColor: 'rgb(243, 245, 252)',
                           color: 'rgb(18, 48, 176)',
                           fontWeight: '500',
+                          fontSize: { xs: '15px', lg: '18px' },
                         }}
                       >
                         {' '}
@@ -104,7 +120,7 @@ const Address = () => {
                       display: 'flex',
                       justifyContent: 'center',
                       alignItems: 'center',
-                      flexDirection: 'column',
+                      flexDirection: { xs: 'row', lg: 'column' },
                       gap: '10px',
                     }}
                   >
@@ -127,7 +143,7 @@ const Address = () => {
                       Xoá
                     </Button>
                   </Box>
-                </FlexBetween>
+                </Box>
               </>
             ))}
           </Box>

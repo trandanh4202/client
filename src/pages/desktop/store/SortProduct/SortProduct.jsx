@@ -8,6 +8,7 @@ import ProductCard from '~/components/productCard/ProductCard';
 import { useLocation, useSearchParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProducts } from '~/features/products/productsSlice';
+import DrawerProduct from '../DrawerProduct/DrawerProduct';
 
 const SortProduct = (props) => {
   const products = useSelector((state) => state.products.products.products);
@@ -19,7 +20,9 @@ const SortProduct = (props) => {
   const handleChange = (event) => {
     setFilter(event.target.value);
   };
-
+  const onClose = () => {
+    setDrawerOpen(false);
+  };
   return (
     <>
       <Paper sx={{ display: { xs: 'block', lg: 'block' } }}>
@@ -38,6 +41,7 @@ const SortProduct = (props) => {
               <FilterAltIcon />
               {/* <Typography sx={{ fontSize: '13px' }}>Bộ lọc</Typography> */}
             </ToggleButton>
+            <DrawerProduct open={drawerOpen} onClose={onClose} />
 
             <ToggleButton
               value="list"

@@ -72,7 +72,9 @@ const Setting = () => {
         theme="colored"
       />{' '}
       <Paper sx={{ padding: { xs: '5px', lg: '20px' } }}>
-        <Typography sx={{ fontSize: { xs: '15px', lg: '20px' }, fontWeight: '600', marginBottom: '10px' }}>
+        <Typography
+          sx={{ fontSize: { xs: '15px', lg: '20px' }, fontWeight: '600', marginBottom: '10px', textAlign: 'center' }}
+        >
           Thông tin tài khoản
         </Typography>
         <Formik
@@ -238,7 +240,7 @@ const Setting = () => {
                 <ErrorMessage name="confirmNewPassword" component="div" style={{ color: 'red', textAlign: 'center' }} />
               </FormControl>
 
-              <Box mt={2} sx={{ textAlign: 'center', width: '80%' }}>
+              <Box mt={2} sx={{ textAlign: 'center', width: '80%', width: '100%' }}>
                 <Button type="submit" variant="contained" color="primary">
                   Cập nhật
                 </Button>

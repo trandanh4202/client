@@ -39,10 +39,10 @@ const HeaderMobile = () => {
             <SearchIcon />
           </IconButton>
         </FlexBetween>
-        <Link>
-          <Badge badgeContent={4} color="primary" sx={{ color: 'inherit', overFlow: 'hidden' }}>
-            <ShoppingCartIcon sx={{ fontSize: '40px' }} />
-          </Badge>
+        <Link to="/cart">
+          {/* <Badge badgeContent={4} color="primary" sx={{ color: 'inherit', overFlow: 'hidden' }}> */}
+          <ShoppingCartIcon sx={{ fontSize: '40px', color: 'blue' }} />
+          {/* </Badge> */}
         </Link>
       </Toolbar>
     </AppBar>

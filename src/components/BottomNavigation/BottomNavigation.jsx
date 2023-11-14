@@ -38,14 +38,14 @@ const NavigationBottom = () => {
           zIndex: '10',
           display: { xs: 'block', md: 'none', lg: 'none' },
         }}
-        component={Link}
-        to=""
       >
         <BottomNavigationAction
           sx={{ maxWidth: '20%', minWidth: '20%', padding: '5px 0' }}
           label="Trang chủ"
           value="home"
           icon={<HomeIcon />}
+          component={Link}
+          to=""
         />
         <BottomNavigationAction
           sx={{ maxWidth: '20%', minWidth: '20%', padding: '5px 0' }}
@@ -59,12 +59,16 @@ const NavigationBottom = () => {
           label="Thông Báo"
           value="notifications"
           icon={<NotificationsNoneIcon />}
+          component={Link}
+          to="/news"
         />
         <BottomNavigationAction
           sx={{ maxWidth: '20%', minWidth: '20%', padding: '5px 0' }}
           label="Tư vấn "
           value="support"
           icon={<LocalPhoneIcon />}
+          component={Link}
+          to="/contact"
         />
         <BottomNavigationAction
           sx={{ maxWidth: '20%', minWidth: '20%', padding: '5px 0' }}
@@ -73,7 +77,7 @@ const NavigationBottom = () => {
           icon={<AccountCircleIcon />}
           onClick={toggleAuthForm}
           component={Link}
-          to="profile"
+          to="/profile/setting"
         />
       </BottomNavigation>
       <MenuMobile open={mobileDrawerOpen} onClose={toggleMobileDrawer} />

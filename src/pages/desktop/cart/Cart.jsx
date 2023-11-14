@@ -20,15 +20,29 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { addListItem, deleteCartItems, getCartItems, updateCartItems } from '~/features/cartItems/cartItemsSlice';
+
+export const formatStringToMoney = (str) => {
+  const stringFormat = typeof str === 'string' ? parseInt(str, 10) : str;
+  const result = stringFormat?.toLocaleString('it-IT', { style: 'currency', currency: 'VND' }).slice(0, -3);
+  return (isNaN(parseFloat(result)) ? '0 ' : result) + 'đ';
+};
 const Cart = () => {
+  window.scrollTo(0, 0);
+
   const cartItems = useSelector((state) => state.cartItems.cartItems);
   const selectedItems = useSelector((state) => state.cartItems.listItem);
-  const totalValue = cartItems.reduce((total, item) => total + item.product.price * item.quantity, 0);
+  const totalValue = selectedItems.reduce((total, item) => total + item.product.price * item.quantity, 0);
   console.log(selectedItems);
-
   const handleCheckboxChange = (item) => {
-    if (selectedItems.includes(item)) {
-      dispatch(addListItem(selectedItems.filter((id) => id !== item)));
+    const selectedItemIds = selectedItems.map((selectedItem) => selectedItem.productId);
+
+    // Kiểm tra xem item đã tồn tại trong danh sách được chọn chưa
+    const index = selectedItemIds.indexOf(item.productId);
+    console.log(index);
+    console.log(item);
+    if (index !== -1) {
+      dispatch(addListItem(selectedItems.filter((id) => id.productId !== item.productId)));
+      console.log(selectedItems.filter((id) => id !== item));
     } else {
       dispatch(addListItem([...selectedItems, item]));
     }
@@ -48,7 +62,19 @@ const Cart = () => {
   };
   const updateItem = (productId, quantity) => {
     dispatch(updateCartItems({ productId, quantity }));
+    const selectedItemIndex = selectedItems.findIndex((item) => item.productId === productId);
+
+    if (selectedItemIndex !== -1) {
+      const updatedSelectedItems = selectedItems.map((item, index) => {
+        if (index === selectedItemIndex) {
+          return { ...item, quantity }; // Tạo một bản sao mới của item và cập nhật quantity
+        }
+        return item;
+      });
+      dispatch(addListItem(updatedSelectedItems)); // Thay thế `updateSelectedItems` bằng action của bạn để cập nhật selectedItems
+    }
   };
+
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getCartItems());
@@ -103,7 +129,10 @@ const Cart = () => {
                 {cartItems?.map((item) => (
                   <TableRow key={item.productId}>
                     <TableCell sx={{ padding: '0' }}>
-                      <Checkbox checked={selectedItems?.includes(item)} onChange={() => handleCheckboxChange(item)} />
+                      <Checkbox
+                        checked={selectedItems.some((selectedItem) => selectedItem.productId === item.productId)}
+                        onChange={() => handleCheckboxChange(item)}
+                      />
                     </TableCell>
                     <TableCell sx={{ width: '40%', padding: '0' }}>
                       <Box
@@ -127,7 +156,7 @@ const Cart = () => {
                     <TableCell
                       sx={{ width: '15%', textAlign: 'center', fontSize: '15px', fontWeight: '600', padding: '0' }}
                     >
-                      {item.product.price}
+                      {formatStringToMoney(item.product.price)}
                     </TableCell>
                     <TableCell sx={{ width: '25%', padding: '0' }}>
                       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -190,7 +219,7 @@ const Cart = () => {
                       </Box>
                     </TableCell>
                     <TableCell sx={{ width: '10%', textAlign: 'center', fontWeight: '600', padding: '0' }}>
-                      {item.product.price * item.quantity}
+                      {formatStringToMoney(item.product.price * item.quantity)}
                     </TableCell>
                     <TableCell sx={{ width: '10%', textAlign: 'center', padding: '0' }}>
                       <IconButton onClick={() => deleteItem(item.productId)}>
@@ -205,7 +234,9 @@ const Cart = () => {
                   <TableCell colSpan={2} sx={{ textAlign: 'right', fontWeight: '600', fontSize: '20px' }}>
                     Tổng tiền:
                   </TableCell>
-                  <TableCell sx={{ textAlign: 'center', fontWeight: '600', fontSize: '20px' }}>{totalValue}</TableCell>
+                  <TableCell sx={{ textAlign: 'center', fontWeight: '600', fontSize: '20px' }}>
+                    {formatStringToMoney(totalValue)}
+                  </TableCell>
                   <TableCell />
                 </TableRow>
               </TableBody>
@@ -265,8 +296,8 @@ const Cart = () => {
             {cartItems?.map((item) => (
               <Box sx={{ marginBottom: '20px', display: 'flex' }}>
                 <Checkbox
-                  checked={selectedItems.includes(item.productId)}
-                  onChange={() => handleCheckboxChange(item.productId)}
+                  checked={selectedItems.some((selectedItem) => selectedItem.productId === item.productId)}
+                  onChange={() => handleCheckboxChange(item)}
                 />
 
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -275,7 +306,11 @@ const Cart = () => {
                       border: '1px solid #f3f3f3',
                     }}
                   >
-                    <img alt="1" src="./logo.png" style={{ width: '82px', height: '82px' }} />
+                    <img
+                      alt={item.product.name}
+                      src={item.product.imageUrl}
+                      style={{ width: '82px', height: '82px', objectFit: 'contain' }}
+                    />
                   </Box>
                 </Box>
                 <Box
@@ -292,10 +327,10 @@ const Cart = () => {
                         fontWeight: '700',
                       }}
                     >
-                      Iphone 14 Promax
+                      {item.product.name}
                     </Typography>
                     <Box>
-                      <IconButton>
+                      <IconButton onClick={() => deleteItem(item.productId)}>
                         <DeleteForeverIcon />
                       </IconButton>
                     </Box>
@@ -305,7 +340,7 @@ const Cart = () => {
                       fontWeight: '600',
                     }}
                   >
-                    8.990.000đ
+                    {item.quantity * item.product.price}
                   </Typography>
                   <Box sx={{ display: 'flex', alignItems: 'center' }}>
                     <Button
@@ -329,14 +364,14 @@ const Cart = () => {
                         padding: '2px',
                         minWidth: '0',
                       }}
-                      // onClick={() => handleQtyChange(item.productId, item.quantity - 1)}
+                      onClick={() => updateItem(item.productId, item.quantity - 1)}
                     >
                       -
                     </Button>
                     <TextField
                       //   type="number"
                       value={item.quantity}
-                      // onChange={(e) => handleQtyChange(item.productId, parseInt(e.target.value, 10))}
+                      onChange={(e) => updateItem(item.productId, parseInt(e.target.value, 10))}
                       sx={{ margin: '0 10px', padding: '0', width: '20%', textAlign: 'center' }}
                       inputProps={{ style: { padding: 0, textAlign: 'center' } }}
                     />
@@ -361,7 +396,7 @@ const Cart = () => {
                         padding: '2px',
                         minWidth: '0',
                       }}
-                      // onClick={() => handleQtyChange(item.productId, item.quantity + 1)}
+                      onClick={() => updateItem(item.productId, item.quantity + 1)}
                     >
                       +
                     </Button>
@@ -370,17 +405,74 @@ const Cart = () => {
               </Box>
             ))}
           </Paper>
+          <Box
+            sx={{
+              display: 'flex',
+              width: '100%',
+              padding: '10px',
+              alignItems: 'center',
+              borderTop: '1px solid rgb(221, 221, 221)',
+              position: 'fixed',
+              bottom: '0px',
+              left: '0px',
+              right: '0px',
+              backgroundColor: 'rgb(255, 255, 255)',
+              justifyContent: 'space-between',
+              zIndex: '1051',
+            }}
+          >
+            <Box sx={{ width: '100%' }}>
+              <Typography
+                sx={{
+                  color: 'rgb(18, 48, 176)',
+                  fontWeight: '700',
+                  fontSize: '20px',
+                }}
+              >
+                {formatStringToMoney(totalValue)}
+              </Typography>
+            </Box>
+            <Box
+              sx={{
+                width: '100%',
+              }}
+            >
+              <Button
+                component={Link}
+                to="/checkout"
+                sx={{
+                  position: 'relative',
+                  borderRadius: '4px',
+                  overflow: 'hidden',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  textAlign: 'center',
+                  color: 'rgb(255, 255, 255)',
+                  background: 'rgb(20, 53, 195)',
+                  height: '40px',
+                  fontSize: '15px',
+                  padding: ' 0px 8px',
+                  marginTop: '10px',
+                  marginBottom: '10px',
+                  width: '100%',
+                  fontWeight: '500',
+                }}
+              >
+                Tiếp tục
+              </Button>
+            </Box>
+          </Box>
         </Box>
         <Box
           sx={{
             padding: '10px',
             marginTop: '20px',
             backgroundColor: 'transparent',
-            display: 'flex',
             justifyContent: 'space-between',
             flexWrap: 'wrap',
             width: '100%',
             flexDirection: 'column',
+            display: { xs: 'none', lg: 'flex' },
           }}
         >
           <Button

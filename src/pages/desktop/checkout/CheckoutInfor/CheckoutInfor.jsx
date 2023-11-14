@@ -94,7 +94,7 @@ const CheckoutInfor = () => {
               <Box
                 sx={{
                   position: 'absolute',
-                  width: '800px',
+                  width: { xs: '70%', lg: '800px' },
                   bgcolor: 'background.paper',
                   border: '2px solid #000',
                   boxShadow: 24,

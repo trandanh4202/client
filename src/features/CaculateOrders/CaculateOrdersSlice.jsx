@@ -14,7 +14,6 @@ export const CaculateOrders = createAsyncThunk('CaculateOrders/fee', async (data
       Authorization: `Bearer ${token}`,
     },
   };
-  console.log(data);
   const response = await axios.post(`api/CaculateOrders`, data, config);
   return response.data;
 });

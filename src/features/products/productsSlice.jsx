@@ -22,27 +22,31 @@ export const createProduct = createAsyncThunk('products/createProduct', async (p
   return response.data;
 });
 
-export const getProducts = createAsyncThunk('products/getProducts', async ({ q = '', page = '1', pageSize = '10' }) => {
-  const link = `https://localhost:7051/api/Products/search`;
-  const response = await axios.post(link, {
-    filter: {
-      attributes: [],
-      priceGte: -1,
-      priceLte: -1,
-    },
-    pagination: {
-      itemsPerPage: pageSize,
-      pageNumber: page,
-    },
-    query: q,
-    sorting: {
-      sort: 'SORT_BY_DISCOUNT_PERCENT',
-      order: 'ORDER_BY_DESCENDING',
-    },
-    slug: '',
-  });
-  return response.data;
-});
+export const getProducts = createAsyncThunk(
+  'products/getProducts',
+  async ({ q = '', page = '1', pageSize = '10', selectedFilters = [] }) => {
+    const link = `https://localhost:7051/api/Products/search`;
+    console.log(selectedFilters);
+    const response = await axios.post(link, {
+      filter: {
+        attributes: selectedFilters,
+        priceGte: 0,
+        priceLte: 0,
+      },
+      pagination: {
+        itemsPerPage: pageSize,
+        pageNumber: page,
+      },
+      query: q,
+      sorting: {
+        sort: 'SORT_BY_DISCOUNT_PERCENT',
+        order: 'ORDER_BY_DESCENDING',
+      },
+      slug: '',
+    });
+    return response.data;
+  },
+);
 
 const productsSlice = createSlice({
   name: 'products',

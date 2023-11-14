@@ -5,6 +5,7 @@ const initialState = {
   listItem: [],
   loading: false,
   error: null,
+  message: '',
 };
 // Thực hiện API tạo sản phẩm
 export const getCartItems = createAsyncThunk('cartItems/getCartItems', async (_, thunkAPI) => {
@@ -38,8 +39,7 @@ export const addCartItems = createAsyncThunk('cartItems/addCartItems', async (da
       Authorization: `Bearer ${token}`,
     },
   };
-  const handle = await axios.post(`api/CartItems/`, data, config);
-  const response = await axios.get('api/CartItems', config);
+  const response = await axios.post(`/api/CartItems/`, data, config);
   return response.data;
 });
 
@@ -95,7 +95,7 @@ const cartItemsSlice = createSlice({
       })
       .addCase(addCartItems.fulfilled, (state, action) => {
         state.loading = false;
-        state.cartItems = action.payload.data;
+        state.message = action.payload.message;
       })
       .addCase(addCartItems.rejected, (state, action) => {
         state.loading = false;

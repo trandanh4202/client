@@ -5,81 +5,78 @@ import {
   Drawer,
   FormControlLabel,
   FormGroup,
-  List,
-  ListItem,
-  ListItemText,
+  Paper,
   Slider,
   TextField,
-  ToggleButton,
-  ToggleButtonGroup,
+  Typography,
 } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import FlexBetween from '~/components/flexbetween/FlexBetween';
+import { getProducts } from '~/features/products/productsSlice';
 
-const DrawerProduct = () => {
-  const colorss = ['black', 'white', 'yellow', 'blue', 'grey'];
-  const [brands, setBrands] = useState([]);
-  const [categories, setCategories] = useState([]);
-  const [selectedColors, setSelectedColors] = useState([]);
+const DrawerProduct = (props) => {
+  const { open, onClose } = props;
   const [priceRange, setPriceRange] = useState([0, 1000]);
-  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [drawerOpen, setDrawerOpen] = useState(true);
   const toggleDrawer = () => {
     setDrawerOpen(!drawerOpen);
+    handleGetProduct();
   };
 
-  const handleBrandChange = (event) => {
-    const brandName = event.target.name;
-    if (brands.includes(brandName)) {
-      setBrands(brands.filter((brand) => brand !== brandName));
-    } else {
-      setBrands([...brands, brandName]);
-    }
-  };
-
-  const handleCategoryChange = (event) => {
-    const categoryName = event.target.name;
-    if (categories.includes(categoryName)) {
-      setCategories(categories.filter((category) => category !== categoryName));
-    } else {
-      setCategories([...categories, categoryName]);
-    }
-  };
   const handleFromPriceChange = (event) => {
     let newFromPrice = parseInt(event.target.value);
     if (isNaN(newFromPrice) || newFromPrice < 0) {
       newFromPrice = 0;
-    } else if (newFromPrice > priceRange[1]) {
-      newFromPrice = priceRange[1];
+    } else if (newFromPrice > maxprice) {
+      newFromPrice = maxprice;
     }
-    setPriceRange([newFromPrice, priceRange[1]]);
+    setPriceRange([newFromPrice, maxprice]);
   };
   const handleToPriceChange = (event) => {
     let newToPrice = parseInt(event.target.value);
-    if (isNaN(newToPrice) || newToPrice > 1000) {
-      newToPrice = 1000;
+    if (isNaN(newToPrice) || newToPrice > maxprice) {
+      newToPrice = maxprice;
     } else if (newToPrice < priceRange[0]) {
       newToPrice = priceRange[0];
     }
     setPriceRange([priceRange[0], newToPrice]);
   };
   const handlePriceChange = (event, newValue) => {
+    console.log(newValue);
     setPriceRange(newValue);
   };
 
-  const handleColorChange = (event, newColors) => {
-    setSelectedColors(newColors);
-  };
   const deleteAllFilter = () => {
-    setCategories([]);
-    setBrands([]);
-    setSelectedColors([]);
     setPriceRange([0, 1000]);
+  };
+  const [selectedFilters, setSelectedFilters] = useState([]);
+  const handleCheckboxChange = (event, filterCode, optionId) => {
+    if (event.target.checked) {
+      setSelectedFilters((prevFilters) => [...prevFilters, { code: filterCode, optionsId: [optionId] }]);
+    } else {
+      setSelectedFilters((prevFilters) =>
+        prevFilters.filter((filter) => filter.code !== filterCode || filter.optionsId[0] !== optionId),
+      );
+    }
+  };
+  const dispatch = useDispatch();
+  const listProducts = useSelector((state) => state.products.products);
+
+  const { products, maxprice, filterable } = listProducts;
+  useEffect(() => {
+    if (maxprice) {
+      setPriceRange([0, maxprice]);
+    }
+  }, [maxprice]);
+  const handleGetProduct = () => {
+    dispatch(getProducts({ selectedFilters }));
   };
   return (
     <Drawer
       anchor="left"
-      open={drawerOpen}
-      onClose={toggleDrawer}
+      open={open}
+      onClose={onClose}
       sx={{
         '& .MuiDrawer-paper': {
           width: '60%',
@@ -92,214 +89,31 @@ const DrawerProduct = () => {
       }}
     >
       <Box role="presentation" sx={{ height: '100%', maxHeight: '100%', overflowY: 'scroll' }}>
-        <List>
-          <ListItem
+        <Paper
+          sx={{
+            padding: '10px 20px 10px 20px',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '20px',
+          }}
+        >
+          <Typography
             sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'normal',
-              alignItems: 'normal',
+              fontWeight: '800',
+              fontSize: '16px',
             }}
           >
-            <ListItemText
-              primary="Thương hiệu"
+            Danh mục sản phẩm
+          </Typography>
+          <Box>
+            <Typography
               sx={{
-                '& span': {
-                  fontWeight: '700',
-                  fontSize: '20px',
-                },
-              }}
-            />
-            <FormGroup>
-              <FormControlLabel
-                sx={{
-                  '&:hover': {
-                    backgroundColor: '#f3f5fc',
-                    color: '#1435c3',
-                  },
-                  '& .MuiFormControlLabel-label ': {
-                    fontWeight: '500',
-                  },
-                }}
-                control={<Checkbox name="Asus" checked={brands.includes('Asus')} />}
-                label="Asus"
-                onChange={handleBrandChange}
-              />
-              <FormControlLabel
-                control={<Checkbox name="Dell" checked={brands.includes('Dell')} />}
-                label="Dell"
-                onChange={handleBrandChange}
-              />
-              <FormControlLabel
-                control={<Checkbox name="Apple" checked={brands.includes('Apple')} />}
-                label="Apple"
-                onChange={handleBrandChange}
-              />
-            </FormGroup>
-          </ListItem>
-          <ListItem
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'normal',
-              alignItems: 'normal',
-            }}
-          >
-            <ListItemText
-              primary="Thương hiệu"
-              sx={{
-                '& span': {
-                  fontWeight: '700',
-                  fontSize: '20px',
-                },
-              }}
-            />
-            <FormGroup>
-              <FormControlLabel
-                control={<Checkbox name="Asus" checked={brands.includes('Asus')} />}
-                label="Asus"
-                onChange={handleBrandChange}
-              />
-              <FormControlLabel
-                control={<Checkbox name="Dell" checked={brands.includes('Dell')} />}
-                label="Dell"
-                onChange={handleBrandChange}
-              />
-              <FormControlLabel
-                control={<Checkbox name="Apple" checked={brands.includes('Apple')} />}
-                label="Apple"
-                onChange={handleBrandChange}
-              />
-            </FormGroup>
-          </ListItem>
-          <ListItem
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'normal',
-              alignItems: 'normal',
-            }}
-          >
-            <ListItemText
-              primary="Thương hiệu"
-              sx={{
-                '& span': {
-                  fontWeight: '700',
-                  fontSize: '20px',
-                },
-              }}
-            />
-            <FormGroup>
-              <FormControlLabel
-                control={<Checkbox name="Asus" checked={brands.includes('Asus')} />}
-                label="Asus"
-                onChange={handleBrandChange}
-              />
-              <FormControlLabel
-                control={<Checkbox name="Dell" checked={brands.includes('Dell')} />}
-                label="Dell"
-                onChange={handleBrandChange}
-              />
-              <FormControlLabel
-                control={<Checkbox name="Apple" checked={brands.includes('Apple')} />}
-                label="Apple"
-                onChange={handleBrandChange}
-              />
-            </FormGroup>
-          </ListItem>
-          <ListItem
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'normal',
-              alignItems: 'normal',
-            }}
-          >
-            <ListItemText
-              primary="Loại sản phẩm"
-              sx={{
-                '& span': {
-                  fontWeight: '700',
-                  fontSize: '20px',
-                },
-              }}
-            />
-            <FormGroup>
-              <FormControlLabel
-                control={<Checkbox name="SmartPhone" checked={categories.includes('Asus')} />}
-                label="Điện thoại"
-                onChange={handleCategoryChange}
-              />
-              <FormControlLabel
-                control={<Checkbox name="Laptop" checked={categories.includes('Asus')} />}
-                label="Laptop"
-                onChange={handleCategoryChange}
-              />
-              <FormControlLabel
-                control={<Checkbox name="Tablet" checked={categories.includes('Asus')} />}
-                label="Máy tính bảng"
-                onChange={handleCategoryChange}
-              />
-            </FormGroup>
-          </ListItem>
-          <ListItem
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'normal',
-              alignItems: 'normal',
-            }}
-          >
-            <ListItemText
-              primary="Màu sắc"
-              sx={{
-                '& span': {
-                  fontWeight: '700',
-                  fontSize: '20px',
-                },
-              }}
-            />
-            <ToggleButtonGroup
-              value={selectedColors}
-              onChange={handleColorChange}
-              aria-label="Màu sắc"
-              sx={{
-                flexWrap: 'wrap',
+                fontWeight: '700',
+                fontSize: '15px',
               }}
             >
-              {colorss.map((color) => (
-                <ToggleButton
-                  key={color}
-                  value={color}
-                  style={{
-                    backgroundColor: color,
-                    border: selectedColors.includes(color) ? `3px solid red` : '3px solid black',
-                    borderRadius: '50%',
-                    width: '30px',
-                    height: '30px',
-                    margin: '5px',
-                  }}
-                />
-              ))}
-            </ToggleButtonGroup>
-          </ListItem>
-          <ListItem
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'normal',
-              alignItems: 'normal',
-            }}
-          >
-            <ListItemText
-              primary="Giá cả"
-              sx={{
-                '& span': {
-                  fontWeight: '700',
-                  fontSize: '20px',
-                },
-              }}
-            />
+              Giá cả
+            </Typography>
             <FlexBetween sx={{ marginTop: '10px' }}>
               <TextField
                 label="Từ"
@@ -330,16 +144,51 @@ const DrawerProduct = () => {
               value={priceRange}
               onChange={handlePriceChange}
               min={0}
-              max={1000}
-              step={10}
+              max={maxprice}
+              step={1000}
               size="medium"
               valueLabelDisplay="auto"
               sx={{
                 color: '#1435c3',
               }}
             />
-          </ListItem>
-        </List>
+          </Box>
+          {filterable?.map((filter) => (
+            <Box key={filter.code} sx={{ display: 'flex', flexDirection: 'column' }}>
+              <Typography
+                sx={{
+                  fontWeight: '700',
+                  fontSize: '15px',
+                }}
+              >
+                {filter.codeName}
+              </Typography>
+              <FormGroup>
+                {filter.options.map((option) => (
+                  <FormControlLabel
+                    key={option.optionId}
+                    control={
+                      <Checkbox
+                        name={option.optionName}
+                        onChange={(event) => handleCheckboxChange(event, filter.code, option.optionId)}
+                      />
+                    }
+                    label={option.optionName}
+                    sx={{
+                      '&:hover': {
+                        backgroundColor: '#f3f5fc',
+                        color: '#1435c3',
+                      },
+                      '& .MuiFormControlLabel-label ': {
+                        fontWeight: '500',
+                      },
+                    }}
+                  />
+                ))}
+              </FormGroup>
+            </Box>
+          ))}
+        </Paper>
       </Box>
       <Box
         sx={{
