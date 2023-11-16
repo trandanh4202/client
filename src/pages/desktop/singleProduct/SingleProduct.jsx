@@ -9,12 +9,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getProductById } from '~/features/singleProduct/singleProductSlice';
 import { getImages } from '~/features/images/ImagesSlice';
 import { getReviews } from '~/features/reviews/reviewsSlice';
+import { getAttribues } from '~/features/attributeProduct/attributeProductSlice';
+import DetailProduct from './DetailProduct/DetailProduct';
+import { countView } from '~/features/view/countViewSlice';
 
 const SingleProduct = () => {
   window.scrollTo(0, 0);
   let { id } = useParams();
   const dispatch = useDispatch();
-  const images = useSelector((state) => state.images);
   const product = useSelector((state) => state.singleProduct?.product);
   const reviewsList = useSelector((state) => state.reviews.reviews);
 
@@ -22,6 +24,8 @@ const SingleProduct = () => {
     dispatch(getProductById({ id }));
     dispatch(getImages({ id }));
     dispatch(getReviews({ id }));
+    dispatch(getAttribues({ id }));
+    // dispatch(countView({ id }));
   }, [dispatch, id]);
 
   return (
@@ -34,7 +38,7 @@ const SingleProduct = () => {
     >
       <Grid container>
         <Grid item xs={12} md={4} lg={4} padding="15px">
-          <SliderProduct imageUrl={product?.imageUrl} name={product?.name} imageSlider={images?.images} />
+          <SliderProduct imageUrl={product?.imageUrl} name={product?.name} />
         </Grid>
         <Grid item xs={12} md={8} lg={8} padding="15px">
           <DesProduct
@@ -48,8 +52,13 @@ const SingleProduct = () => {
             quantity={product?.quantity}
           />
         </Grid>
+        <Grid item xs={12} lg={8}>
+          <ReviewProduct reviews={reviewsList.reviews} />
+        </Grid>
+        <Grid item xs={12} lg={4}>
+          {/* <DetailProduct /> */}
+        </Grid>
       </Grid>
-      <ReviewProduct reviews={reviewsList.reviews} />
     </Container>
   );
 };

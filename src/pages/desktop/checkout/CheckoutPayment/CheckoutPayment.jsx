@@ -62,7 +62,7 @@ const CheckoutPayment = () => {
         >
           Tiền sản phẩm:
         </Typography>
-        <Typography sx={{ fontSize: '13px', fontWeight: '500' }}>{formatStringToMoney(feeOrder?.total)}</Typography>
+        <Typography sx={{ fontSize: '13px', fontWeight: '500' }}>{formatStringToMoney(feeOrder?.subTotal)}</Typography>
       </FlexBetween>
       <Divider sx={{ margin: '20px' }} />
       <FlexBetween>

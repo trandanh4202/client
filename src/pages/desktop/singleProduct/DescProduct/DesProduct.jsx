@@ -12,9 +12,6 @@ export const formatStringToMoney = (str) => {
 };
 const DesProduct = (props) => {
   const { id, name, description, price, basePrice, percentSale, averageRating, quantity } = props;
-  const list = ['1', '2', '3'];
-  const [qtt, setQtt] = useState(1);
-  const colors = ['xanh', 'do', 'tim', 'vang'];
   const [swiper1, setSwiper1] = useState(null);
   const [swiper2, setSwiper2] = useState(null);
   const dispatch = useDispatch();
@@ -82,25 +79,7 @@ const DesProduct = (props) => {
         <Typography gutterBottom sx={{ fontSize: '13px', textAlign: 'justify' }}>
           {description}
         </Typography>
-        <Box sx={{ margin: '10px 0', display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-          {colors.map((color, index) => (
-            <Button
-              key={index}
-              onClick={() => {
-                const swiper1Slides = swiper1?.slides;
-                swiper1Slides.forEach((slide) => {
-                  slide.classList.remove('swiper-slide-thumb-active');
-                });
-                swiper1Slides[index].classList.add('swiper-slide-thumb-active');
-                swiper1.slideTo(index);
-                swiper2.slideTo(index);
-              }}
-              variant="outlined"
-            >
-              {color}
-            </Button>
-          ))}
-        </Box>
+
         <Typography
           variant="h5"
           sx={{

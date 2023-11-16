@@ -24,7 +24,7 @@ export const createProduct = createAsyncThunk('products/createProduct', async (p
 
 export const getProducts = createAsyncThunk(
   'products/getProducts',
-  async ({ q = '', page = '1', pageSize = '10', selectedFilters = [] }) => {
+  async ({ q = '', page = '1', pageSize = '20', selectedFilters = [] }) => {
     const link = `https://localhost:7051/api/Products/search`;
     console.log(selectedFilters);
     const response = await axios.post(link, {

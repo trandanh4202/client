@@ -8,13 +8,15 @@ import 'swiper/css/navigation';
 import 'swiper/css/thumbs';
 
 import { FreeMode, Navigation, Thumbs } from 'swiper/modules';
+import { useSelector } from 'react-redux';
 
 const SliderProduct = (props) => {
-  const { imageUrl, name, imageSlder } = props;
-  const colors = ['xanh', 'do', 'tim', 'vang'];
+  const { imageUrl, name } = props;
   const [swiper1, setSwiper1] = useState(null);
 
   const [swiper2, setSwiper2] = useState(null);
+  const images = useSelector((state) => state.images.images);
+
   return (
     <Paper
       sx={{
@@ -39,10 +41,10 @@ const SliderProduct = (props) => {
         modules={[FreeMode, Navigation, Thumbs]}
         className="swiperSingle"
       >
-        {imageSlder?.length > 0 ? (
-          imageSlder?.map((color, index) => (
+        {images?.length > 0 ? (
+          images?.map((color, index) => (
             <SwiperSlide key={index}>
-              <img src={imageUrl} alt={name} />
+              <img src={images[index]} alt={name} />
             </SwiperSlide>
           ))
         ) : (
@@ -63,10 +65,10 @@ const SliderProduct = (props) => {
         modules={[FreeMode, Navigation, Thumbs]}
         className="swiperSingleAlbum"
       >
-        {imageSlder?.length > 0 ? (
-          imageSlder?.map((color, index) => (
+        {images?.length > 0 ? (
+          images?.map((color, index) => (
             <SwiperSlide key={index}>
-              <img src={imageUrl} alt={name} />
+              <img src={images[index]} alt={name} />
             </SwiperSlide>
           ))
         ) : (

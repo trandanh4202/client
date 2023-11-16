@@ -15,6 +15,8 @@ import menusReducer from './menu/menuSlice';
 import CaculateOrdersReducer from './CaculateOrders/CaculateOrdersSlice';
 import orderReducer from './order/orderSlice';
 import OrderDetailReducer from './orderDetail/OrderDetailSlice';
+import attributesReducer from './attributeProduct/attributeProductSlice';
+import countViewReducer from './view/countViewSlice';
 
 export const store = configureStore({
   reducer: {
@@ -33,5 +35,7 @@ export const store = configureStore({
     CaculateOrders: CaculateOrdersReducer,
     orders: orderReducer,
     orderDetail: OrderDetailReducer,
+    attributes: attributesReducer,
+    view: countViewReducer,
   },
 });

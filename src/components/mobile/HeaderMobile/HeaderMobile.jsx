@@ -1,11 +1,17 @@
 import { AppBar, Badge, Divider, IconButton, InputBase, Toolbar } from '@mui/material';
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import FlexBetween from '~/components/flexbetween/FlexBetween';
 import SearchIcon from '@mui/icons-material/Search';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
 const HeaderMobile = () => {
+  const navigate = useNavigate();
+  const [searchValue, setSearchValue] = useState('');
+
+  const handleSearch = () => {
+    navigate(`/store?q=${searchValue}`);
+  };
   return (
     <AppBar
       position="sticky"
@@ -28,13 +34,20 @@ const HeaderMobile = () => {
             margin: '0 10px',
           }}
         >
-          <InputBase placeholder="Search..." fullWidth sx={{ paddingRight: '20px', paddingLeft: '10px' }} />
+          <InputBase
+            placeholder="Search..."
+            fullWidth
+            sx={{ paddingRight: '20px', paddingLeft: '10px' }}
+            value={searchValue}
+            onChange={(e) => setSearchValue(e.target.value)}
+          />
           <Divider orientation="vertical" flexItem />
           <IconButton
             backgroundColor="grey"
             sx={{
               borderRadius: '0%',
             }}
+            onClick={handleSearch}
           >
             <SearchIcon />
           </IconButton>

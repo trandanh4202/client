@@ -101,8 +101,7 @@ const Address = () => {
                           fontSize: { xs: '15px', lg: '18px' },
                         }}
                       >
-                        {' '}
-                        Mặc định
+                        {address.isDefault ? 'Mặc định' : ''}
                       </Typography>{' '}
                     </Box>
                     <Box>

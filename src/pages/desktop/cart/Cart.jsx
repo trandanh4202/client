@@ -229,12 +229,14 @@ const Cart = () => {
                   </TableRow>
                 ))}
                 <TableRow>
-                  <TableCell colSpan={2}>Tổng tiền chưa bao gồm các loại phí khác</TableCell>
-
-                  <TableCell colSpan={2} sx={{ textAlign: 'right', fontWeight: '600', fontSize: '20px' }}>
+                  <TableCell colSpan={3}>Tổng tiền chưa bao gồm các loại phí khác</TableCell>
+                  <TableCell colSpan={1} sx={{ textAlign: 'right', fontWeight: '600', fontSize: '20px' }}>
                     Tổng tiền:
                   </TableCell>
-                  <TableCell sx={{ textAlign: 'center', fontWeight: '600', fontSize: '20px' }}>
+                  <TableCell
+                    colSpan={2}
+                    sx={{ textAlign: 'center', fontWeight: '600', fontSize: '20px', padding: '0px' }}
+                  >
                     {formatStringToMoney(totalValue)}
                   </TableCell>
                   <TableCell />
