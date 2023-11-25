@@ -85,10 +85,9 @@ const Footer = () => {
               <Typography
                 variant="h5"
                 sx={{
-                  padding: '24px 32px',
+                  padding: '24px 20px',
                 }}
               >
-                {' '}
                 Thông tin về LandP
               </Typography>
               <Typography variant="subtitle1" sx={{ textAlign: 'justify', padding: '8px 16px' }}>

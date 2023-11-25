@@ -17,6 +17,8 @@ import orderReducer from './order/orderSlice';
 import OrderDetailReducer from './orderDetail/OrderDetailSlice';
 import attributesReducer from './attributeProduct/attributeProductSlice';
 import countViewReducer from './view/countViewSlice';
+import statisticsReducer from './statistics/statisticsSlice';
+import rcmSystemRuducer from './recommendSystem/RecommendSystemSlice';
 
 export const store = configureStore({
   reducer: {
@@ -37,5 +39,7 @@ export const store = configureStore({
     orderDetail: OrderDetailReducer,
     attributes: attributesReducer,
     view: countViewReducer,
+    statistics: statisticsReducer,
+    rcmSystem: rcmSystemRuducer,
   },
 });

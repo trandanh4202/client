@@ -12,20 +12,19 @@ import {
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import FlexBetween from '~/components/flexbetween/FlexBetween';
 import { getProducts } from '~/features/products/productsSlice';
 
 const FilterProduct = () => {
   const listProducts = useSelector((state) => state.products.products);
+  let [searchParams, setSearchParams] = useSearchParams();
 
+  const from = searchParams.get('priceFrom') || '';
+
+  const to = searchParams.get('priceTo') || '';
   const { products, maxprice, filterable } = listProducts;
-  const [priceRange, setPriceRange] = useState([0, 10000000]);
-
-  useEffect(() => {
-    if (maxprice) {
-      setPriceRange([0, maxprice]);
-    }
-  }, [maxprice]);
+  const [priceRange, setPriceRange] = useState([from || 0, to || 1000000000]);
 
   const dispatch = useDispatch();
 
@@ -47,8 +46,8 @@ const FilterProduct = () => {
     }
     setPriceRange([priceRange[0], newToPrice]);
   };
+
   const handlePriceChange = (event, newValue) => {
-    console.log(newValue);
     setPriceRange(newValue);
   };
   const [selectedFilters, setSelectedFilters] = useState([]); // Thêm state để lưu các filter được chọn
@@ -65,10 +64,33 @@ const FilterProduct = () => {
       );
     }
   };
+  const page = searchParams.get('page') || 1;
+  const q = searchParams.get('q') || '';
+
+  console.log(from, to);
   useEffect(() => {
-    dispatch(getProducts({ selectedFilters }));
-  }, [dispatch, selectedFilters]);
-  console.log(selectedFilters);
+    // Chỉ thực hiện khi priceRange có giá trị và selectedFilters thay đổi
+    if (priceRange && selectedFilters) {
+      // Gửi yêu cầu API để lấy sản phẩm với priceRange và selectedFilters
+
+      // Cập nhật URL với các thông số mới
+      const queryParams = new URLSearchParams(searchParams);
+      queryParams.set('priceFrom', priceRange[0]);
+      queryParams.set('priceTo', priceRange[1]);
+
+      // Ghi thêm thông tin tìm kiếm (nếu có)
+      if (q) {
+        queryParams.set('q', q);
+      }
+      console.log(priceRange);
+
+      // Cập nhật URL mới
+      setSearchParams(queryParams);
+      dispatch(getProducts({ q, priceRange, selectedFilters }));
+    }
+  }, [dispatch, priceRange, selectedFilters, q, searchParams, setSearchParams]);
+  console.log(priceRange);
+
   return (
     <Paper
       sx={{

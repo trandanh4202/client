@@ -25,7 +25,7 @@ const SingleProduct = () => {
     dispatch(getImages({ id }));
     dispatch(getReviews({ id }));
     dispatch(getAttribues({ id }));
-    // dispatch(countView({ id }));
+    dispatch(countView(id));
   }, [dispatch, id]);
 
   return (
@@ -52,11 +52,11 @@ const SingleProduct = () => {
             quantity={product?.quantity}
           />
         </Grid>
-        <Grid item xs={12} lg={8}>
+        <Grid item xs={12} lg={7} padding="15px">
           <ReviewProduct reviews={reviewsList.reviews} />
         </Grid>
-        <Grid item xs={12} lg={4}>
-          {/* <DetailProduct /> */}
+        <Grid item xs={12} lg={5} padding="15px">
+          <DetailProduct />
         </Grid>
       </Grid>
     </Container>

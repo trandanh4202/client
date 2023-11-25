@@ -7,6 +7,7 @@ import Products from './products/Products';
 import ProductSale from './productSale/ProductSale';
 import BannerMid from './banner/BannerMid';
 import Sliders from './sliders/Sliders';
+import RcmSystem from './rcmSystem/RcmSystem';
 
 const Home = () => {
   window.scrollTo(0, 0);
@@ -15,6 +16,7 @@ const Home = () => {
     <>
       <SliderSection />
       <ProductSale />
+      <RcmSystem />
       <Highlight />
       <BannerMid />
       <Sliders />

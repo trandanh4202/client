@@ -8,17 +8,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getProducts } from '~/features/products/productsSlice';
 
 const Store = () => {
-  let [searchParams, setSearchParams] = useSearchParams();
-  const page = searchParams.get('page') || 1;
-  const q = searchParams.get('q') || '';
   window.scrollTo(0, 0);
 
   const dispatch = useDispatch();
   const pagination = useSelector((state) => state.products.products.pagination);
 
-  useEffect(() => {
-    dispatch(getProducts({ q, page }));
-  }, [dispatch, q, page]);
   return (
     <>
       <Container sx={{ padding: '0px 0px 60px 0px !important' }}>

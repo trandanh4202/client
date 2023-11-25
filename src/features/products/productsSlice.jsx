@@ -3,35 +3,100 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 const initialState = {
-  products: [],
+  products: {},
   loading: false,
   error: null,
 };
 // Thực hiện API tạo sản phẩm
-export const createProduct = createAsyncThunk('products/createProduct', async (productData) => {
-  // const {
-  //   auth: { token }, // Lấy token từ slice auth
-  // } = getState();
-
-  const response = await axios.post('api/products', productData, {
+export const addProduct = createAsyncThunk('products/addProduct', async (productData, thunkAPI) => {
+  const { getState } = thunkAPI;
+  const token = getState().auth.account.token;
+  const config = {
     headers: {
-      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJFbWFpbCI6ImxhbmRwYWRtaWthQGdtYWlsLmNvbSIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWVpZGVudGlmaWVyIjoiNDNiZDhkMzAtODVhZi00OTYwLThhOWYtZDdmN2VlZWI4NTcxIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE2OTA2MjAxNzIsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcwNTEiLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo3MDUxIn0.cPI3rAFGTj_D6pA_3El9_254MTH88mEbl9iL__m0-V4`,
+      Authorization: `Bearer ${token}`,
     },
+  };
+  const message = await axios.post('/api/products', productData, config);
+  console.log(message);
+  const response = await axios.post('/api/Products/search', {
+    filter: {
+      attributes: [],
+    },
+    pagination: {
+      itemsPerPage: 50,
+      pageNumber: 1,
+    },
+    query: '',
+    sorting: {
+      sort: 'SORT_BY_DISCOUNT_PERCENT',
+      order: 'ORDER_BY_DESCENDING',
+    },
+    slug: '',
   });
-
+  return response.data;
+});
+export const deleteProduct = createAsyncThunk('products/deleteProduct', async (productData, thunkAPI) => {
+  const { getState } = thunkAPI;
+  const token = getState().auth.account.token;
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  console.log(productData);
+  const message = await axios.delete(`/api/products/${productData}`, config);
+  const response = await axios.post('/api/Products/search', {
+    filter: {
+      attributes: [],
+    },
+    pagination: {
+      itemsPerPage: 50,
+      pageNumber: 1,
+    },
+    query: '',
+    sorting: {
+      sort: 'SORT_BY_DISCOUNT_PERCENT',
+      order: 'ORDER_BY_DESCENDING',
+    },
+    slug: '',
+  });
   return response.data;
 });
 
+export const putProduct = createAsyncThunk('products/putProduct', async (productData, thunkAPI) => {
+  const { getState } = thunkAPI;
+  const token = getState().auth.account.token;
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  const message = await axios.put(`/api/products/${productData.id}`, productData, config);
+  const response = await axios.post('/api/Products/search', {
+    filter: {
+      attributes: [],
+    },
+    pagination: {
+      itemsPerPage: 50,
+      pageNumber: 1,
+    },
+    query: '',
+    sorting: {
+      sort: 'SORT_BY_DISCOUNT_PERCENT',
+      order: 'ORDER_BY_DESCENDING',
+    },
+    slug: '',
+  });
+  return response.data;
+});
 export const getProducts = createAsyncThunk(
   'products/getProducts',
-  async ({ q = '', page = '1', pageSize = '20', selectedFilters = [] }) => {
-    const link = `https://localhost:7051/api/Products/search`;
-    console.log(selectedFilters);
-    const response = await axios.post(link, {
+  async ({ q = '', page = '1', pageSize = '20', selectedFilters = [], priceRange = [0, 1000000000] }) => {
+    const response = await axios.post('/api/Products/search', {
       filter: {
         attributes: selectedFilters,
-        priceGte: 0,
-        priceLte: 0,
+        priceGte: priceRange[0],
+        priceLte: priceRange[1],
       },
       pagination: {
         itemsPerPage: pageSize,
@@ -44,9 +109,29 @@ export const getProducts = createAsyncThunk(
       },
       slug: '',
     });
+    console.log(q, page, priceRange);
     return response.data;
   },
 );
+
+export const getProductsAdmin = createAsyncThunk('products/getProductsAdmin', async () => {
+  const response = await axios.post('/api/Products/search', {
+    filter: {
+      attributes: [],
+    },
+    pagination: {
+      itemsPerPage: 50,
+      pageNumber: 1,
+    },
+    query: '',
+    sorting: {
+      sort: 'SORT_BY_DISCOUNT_PERCENT',
+      order: 'ORDER_BY_DESCENDING',
+    },
+    slug: '',
+  });
+  return response.data;
+});
 
 const productsSlice = createSlice({
   name: 'products',
@@ -54,16 +139,17 @@ const productsSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(createProduct.pending, (state) => {
-        // Xử lý khi yêu cầu tạo sản phẩm đang pending
+      .addCase(addProduct.pending, (state) => {
+        state.loading = true;
+        state.error = null;
       })
-      .addCase(createProduct.fulfilled, (state, action) => {
-        // Xử lý khi tạo sản phẩm thành công
-        console.log('Create product success:', action.payload);
+      .addCase(addProduct.fulfilled, (state, action) => {
+        state.loading = false;
+        state.products = action.payload.data;
       })
-      .addCase(createProduct.rejected, (state, action) => {
-        // Xử lý khi tạo sản phẩm bị lỗi
-        console.error('Create product error:', action.error);
+      .addCase(addProduct.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
       })
       .addCase(getProducts.pending, (state) => {
         state.loading = true;
@@ -74,6 +160,42 @@ const productsSlice = createSlice({
         state.products = action.payload.data;
       })
       .addCase(getProducts.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      .addCase(deleteProduct.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(deleteProduct.fulfilled, (state, action) => {
+        state.loading = false;
+        state.products = action.payload.data;
+      })
+      .addCase(deleteProduct.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      .addCase(getProductsAdmin.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getProductsAdmin.fulfilled, (state, action) => {
+        state.loading = false;
+        state.products = action.payload.data;
+      })
+      .addCase(getProductsAdmin.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      .addCase(putProduct.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(putProduct.fulfilled, (state, action) => {
+        state.loading = false;
+        state.products = action.payload.data;
+      })
+      .addCase(putProduct.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       });

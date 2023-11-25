@@ -1,12 +1,14 @@
+// productSlice.js
+
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 const initialState = {
-  view: {},
+  products: [],
   loading: false,
   error: null,
 };
 
-export const countView = createAsyncThunk('views/countView', async (id, thunkAPI) => {
+export const getRcmSystem = createAsyncThunk('rcmSystem/getRcmSystem', async (_, thunkAPI) => {
   const { getState } = thunkAPI;
   const token = getState().auth.account.token;
   const config = {
@@ -15,29 +17,29 @@ export const countView = createAsyncThunk('views/countView', async (id, thunkAPI
     },
   };
 
-  const response = await axios.post(`/api/Views?productId=${id}`, null, config);
+  const response = await axios.get(`api/Products/Foryou`, config);
   return response.data;
 });
 
-const countViewSlice = createSlice({
-  name: 'views',
+const rcmSystemSlice = createSlice({
+  name: 'reviews',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(countView.pending, (state) => {
+      .addCase(getRcmSystem.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(countView.fulfilled, (state, action) => {
+      .addCase(getRcmSystem.fulfilled, (state, action) => {
         state.loading = false;
-        state.view = action.payload;
+        state.products = action.payload.data;
       })
-      .addCase(countView.rejected, (state, action) => {
+      .addCase(getRcmSystem.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       });
   },
 });
 
-export default countViewSlice.reducer;
+export default rcmSystemSlice.reducer;

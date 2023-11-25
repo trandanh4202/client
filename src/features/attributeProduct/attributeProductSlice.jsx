@@ -12,7 +12,7 @@ export const getAttribues = createAsyncThunk('attributes/getAttributes', async (
 });
 
 const attributesSlice = createSlice({
-  name: 'images',
+  name: 'attributes',
   initialState,
   reducers: {},
   extraReducers: (builder) => {

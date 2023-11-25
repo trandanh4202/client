@@ -16,9 +16,6 @@ import { getSliders } from '~/features/slider/SlidersSlice';
 const ProductSale = () => {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.products.products.products);
-  useEffect(() => {
-    dispatch(getProducts());
-  }, [dispatch]);
 
   return (
     <>

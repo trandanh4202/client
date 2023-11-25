@@ -21,7 +21,7 @@ const NavigationBottom = () => {
   const toggleMobileDrawer = () => {
     setMobileDrawerOpen(!mobileDrawerOpen);
   };
-
+  console.log(isAuthOpen);
   const toggleAuthForm = () => {
     setAuthOpen(!isAuthOpen);
   };
@@ -77,11 +77,11 @@ const NavigationBottom = () => {
           icon={<AccountCircleIcon />}
           onClick={toggleAuthForm}
           component={Link}
-          to="/profile/setting"
+          to={!isAuthOpen ? '' : '/profile/setting'}
         />
       </BottomNavigation>
       <MenuMobile open={mobileDrawerOpen} onClose={toggleMobileDrawer} />
-      <AuthForm isOpen={isAuthOpen} onClose={toggleAuthForm} />
+      <AuthForm open={isAuthOpen} close={toggleAuthForm} />
     </>
   );
 };

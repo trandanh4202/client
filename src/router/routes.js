@@ -1,4 +1,6 @@
-import { Navigate, createBrowserRouter } from 'react-router-dom';
+import { Box } from '@mui/material';
+import { useSelector } from 'react-redux';
+import { Navigate, createBrowserRouter, useNavigate } from 'react-router-dom';
 import MainLayout from '~/layout/MainLayout/MainLayout';
 import ProfileLayout from '~/layout/ProfileLayout/ProfileLayout';
 import Cart from '~/pages/desktop/cart/Cart';
@@ -14,6 +16,17 @@ import Setting from '~/pages/desktop/profile/Setting/Setting';
 import SingleProduct from '~/pages/desktop/singleProduct/SingleProduct';
 import Store from '~/pages/desktop/store/Store';
 import HomeMobile from '~/pages/mobile/home/HomeMobile';
+import PrivateRoutes from './PrivateRoutes';
+import AdminRoutes from './AdminRoutes';
+import Dashboard from '~/pages/admin/dashboard/Dashboard';
+import Brand from '~/pages/admin/brand/Brand';
+import Product from '~/pages/admin/product/Product';
+import Campaign from '~/pages/admin/campaign/Campaign';
+import Login from '~/pages/admin/login/Login';
+import HomeAdmin from '~/pages/admin/home/HomeAdmin';
+import EnhancedTable from '~/pages/admin/category/Category';
+import Category from '~/pages/admin/category/Category';
+import ManagerUser from '~/pages/admin/user/ManageUser';
 
 const router = createBrowserRouter([
   {
@@ -27,18 +40,6 @@ const router = createBrowserRouter([
       {
         path: ':id',
         element: <SingleProduct />,
-      },
-      {
-        path: 'cart',
-        element: <Cart />,
-      },
-      {
-        path: 'Checkout',
-        element: <CheckOut />,
-      },
-      {
-        path: 'orders/:id',
-        element: <OrderDetail />,
       },
       {
         path: 'store',
@@ -61,26 +62,84 @@ const router = createBrowserRouter([
         element: <Policy />,
       },
       {
-        path: 'profile',
-        element: <ProfileLayout />,
+        element: <PrivateRoutes />,
         children: [
           {
-            path: 'setting',
-            element: <Setting />,
+            path: 'cart',
+            element: <Cart />,
           },
           {
-            path: 'address',
-            element: <Address />,
+            path: 'Checkout',
+            element: <CheckOut />,
           },
           {
-            path: 'orderlist',
-            element: <OrderList />,
+            path: 'orders/:id',
+            element: <OrderDetail />,
           },
           {
-            path: '*',
-            element: <Navigate to="setting" />,
+            path: 'profile',
+            element: <ProfileLayout />,
+            children: [
+              {
+                path: 'setting',
+                element: <Setting />,
+              },
+              {
+                path: 'address',
+                element: <Address />,
+              },
+              {
+                path: 'orderlist',
+                element: <OrderList />,
+              },
+              {
+                path: '*',
+                element: <Navigate to="setting" />,
+              },
+            ],
           },
         ],
+      },
+    ],
+  },
+  {
+    path: '/admin',
+    // element: <AdminRoutes />,
+    children: [
+      {
+        path: 'login',
+        element: <Login />,
+      },
+      {
+        path: 'dashboard',
+        element: <Dashboard />,
+        children: [
+          { path: '', element: <HomeAdmin /> },
+          {
+            path: 'brand',
+            element: <Brand />,
+          },
+          {
+            path: 'category',
+            element: <Category />,
+          },
+          {
+            path: 'product',
+            element: <Product />,
+          },
+          {
+            path: 'campaign',
+            element: <Campaign />,
+          },
+          {
+            path: 'manageuser',
+            element: <ManagerUser />,
+          },
+        ],
+      },
+      {
+        path: 'test',
+        element: <EnhancedTable />,
       },
     ],
   },

@@ -1,7 +1,7 @@
 import { Button, Container, Grid, Typography } from '@mui/material';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import FlexBetween from '~/components/flexbetween/FlexBetween';
 import ProductCard from '~/components/productCard/ProductCard';
 import { getProducts } from '~/features/products/productsSlice';
@@ -9,7 +9,7 @@ import { getProducts } from '~/features/products/productsSlice';
 const Products = () => {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.products.products.products);
-  console.log(products);
+
   useEffect(() => {
     dispatch(getProducts({}));
   }, [dispatch]);

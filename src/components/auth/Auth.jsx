@@ -14,17 +14,14 @@ import { login, registerUser } from '~/features/auth/authSlice';
 import { useSelect } from '@mui/base';
 
 const validationSchema = Yup.object({
-  name: Yup.string().required('Vui lòng nhập tên'),
-  phone: Yup.string()
-    .matches(/^\d{10}$/, 'Số điện thoại phải có đúng 10 chữ số')
-    .required('Vui lòng nhập số điện thoại'),
+  name: Yup.string(),
+  phone: Yup.string().matches(/^\d{10}$/, 'Số điện thoại phải có đúng 10 chữ số'),
 
   email: Yup.string().email('Email không hợp lệ').required('Vui lòng nhập email'),
   password: Yup.string().min(6, 'Mật khẩu phải có ít nhất 6 ký tự').required('Vui lòng nhập mật khẩu'),
   confirmPassword: Yup.string()
     .oneOf([Yup.ref('password'), null], 'Mật khẩu không khớp') // Kiểm tra xem confirmPassword có giống với password không
-    .min(6, 'Mật khẩu phải có ít nhất 6 ký tự')
-    .required('Vui lòng nhập mật khẩu xác nhận'),
+    .min(6, 'Mật khẩu phải có ít nhất 6 ký tự'),
 });
 
 function AuthForm({ open, close }) {
@@ -37,31 +34,32 @@ function AuthForm({ open, close }) {
       confirmPassword: '',
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => handleSubmit(values, authType, dispatch),
+    onSubmit: async (values, { resetForm }) => {
+      try {
+        const { name, phone, email, password, confirmPassword } = values;
+        if (authType) {
+          await dispatch(registerUser({ name, phone, email, password, confirmPassword }));
+          resetForm(); // Đặt lại form sau khi submit thành công
+        } else {
+          await dispatch(login({ email, password }));
+          resetForm(); // Đặt lại form sau khi submit thành công
+          window.location.reload();
+        }
+      } catch (error) {
+        // Xử lý lỗi ở đây
+      }
+    },
   });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [forgotPassword, setForgotPassword] = useState(false);
-  const [authType, setAuthType] = useState(true);
+  const [authType, setAuthType] = useState(false);
 
   const handleTogglePasswordVisibility = () => {
     setShowPassword((prevShowPassword) => !prevShowPassword);
   };
   const dispatch = useDispatch();
-  async function handleSubmit(e) {
-    e.preventDefault(); // Sử dụng e.preventDefault() để ngăn chặn hành vi tự động reload trang web.
-    const { name, phone, email, password, confirmPassword } = formik.values;
-    try {
-      if (authType) {
-        await dispatch(registerUser({ name, phone, email, password, confirmPassword }));
-      } else {
-        await dispatch(login({ email, password }));
-      }
-      // window.location.reload();
-    } catch (error) {
-      // Xử lý lỗi ở đây
-    }
-  }
+
   return (
     <Modal open={open} onClose={close}>
       <Box
@@ -77,7 +75,7 @@ function AuthForm({ open, close }) {
           p: 4,
         }}
       >
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={formik.handleSubmit}>
           {authType && (
             <>
               <TextField
